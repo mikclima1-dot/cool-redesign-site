@@ -196,7 +196,7 @@ export const products: Product[] = [
     image: "https://mikclima.com/wp-content/uploads/2024/02/srk-dxk-w-1200x800-1-1024x683.jpg",
     shortDescription: "Mitsubishi Heavy Industries — тежка индустриална школа, приложена в битов климатик.",
     description:
-      "DXK е базовата битова серия на Mitsubishi Heavy Industries. Дори „начинаещият" модел използва компоненти от индустриалните им системи.",
+      "DXK е базовата битова серия на Mitsubishi Heavy Industries. Дори началният модел използва компоненти от индустриалните им системи.",
     features: ["3D Auto режим", "Allergen Clear филтър", "5 години гаранция на компресора", "Тих режим"],
     sourceUrl: "https://mikclima.com/инверторни/",
   },
