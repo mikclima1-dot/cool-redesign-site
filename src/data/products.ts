@@ -334,7 +334,7 @@ export const products: Product[] = [
     energyClass: "A++",
     priceEur: 996,
     priceBgn: 1948.01,
-    image: "https://mikclima.com/wp-content/uploads/2024/02/786р.jpg",
+    image: "/images/products/786.jpg",
     shortDescription: "18000 BTU INFINITY II - за големи дневни и офиси до 45 м².",
     description: "18000 BTU за големи площи - INFINITY II технология в мащабен вариант.",
     features: ["Wi-Fi управление", "Клас A++", "Cold Plasma", "Тих нощен режим"],
