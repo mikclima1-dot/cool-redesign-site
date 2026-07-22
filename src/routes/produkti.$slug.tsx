@@ -8,7 +8,7 @@ export const Route = createFileRoute("/produkti/$slug")({
     if (!product) throw notFound();
     return { product };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) {
       return {
         meta: [
@@ -18,19 +18,68 @@ export const Route = createFileRoute("/produkti/$slug")({
       };
     }
     const { product } = loaderData;
-    const title = `${product.brand} ${product.model} - ${product.btu} BTU | MIK Clima`;
+    const title = `${product.brand} ${product.model} - ${product.btu.toLocaleString("bg-BG")} BTU, клас ${product.energyClass} | MIK Clima`;
+    const description = `${product.brand} ${product.model} - ${CATEGORY_LABEL[product.category]} климатик ${product.btu.toLocaleString("bg-BG")} BTU, енергиен клас ${product.energyClass}. ${product.shortDescription} Цена ${product.priceEur} € / ${product.priceBgn.toFixed(2)} лв. Доставка и монтаж в цялата страна.`;
+    const url = `/produkti/${params.slug}`;
+    const productLd = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.fullName,
+      description,
+      brand: { "@type": "Brand", name: product.brand },
+      sku: product.slug,
+      image: product.image,
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "BGN",
+        price: product.priceBgn.toFixed(2),
+        availability: "https://schema.org/InStock",
+        url,
+      },
+      additionalProperty: [
+        { "@type": "PropertyValue", name: "BTU", value: String(product.btu) },
+        { "@type": "PropertyValue", name: "Енергиен клас", value: product.energyClass },
+        { "@type": "PropertyValue", name: "Категория", value: CATEGORY_LABEL[product.category] },
+        { "@type": "PropertyValue", name: "Модел", value: product.model },
+      ],
+    };
+    const breadcrumbLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Начало", item: "/" },
+        { "@type": "ListItem", position: 2, name: "Продукти", item: "/produkti" },
+        { "@type": "ListItem", position: 3, name: CATEGORY_LABEL[product.category], item: `/produkti?cat=${product.category}` },
+        { "@type": "ListItem", position: 4, name: product.model, item: url },
+      ],
+    };
+    const faqLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: buildFaqs(product).map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    };
     return {
       meta: [
         { title },
-        { name: "description", content: product.shortDescription },
+        { name: "description", content: description },
         { property: "og:title", content: title },
-        { property: "og:description", content: product.shortDescription },
+        { property: "og:description", content: description },
         { property: "og:image", content: product.image },
         { property: "og:type", content: "product" },
-        { property: "og:url", content: `/produkti/${product.slug}` },
+        { property: "og:url", content: url },
+        { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:image", content: product.image },
       ],
-      links: [{ rel: "canonical", href: `/produkti/${product.slug}` }],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        { type: "application/ld+json", children: JSON.stringify(productLd) },
+        { type: "application/ld+json", children: JSON.stringify(breadcrumbLd) },
+        { type: "application/ld+json", children: JSON.stringify(faqLd) },
+      ],
     };
   },
   component: ProductDetail,
@@ -43,6 +92,32 @@ export const Route = createFileRoute("/produkti/$slug")({
     </div>
   ),
 });
+
+function buildFaqs(product: Product) {
+  const cat = CATEGORY_LABEL[product.category].toLowerCase();
+  return [
+    {
+      q: `Каква площ обслужва ${product.brand} ${product.model}?`,
+      a: `Модел ${product.model} е с мощност ${product.btu.toLocaleString("bg-BG")} BTU и е подходящ за помещения с площ около ${Math.round(product.btu / 550)}-${Math.round(product.btu / 400)} м², в зависимост от изолацията и височината на тавана.`,
+    },
+    {
+      q: `Какъв е енергийният клас на ${product.model}?`,
+      a: `${product.brand} ${product.model} е с енергиен клас ${product.energyClass}, което гарантира ниска консумация на електроенергия и по-ниски сметки при ежедневна употреба.`,
+    },
+    {
+      q: `Включва ли цената монтаж?`,
+      a: `Цената от ${product.priceEur} € (${product.priceBgn.toFixed(2)} лв.) е за самия климатик. За стандартен монтаж и допълнителни услуги се свържете с нас на +359 897 203 732 за индивидуална оферта.`,
+    },
+    {
+      q: `Какъв тип е ${product.model}?`,
+      a: `Това е ${cat} климатик от марката ${product.brand}. ${product.shortDescription}`,
+    },
+    {
+      q: `Каква е гаранцията?`,
+      a: `Всички климатици, които предлагаме, идват с официална производствена гаранция и възможност за абонаментна поддръжка от MIK Clima.`,
+    },
+  ];
+}
 
 function ProductDetail() {
   const { product } = Route.useLoaderData() as { product: Product };
@@ -104,7 +179,7 @@ function ProductDetail() {
                 </div>
               </div>
               <a
-                href="tel:+359888000000"
+                href="tel:+359897203732"
                 className="ml-auto inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft"
               >
                 <Phone className="h-4 w-4" /> Поръчай сега
@@ -168,6 +243,26 @@ function ProductDetail() {
           </div>
         </div>
       </section>
+
+      <section className="mx-auto max-w-4xl px-4 pb-16 md:px-8">
+        <h2 className="text-2xl font-extrabold tracking-tight text-brand-navy">Често задавани въпроси</h2>
+        <div className="mt-6 space-y-3">
+          {buildFaqs(product).map((f) => (
+            <details
+              key={f.q}
+              className="group rounded-2xl border border-border/60 bg-card p-5 shadow-card open:shadow-soft"
+            >
+              <summary className="cursor-pointer list-none text-base font-semibold text-brand-navy marker:hidden">
+                <span className="mr-2 text-brand-teal group-open:hidden">+</span>
+                <span className="mr-2 hidden text-brand-teal group-open:inline">-</span>
+                {f.q}
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
 
       {related.length > 0 && (
         <section className="bg-brand-sky-soft/40 py-16">
