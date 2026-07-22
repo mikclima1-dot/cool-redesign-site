@@ -98,7 +98,7 @@ function Services() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-8">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
             <div key={s.title} className="flex flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-card">
               <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-sky-soft text-brand-teal">
