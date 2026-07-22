@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, Clock, MapPin } from "lucide-react";
+import { Mail, Clock, MapPin, Facebook, Instagram } from "lucide-react";
 
 export function Footer() {
   return (
@@ -13,6 +13,26 @@ export function Footer() {
             Качествени климатици за вашия дом и офис. Над 17 години опит в доставка, монтаж и
             профилактика на климатични системи.
           </p>
+          <div className="mt-5 flex items-center gap-3">
+            <a
+              href="https://www.facebook.com/share/18u6XAvFDn"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="MIK Clima във Facebook"
+              className="grid h-10 w-10 place-items-center rounded-full bg-brand-navy text-white transition-transform hover:scale-110 hover:bg-brand-teal"
+            >
+              <Facebook className="h-5 w-5" />
+            </a>
+            <a
+              href="https://www.instagram.com/mik_clima/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="MIK Clima в Instagram"
+              className="grid h-10 w-10 place-items-center rounded-full bg-brand-navy text-white transition-transform hover:scale-110 hover:bg-brand-teal"
+            >
+              <Instagram className="h-5 w-5" />
+            </a>
+          </div>
         </div>
         <div>
           <h4 className="text-sm font-semibold text-brand-navy">Навигация</h4>

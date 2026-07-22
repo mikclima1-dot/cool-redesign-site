@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Phone } from "lucide-react";
-import logo from "@/assets/mik-clima-logo.png";
+import logoAsset from "@/assets/mik-clima-logo-official.png.asset.json";
 
 const nav = [
   { to: "/", label: "Начало" },
@@ -14,11 +14,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-8">
-        <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="MIK Clima" className="h-10 w-10" width={40} height={40} />
-          <span className="text-lg font-bold tracking-tight text-brand-navy">
-            MIK <span className="text-brand-teal">CLIMA</span>
-          </span>
+        <Link to="/" className="flex items-center">
+          <img src={logoAsset.url} alt="MIK Clima — Климатизация, вентилация, отопление" className="h-12 w-auto md:h-14" />
         </Link>
         <nav className="hidden items-center gap-1 md:flex">
           {nav.map((n) => (
