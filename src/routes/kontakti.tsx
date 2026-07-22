@@ -37,7 +37,7 @@ function Contact() {
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-16 md:grid-cols-2 md:px-8">
         <div className="space-y-4">
           {[
-            { icon: Phone, label: "Телефон", value: "+359 888 000 000", href: "tel:+359888000000" },
+            { icon: Phone, label: "Телефон", value: "+359 897 203 732", href: "tel:+359897203732" },
             { icon: Mail, label: "Имейл", value: "info@mikclima.com", href: "mailto:info@mikclima.com" },
             { icon: Clock, label: "Работно време", value: "Понеделник – Петък: 09:00 – 18:00" },
             { icon: MapPin, label: "Локация", value: "България" },

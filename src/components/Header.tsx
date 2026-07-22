@@ -36,7 +36,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <a
-            href="tel:+359888000000"
+            href="tel:+359897203732"
             className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:scale-[1.02]"
           >
             <Phone className="h-4 w-4" />

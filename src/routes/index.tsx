@@ -60,7 +60,7 @@ function Home() {
                 Виж продуктите <ArrowRight className="h-4 w-4" />
               </Link>
               <a
-                href="tel:+359888000000"
+                href="tel:+359897203732"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-brand-navy hover:bg-brand-sky-soft"
               >
                 Обади се
@@ -239,7 +239,7 @@ function Home() {
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a
-              href="tel:+359888000000"
+              href="tel:+359897203732"
               className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-navy transition-transform hover:scale-[1.02]"
             >
               Обади се <Phone className="h-4 w-4" />
