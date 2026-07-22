@@ -8,7 +8,7 @@ export const Route = createFileRoute("/kontakti")({
       {
         name: "description",
         content:
-          "Свържете се с MIK Clima за консултация, оферта или сервиз. Работно време понеделник–петък 09:00–18:00.",
+          "Свържете се с MIK Clima за оферта или сервиз. Работно време понеделник–петък 09:00–18:00.",
       },
       { property: "og:title", content: "Контакти - MIK Clima" },
       { property: "og:description", content: "Телефон, имейл и работно време." },
@@ -29,7 +29,7 @@ function Contact() {
             Свържете се с нас
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-            Обадете се или ни пишете за консултация, оферта или сервизна заявка.
+            Обадете се или ни пишете за оферта или сервизна заявка.
           </p>
         </div>
       </section>
