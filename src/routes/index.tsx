@@ -109,13 +109,13 @@ function Home() {
       </section>
 
       {/* CATEGORIES */}
-      <section className="mx-auto max-w-7xl px-4 py-20 md:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-14">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="text-3xl font-extrabold tracking-tight text-brand-navy md:text-4xl">
+            <h2 className="text-2xl font-extrabold tracking-tight text-brand-navy md:text-3xl">
               Категории климатици
             </h2>
-            <p className="mt-2 max-w-xl text-muted-foreground">
+            <p className="mt-1 max-w-xl text-sm text-muted-foreground">
               Изберете правилното решение според площта и типа помещение.
             </p>
           </div>
@@ -126,20 +126,22 @@ function Home() {
             Всички продукти <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mt-10 grid gap-4 md:grid-cols-4">
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 md:grid-cols-4">
           {categoryCards.map(({ key, label, icon: Icon, href, search }) => (
             <Link
               key={key}
               to={href}
               search={search}
-              className="group rounded-2xl border border-border/60 bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
+              className="group flex items-center gap-3 rounded-xl border border-border/60 bg-card px-4 py-3 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-soft"
             >
-              <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-sky-soft text-brand-teal transition-colors group-hover:bg-brand-sky">
-                <Icon className="h-6 w-6" />
+              <div className="grid h-9 w-9 flex-none place-items-center rounded-lg bg-brand-sky-soft text-brand-teal transition-colors group-hover:bg-brand-sky">
+                <Icon className="h-4 w-4" />
               </div>
-              <div className="mt-6 text-lg font-bold text-brand-navy">{label}</div>
-              <div className="mt-1 text-sm text-muted-foreground">
-                {categoryCount(key as never)} модела
+              <div className="min-w-0">
+                <div className="text-sm font-bold text-brand-navy">{label}</div>
+                <div className="text-xs text-muted-foreground">
+                  {categoryCount(key as never)} модела
+                </div>
               </div>
             </Link>
           ))}
