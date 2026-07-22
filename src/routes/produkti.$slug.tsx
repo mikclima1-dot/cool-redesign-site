@@ -166,7 +166,7 @@ function ProductDetail() {
               {product.brand}
             </p>
             <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-brand-navy md:text-5xl">
-              {product.model}
+              {CATEGORY_TYPE[product.category]} {product.brand} {product.model}
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">{product.shortDescription}</p>
 
