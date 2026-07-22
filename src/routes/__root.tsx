@@ -64,20 +64,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MIK Clima - Качествени климатици, монтаж и профилактика" },
+      { title: "MIKCLIMA | Продажба, Монтаж и Профилактика на Климатици" },
       {
         name: "description",
         content:
-          "Доставка и монтаж на инверторни, хиперинверторни, подови и колонни климатици от Daikin, Mitsubishi, Toshiba, Fujitsu, Gree, Cooper & Hunter.",
+          "Професионална доставка, бърз монтаж, демонтаж и профилактика на климатични системи за дома и офиса. Гарантирано качество и консултация от експерти.",
       },
-      { name: "author", content: "MIK Clima" },
+      { name: "author", content: "MIKCLIMA" },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "MIK Clima" },
+      { property: "og:site_name", content: "MIKCLIMA" },
+      { property: "og:title", content: "MIKCLIMA | Продажба, Монтаж и Профилактика на Климатици" },
+      {
+        property: "og:description",
+        content:
+          "Професионална доставка, бърз монтаж, демонтаж и профилактика на климатични системи за дома и офиса. Гарантирано качество и консултация от експерти.",
+      },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
