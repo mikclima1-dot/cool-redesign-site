@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Wrench, ShieldCheck, Truck, ArrowRight, Check } from "lucide-react";
+import { Wrench, ShieldCheck, Truck, Stethoscope, Eye, ArrowRight, Check } from "lucide-react";
 
 export const Route = createFileRoute("/uslugi")({
   head: () => ({
