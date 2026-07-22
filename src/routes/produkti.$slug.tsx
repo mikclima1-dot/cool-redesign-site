@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Check, ExternalLink, Phone } from "lucide-react";
-import { CATEGORY_LABEL, products, type Product } from "@/data/products";
+import { CATEGORY_LABEL, CATEGORY_TYPE, products, type Product } from "@/data/products";
 
 export const Route = createFileRoute("/produkti/$slug")({
   loader: ({ params }): { product: Product } => {
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/produkti/$slug")({
       };
     }
     const { product } = loaderData;
-    const title = `${product.brand} ${product.model} - ${product.btu.toLocaleString("bg-BG")} BTU, клас ${product.energyClass} | MIK Clima`;
+    const title = `${CATEGORY_TYPE[product.category]} ${product.brand} ${product.model} - ${product.btu.toLocaleString("bg-BG")} BTU, клас ${product.energyClass} | MIK Clima`;
     const description = `${product.brand} ${product.model} - ${CATEGORY_LABEL[product.category]} климатик ${product.btu.toLocaleString("bg-BG")} BTU, енергиен клас ${product.energyClass}. ${product.shortDescription} Цена ${product.priceEur} € / ${product.priceBgn.toFixed(2)} лв. Доставка и монтаж в цялата страна.`;
     const url = `/produkti/${params.slug}`;
     const productLd = {
@@ -166,7 +166,7 @@ function ProductDetail() {
               {product.brand}
             </p>
             <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-brand-navy md:text-5xl">
-              {product.model}
+              {CATEGORY_TYPE[product.category]} {product.brand} {product.model}
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">{product.shortDescription}</p>
 

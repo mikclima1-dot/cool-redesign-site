@@ -40,7 +40,7 @@ export function Header() {
             className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:scale-[1.02]"
           >
             <Phone className="h-4 w-4" />
-            <span>Поръчай сега</span>
+            <span>Обади се</span>
           </a>
           <button
             type="button"
