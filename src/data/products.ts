@@ -7,6 +7,13 @@ export const CATEGORY_LABEL: Record<Category, string> = {
   column: "Колонни",
 };
 
+export const CATEGORY_TYPE: Record<Category, string> = {
+  inverter: "Инверторен климатик",
+  hyper: "Хиперинверторен климатик",
+  floor: "Подов климатик",
+  column: "Колонен климатик",
+};
+
 export interface Product {
   slug: string;
   brand: string;
