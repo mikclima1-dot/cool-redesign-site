@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Wind, Zap, Snowflake, Sparkles, ShieldCheck, Wrench, Truck, Phone } from "lucide-react";
-import heroImage from "@/assets/hero-living-room.jpg";
+
 
 import { ProductCard } from "@/components/ProductCard";
 import { products, categoryCount, brands } from "@/data/products";
@@ -91,7 +91,7 @@ function Home() {
 
           <div className="relative">
             <img
-              src={heroImage}
+              src="/images/hero-living-room.jpg"
               alt="Модерна дневна с монтиран климатик"
               width={1400}
               height={1000}
