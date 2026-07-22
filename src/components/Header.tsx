@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, Menu, X } from "lucide-react";
 import { useState } from "react";
-import logoAsset from "@/assets/mik-clima-logo-official.png.asset.json";
+
 
 const nav = [
   { to: "/", label: "Начало" },
