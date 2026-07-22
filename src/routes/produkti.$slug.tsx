@@ -182,7 +182,7 @@ function ProductDetail() {
                 href="tel:+359897203732"
                 className="ml-auto inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft"
               >
-                <Phone className="h-4 w-4" /> Поръчай сега
+                <Phone className="h-4 w-4" /> Обади се
               </a>
             </div>
 
