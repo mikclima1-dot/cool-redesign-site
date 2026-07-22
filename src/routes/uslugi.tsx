@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Wrench, ShieldCheck, Truck, Stethoscope, Eye, ArrowRight, Check } from "lucide-react";
+import { Wrench, ShieldCheck, Truck, ClipboardCheck, Eye, ArrowRight, Check } from "lucide-react";
 
 export const Route = createFileRoute("/uslugi")({
   head: () => ({
@@ -57,9 +57,9 @@ const services = [
     ],
   },
   {
-    icon: Stethoscope,
+    icon: ClipboardCheck,
     title: "Посещение и диагностика",
-    price: "40 € | 78,23 лв.",
+    price: "40 €",
     desc: "Извършваме професионална диагностика на място и отстраняваме конкретния проблем възможно най-бързо.",
     points: [
       "Проверка на място",
@@ -71,7 +71,7 @@ const services = [
   {
     icon: Eye,
     title: "Оглед",
-    price: "25 € | 48,89 лв.",
+    price: "25 €",
     desc: "Идваме на адрес, за да огледаме помещението и да планираме най-доброто решение за монтаж.",
     points: [
       "Оценка на помещението",
