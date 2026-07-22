@@ -4,13 +4,13 @@ import { Mail, Phone, Clock, MapPin } from "lucide-react";
 export const Route = createFileRoute("/kontakti")({
   head: () => ({
     meta: [
-      { title: "Контакти — MIK Clima | Свържете се с нас" },
+      { title: "Контакти - MIK Clima | Свържете се с нас" },
       {
         name: "description",
         content:
           "Свържете се с MIK Clima за консултация, оферта или сервиз. Работно време понеделник–петък 09:00–18:00.",
       },
-      { property: "og:title", content: "Контакти — MIK Clima" },
+      { property: "og:title", content: "Контакти - MIK Clima" },
       { property: "og:description", content: "Телефон, имейл и работно време." },
       { property: "og:url", content: "/kontakti" },
     ],

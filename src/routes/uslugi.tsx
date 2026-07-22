@@ -4,7 +4,7 @@ import { Wrench, ShieldCheck, Truck, ArrowRight, Check } from "lucide-react";
 export const Route = createFileRoute("/uslugi")({
   head: () => ({
     meta: [
-      { title: "Услуги — Монтаж, профилактика и демонтаж | MIK Clima" },
+      { title: "Услуги - Монтаж, профилактика и демонтаж | MIK Clima" },
       {
         name: "description",
         content:
@@ -76,7 +76,7 @@ function Services() {
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-8">
         <div className="grid gap-6 md:grid-cols-3">
           {services.map((s) => (
-            <div key={s.title} className="rounded-2xl border border-border/60 bg-card p-6 shadow-card">
+            <div key={s.title} className="flex flex-col rounded-2xl border border-border/60 bg-card p-6 shadow-card">
               <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-sky-soft text-brand-teal">
                 <s.icon className="h-6 w-6" />
               </div>
@@ -95,6 +95,12 @@ function Services() {
                   </li>
                 ))}
               </ul>
+              <Link
+                to="/kontakti"
+                className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:scale-[1.02]"
+              >
+                Заяви услуга <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           ))}
         </div>

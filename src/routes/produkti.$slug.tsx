@@ -18,7 +18,7 @@ export const Route = createFileRoute("/produkti/$slug")({
       };
     }
     const { product } = loaderData;
-    const title = `${product.brand} ${product.model} — ${product.btu} BTU | MIK Clima`;
+    const title = `${product.brand} ${product.model} - ${product.btu} BTU | MIK Clima`;
     return {
       meta: [
         { title },
@@ -195,7 +195,7 @@ function RelatedCard({ slug }: { slug: string }) {
       params={{ slug: p.slug }}
       className="group rounded-2xl border border-border/60 bg-card p-4 shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
     >
-      <div className="rounded-xl bg-brand-sky-soft/50 p-3">
+      <div className="rounded-xl bg-white p-3">
         <img
           src={p.image}
           alt={p.model}

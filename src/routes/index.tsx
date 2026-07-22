@@ -1,20 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Wind, Zap, Snowflake, Sparkles, ShieldCheck, Wrench, Truck } from "lucide-react";
 import heroImage from "@/assets/hero-living-room.jpg";
-import logoAsset from "@/assets/mik-clima-logo-official.png.asset.json";
+
 import { ProductCard } from "@/components/ProductCard";
 import { products, categoryCount, brands } from "@/data/products";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MIK Clima — Свеж въздух. Прецизен монтаж." },
+      { title: "MIK Clima - Свеж въздух. Прецизен монтаж." },
       {
         name: "description",
         content:
           "Инверторни, хиперинверторни, подови и колонни климатици с професионален монтаж и годишна поддръжка. Над 17 години опит и 10 000+ монтажа.",
       },
-      { property: "og:title", content: "MIK Clima — Свеж въздух. Прецизен монтаж." },
+      { property: "og:title", content: "MIK Clima - Свеж въздух. Прецизен монтаж." },
       {
         property: "og:description",
         content: "Качествени климатици с експертен монтаж и поддръжка. Доставка в цялата страна.",
@@ -42,11 +42,6 @@ function Home() {
       <section className="relative overflow-hidden" style={{ background: "var(--gradient-hero)" }}>
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <div>
-            <img
-              src={logoAsset.url}
-              alt="MIK Clima — Климатизация, вентилация, отопление"
-              className="mb-6 w-full max-w-xl h-auto"
-            />
             <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-navy backdrop-blur">
               <Sparkles className="h-3.5 w-3.5" /> Над 17 години опит · 10 000+ монтажа
             </div>
@@ -64,11 +59,17 @@ function Home() {
               >
                 Виж продуктите <ArrowRight className="h-4 w-4" />
               </Link>
+              <a
+                href="tel:+359888000000"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-brand-navy hover:bg-brand-sky-soft"
+              >
+                Обади се
+              </a>
               <Link
                 to="/kontakti"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-brand-navy hover:bg-brand-sky-soft"
               >
-                Свържи се с нас
+                Изпрати запитване
               </Link>
             </div>
 
@@ -76,7 +77,7 @@ function Home() {
               {[
                 { n: "17+", l: "години опит" },
                 { n: "10 000+", l: "монтажа" },
-                { n: "1100+", l: "доволни клиенти" },
+                { n: "Хиляди", l: "доволни клиенти" },
               ].map((s) => (
                 <div key={s.l}>
                   <div className="text-2xl font-extrabold text-brand-navy md:text-3xl">{s.n}</div>
@@ -154,7 +155,7 @@ function Home() {
                 Препоръчани модели
               </h2>
               <p className="mt-2 max-w-xl text-muted-foreground">
-                Топ избор от нашия каталог — с подробни спецификации и описания.
+                Топ избор от нашия каталог - с подробни спецификации и описания.
               </p>
             </div>
           </div>
@@ -170,7 +171,7 @@ function Home() {
       <section className="mx-auto max-w-7xl px-4 py-20 md:px-8">
         <h2 className="text-3xl font-extrabold tracking-tight text-brand-navy md:text-4xl">Услуги</h2>
         <p className="mt-2 max-w-2xl text-muted-foreground">
-          Пълно обслужване — от избора на модел до монтажа и годишната поддръжка.
+          Пълно обслужване - от избора на модел до монтажа и годишната поддръжка.
         </p>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {[

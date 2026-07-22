@@ -16,13 +16,13 @@ export const Route = createFileRoute("/produkti/")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Всички климатици — Каталог | MIK Clima" },
+      { title: "Всички климатици - Каталог | MIK Clima" },
       {
         name: "description",
         content:
           "Пълен каталог инверторни, хиперинверторни, подови и колонни климатици. Daikin, Mitsubishi, Toshiba, Fujitsu, Gree, Cooper & Hunter.",
       },
-      { property: "og:title", content: "Всички климатици — Каталог | MIK Clima" },
+      { property: "og:title", content: "Всички климатици - Каталог | MIK Clima" },
       { property: "og:description", content: "38 модела климатици от водещи производители." },
       { property: "og:url", content: "/produkti" },
     ],
