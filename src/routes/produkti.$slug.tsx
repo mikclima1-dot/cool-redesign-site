@@ -185,15 +185,6 @@ function ProductDetail() {
                 <Phone className="h-4 w-4" /> Обади се
               </a>
             </div>
-
-            <a
-              href={product.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-1 text-sm text-brand-teal hover:underline"
-            >
-              Виж в mikclima.com <ExternalLink className="h-3.5 w-3.5" />
-            </a>
           </div>
         </div>
       </section>
