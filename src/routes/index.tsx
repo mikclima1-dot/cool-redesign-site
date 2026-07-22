@@ -8,13 +8,13 @@ import { products, categoryCount, brands } from "@/data/products";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MIK Clima — Свеж въздух. Прецизен монтаж." },
+      { title: "MIK Clima - Свеж въздух. Прецизен монтаж." },
       {
         name: "description",
         content:
           "Инверторни, хиперинверторни, подови и колонни климатици с професионален монтаж и годишна поддръжка. Над 17 години опит и 10 000+ монтажа.",
       },
-      { property: "og:title", content: "MIK Clima — Свеж въздух. Прецизен монтаж." },
+      { property: "og:title", content: "MIK Clima - Свеж въздух. Прецизен монтаж." },
       {
         property: "og:description",
         content: "Качествени климатици с експертен монтаж и поддръжка. Доставка в цялата страна.",
@@ -44,7 +44,7 @@ function Home() {
           <div>
             <img
               src={logoAsset.url}
-              alt="MIK Clima — Климатизация, вентилация, отопление"
+              alt="MIK Clima - Климатизация, вентилация, отопление"
               className="mb-6 w-full max-w-xl h-auto"
             />
             <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-navy backdrop-blur">
@@ -154,7 +154,7 @@ function Home() {
                 Препоръчани модели
               </h2>
               <p className="mt-2 max-w-xl text-muted-foreground">
-                Топ избор от нашия каталог — с подробни спецификации и описания.
+                Топ избор от нашия каталог - с подробни спецификации и описания.
               </p>
             </div>
           </div>
@@ -170,7 +170,7 @@ function Home() {
       <section className="mx-auto max-w-7xl px-4 py-20 md:px-8">
         <h2 className="text-3xl font-extrabold tracking-tight text-brand-navy md:text-4xl">Услуги</h2>
         <p className="mt-2 max-w-2xl text-muted-foreground">
-          Пълно обслужване — от избора на модел до монтажа и годишната поддръжка.
+          Пълно обслужване - от избора на модел до монтажа и годишната поддръжка.
         </p>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {[

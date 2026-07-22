@@ -4,13 +4,13 @@ import { Award, Users, Wrench, ShieldCheck } from "lucide-react";
 export const Route = createFileRoute("/za-nas")({
   head: () => ({
     meta: [
-      { title: "За нас — MIK Clima | 17+ години опит с климатици" },
+      { title: "За нас - MIK Clima | 17+ години опит с климатици" },
       {
         name: "description",
         content:
           "MIK Clima е екип от специалисти по климатични системи с над 17 години опит, 10 000+ монтажа и 1100+ доволни клиенти в България.",
       },
-      { property: "og:title", content: "За нас — MIK Clima" },
+      { property: "og:title", content: "За нас - MIK Clima" },
       { property: "og:description", content: "Историята и екипът зад MIK Clima." },
       { property: "og:url", content: "/za-nas" },
     ],
@@ -40,7 +40,7 @@ function About() {
           <h2 className="text-3xl font-extrabold tracking-tight text-brand-navy">Нашата история</h2>
           <p className="mt-4 leading-relaxed text-muted-foreground">
             MIK Clima започна като малък семеен бизнес и днес обслужва хиляди клиенти в цялата
-            страна. Мисията ни е една — да предлагаме качествени климатични системи с прецизен
+            страна. Мисията ни е една - да предлагаме качествени климатични системи с прецизен
             монтаж и коректно следпродажбено обслужване.
           </p>
           <p className="mt-4 leading-relaxed text-muted-foreground">

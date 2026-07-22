@@ -4,7 +4,7 @@ import { Wrench, ShieldCheck, Truck, ArrowRight, Check } from "lucide-react";
 export const Route = createFileRoute("/uslugi")({
   head: () => ({
     meta: [
-      { title: "Услуги — Монтаж, профилактика и демонтаж | MIK Clima" },
+      { title: "Услуги - Монтаж, профилактика и демонтаж | MIK Clima" },
       {
         name: "description",
         content:

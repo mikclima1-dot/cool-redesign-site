@@ -15,7 +15,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-8">
         <Link to="/" className="flex items-center">
-          <img src={logoAsset.url} alt="MIK Clima — Климатизация, вентилация, отопление" className="h-12 w-auto md:h-14" />
+          <img src={logoAsset.url} alt="MIK Clima - Климатизация, вентилация, отопление" className="h-12 w-auto md:h-14" />
         </Link>
         <nav className="hidden items-center gap-1 md:flex">
           {nav.map((n) => (

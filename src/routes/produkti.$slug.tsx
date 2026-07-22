@@ -18,7 +18,7 @@ export const Route = createFileRoute("/produkti/$slug")({
       };
     }
     const { product } = loaderData;
-    const title = `${product.brand} ${product.model} — ${product.btu} BTU | MIK Clima`;
+    const title = `${product.brand} ${product.model} - ${product.btu} BTU | MIK Clima`;
     return {
       meta: [
         { title },
