@@ -56,7 +56,7 @@ const SORT_OPTIONS = [
 function ProductsPage() {
   const { cat, brand, room, sort } = Route.useSearch();
   const navigate = useNavigate({ from: "/produkti" });
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const brandOptions = Array.from(new Set(products.map((p) => p.brand))).sort();
 
