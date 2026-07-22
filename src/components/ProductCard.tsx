@@ -10,7 +10,7 @@ export function ProductCard({ product }: { product: Product }) {
       className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
     >
       <div className="relative bg-white p-4">
-        <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-navy">
+        <div className="absolute left-4 top-4 rounded-full bg-brand-sky-soft px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-navy">
           {CATEGORY_LABEL[product.category]}
         </div>
         <div className="absolute right-4 top-4 rounded-full bg-brand-teal px-3 py-1 text-xs font-bold text-white">
