@@ -13,24 +13,26 @@ export function Footer() {
             Качествени климатици за вашия дом и офис. Над 17 години опит в доставка, монтаж и
             профилактика на климатични системи.
           </p>
-          <div className="mt-5 flex items-center gap-3">
+          <div className="mt-6 flex items-center gap-4">
             <a
               href="https://www.facebook.com/share/18u6XAvFDn"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="MIK Clima във Facebook"
-              className="grid h-10 w-10 place-items-center rounded-full bg-brand-navy text-white transition-transform hover:scale-110 hover:bg-brand-teal"
+              className="grid h-12 w-12 place-items-center rounded-full text-white shadow-soft transition-transform hover:scale-110"
+              style={{ backgroundColor: "#1877F2" }}
             >
-              <Facebook className="h-5 w-5" />
+              <Facebook className="h-6 w-6" />
             </a>
             <a
               href="https://www.instagram.com/mik_clima/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="MIK Clima в Instagram"
-              className="grid h-10 w-10 place-items-center rounded-full bg-brand-navy text-white transition-transform hover:scale-110 hover:bg-brand-teal"
+              className="grid h-12 w-12 place-items-center rounded-full text-white shadow-soft transition-transform hover:scale-110"
+              style={{ background: "linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4)" }}
             >
-              <Instagram className="h-5 w-5" />
+              <Instagram className="h-6 w-6" />
             </a>
           </div>
         </div>

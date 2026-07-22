@@ -15,10 +15,10 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 md:px-8">
         <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
-          <img src={logoAsset.url} alt="MIK Clima - Климатизация, вентилация, отопление" className="h-12 w-auto md:h-14" />
+          <img src={logoAsset.url} alt="MIK Clima - Климатизация, вентилация, отопление" className="h-16 w-auto md:h-20" />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
