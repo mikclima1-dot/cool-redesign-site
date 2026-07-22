@@ -107,7 +107,7 @@ function Services() {
 
         <div className="mt-16 rounded-3xl bg-brand-navy px-8 py-14 text-center text-white shadow-soft">
           <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">
-            Заявете безплатен оглед
+            Свържете се с нас
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-white/80">
             Нашият специалист ще ви посъветва каква мощност е нужна и къде най-добре да се монтира

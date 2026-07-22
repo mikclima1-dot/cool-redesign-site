@@ -36,9 +36,25 @@ function Contact() {
 
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-16 md:grid-cols-2 md:px-8">
         <div className="space-y-4">
+          <a
+            href="tel:+359897203732"
+            className="flex items-start gap-4 rounded-2xl border border-border/60 bg-card p-5 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-soft"
+          >
+            <div className="grid h-11 w-11 place-items-center rounded-full bg-brand-sky-soft text-brand-teal">
+              <Phone className="h-5 w-5" />
+            </div>
+            <div className="flex-1">
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">Телефон</div>
+              <div className="mt-1 text-lg font-semibold text-brand-navy">+359 897 203 732</div>
+              <div className="text-base text-brand-navy/80">+359 877 918 761</div>
+              <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-soft">
+                <Phone className="h-4 w-4" />
+                Обади се
+              </div>
+            </div>
+          </a>
+
           {[
-            { icon: Phone, label: "Телефон 1", value: "+359 897 203 732", href: "tel:+359897203732" },
-            { icon: Phone, label: "Телефон 2", value: "+359 877 918 761", href: "tel:+359877918761" },
             { icon: Mail, label: "Имейл", value: "info@mikclima.com", href: "mailto:info@mikclima.com" },
             { icon: Clock, label: "Работно време", value: "Понеделник - Петък: 09:00 - 18:00" },
             { icon: MapPin, label: "Локация", value: "България" },
