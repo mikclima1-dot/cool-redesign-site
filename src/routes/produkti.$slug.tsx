@@ -244,6 +244,26 @@ function ProductDetail() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-4xl px-4 pb-16 md:px-8">
+        <h2 className="text-2xl font-extrabold tracking-tight text-brand-navy">Често задавани въпроси</h2>
+        <div className="mt-6 space-y-3">
+          {buildFaqs(product).map((f) => (
+            <details
+              key={f.q}
+              className="group rounded-2xl border border-border/60 bg-card p-5 shadow-card open:shadow-soft"
+            >
+              <summary className="cursor-pointer list-none text-base font-semibold text-brand-navy marker:hidden">
+                <span className="mr-2 text-brand-teal group-open:hidden">+</span>
+                <span className="mr-2 hidden text-brand-teal group-open:inline">-</span>
+                {f.q}
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+
       {related.length > 0 && (
         <section className="bg-brand-sky-soft/40 py-16">
           <div className="mx-auto max-w-7xl px-4 md:px-8">
