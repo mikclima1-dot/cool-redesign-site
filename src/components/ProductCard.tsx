@@ -9,7 +9,7 @@ export function ProductCard({ product }: { product: Product }) {
       params={{ slug: product.slug }}
       className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-card transition-all hover:-translate-y-1 hover:shadow-soft"
     >
-      <div className="relative bg-brand-sky-soft/50 p-4">
+      <div className="relative bg-white p-4">
         <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-navy">
           {CATEGORY_LABEL[product.category]}
         </div>

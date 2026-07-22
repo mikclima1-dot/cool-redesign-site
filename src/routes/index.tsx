@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Wind, Zap, Snowflake, Sparkles, ShieldCheck, Wrench, Truck } from "lucide-react";
 import heroImage from "@/assets/hero-living-room.jpg";
-import logo from "@/assets/mik-clima-logo.png";
+import logoAsset from "@/assets/mik-clima-logo-official.png.asset.json";
 import { ProductCard } from "@/components/ProductCard";
 import { products, categoryCount, brands } from "@/data/products";
 
@@ -43,11 +43,9 @@ function Home() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <div>
             <img
-              src={logo}
-              alt="MIK Clima"
-              className="mb-6 h-40 w-40 md:h-52 md:w-52"
-              width={208}
-              height={208}
+              src={logoAsset.url}
+              alt="MIK Clima — Климатизация, вентилация, отопление"
+              className="mb-6 w-full max-w-xl h-auto"
             />
             <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-navy backdrop-blur">
               <Sparkles className="h-3.5 w-3.5" /> Над 17 години опит · 10 000+ монтажа
