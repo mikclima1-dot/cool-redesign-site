@@ -74,7 +74,7 @@ function ProductsPage() {
 
   const update = (patch: Record<string, string | undefined>) => {
     navigate({
-      search: (prev) => {
+      search: (prev: Record<string, string | undefined>) => {
         const next: Record<string, string | undefined> = { ...prev, ...patch };
         Object.keys(next).forEach((k) => {
           if (!next[k]) delete next[k];
