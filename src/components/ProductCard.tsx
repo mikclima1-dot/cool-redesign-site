@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { CATEGORY_LABEL, type Product } from "@/data/products";
+import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
