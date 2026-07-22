@@ -130,6 +130,24 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    const push = () => {
+      const w = window as unknown as { dataLayer?: Array<Record<string, unknown>> };
+      w.dataLayer = w.dataLayer || [];
+      w.dataLayer.push({
+        event: "pageview",
+        page: window.location.pathname + window.location.search,
+        page_title: document.title,
+        page_location: window.location.href,
+      });
+    };
+    push();
+    const unsub = router.subscribe("onResolved", push);
+    return () => unsub();
+  }, [router]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex min-h-screen flex-col">
@@ -142,3 +160,4 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
