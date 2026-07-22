@@ -234,15 +234,23 @@ function Home() {
             Не сте сигурни кой модел ви трябва?
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-white/80">
-            Запишете безплатна консултация. Ще преценим площта, изолацията и нуждите ви и ще ви
-            предложим най-подходящия климатик.
+            Свържете се с нас. Ще преценим площта, изолацията и нуждите ви и ще ви предложим
+            най-подходящия климатик.
           </p>
-          <Link
-            to="/kontakti"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-navy transition-transform hover:scale-[1.02]"
-          >
-            Безплатна консултация <ArrowRight className="h-4 w-4" />
-          </Link>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="tel:+359888000000"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-navy transition-transform hover:scale-[1.02]"
+            >
+              Обади се <Phone className="h-4 w-4" />
+            </a>
+            <Link
+              to="/kontakti"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
+            >
+              Изпрати запитване <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </section>
     </>
