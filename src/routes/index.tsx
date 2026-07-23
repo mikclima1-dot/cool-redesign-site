@@ -222,18 +222,12 @@ function Home() {
       </section>
 
       {/* BRANDS */}
-      <section className="border-y border-border/60 bg-brand-sky-soft/40 py-10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 md:px-8">
+      <section className="border-y border-border/60 bg-white py-12">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 md:px-8">
           <p className="text-sm uppercase tracking-widest text-muted-foreground">
             Работим с водещите марки в бранша
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-            {brands.map((b) => (
-              <span key={b} className="text-lg font-bold text-brand-navy/70">
-                {b}
-              </span>
-            ))}
-          </div>
+          <BrandStrip variant="light" size="lg" />
         </div>
       </section>
 
