@@ -12,9 +12,9 @@ export const Route = createFileRoute("/za-nas")({
       },
       { property: "og:title", content: "За нас - MIK Clima" },
       { property: "og:description", content: "Историята и екипът зад MIK Clima." },
-      { property: "og:url", content: "/za-nas" },
+      { property: "og:url", content: "https://www.mikclima.com/za-nas" },
     ],
-    links: [{ rel: "canonical", href: "/za-nas" }],
+    links: [{ rel: "canonical", href: "https://www.mikclima.com/za-nas" }],
   }),
   component: About,
 });
