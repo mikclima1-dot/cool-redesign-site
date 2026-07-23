@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, Clock, MapPin, Phone, Facebook, Instagram } from "lucide-react";
+import { BrandStrip } from "@/components/BrandStrip";
 
 export function Footer() {
   return (
