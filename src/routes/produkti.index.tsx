@@ -24,9 +24,9 @@ export const Route = createFileRoute("/produkti/")({
       },
       { property: "og:title", content: "Всички климатици - Каталог | MIK Clima" },
       { property: "og:description", content: "38 модела климатици от водещи производители." },
-      { property: "og:url", content: "/produkti" },
+      { property: "og:url", content: "https://www.mikclima.com/produkti" },
     ],
-    links: [{ rel: "canonical", href: "/produkti" }],
+    links: [{ rel: "canonical", href: "https://www.mikclima.com/produkti" }],
   }),
   component: ProductsPage,
 });
