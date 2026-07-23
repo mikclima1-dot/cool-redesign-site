@@ -13,6 +13,7 @@ import { Route as ZaNasRouteImport } from './routes/za-nas'
 import { Route as UslugiRouteImport } from './routes/uslugi'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as KontaktiRouteImport } from './routes/kontakti'
+import { Route as KalkulatorRouteImport } from './routes/kalkulator'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProduktiIndexRouteImport } from './routes/produkti.index'
 import { Route as ProduktiSlugRouteImport } from './routes/produkti.$slug'
@@ -37,6 +38,11 @@ const KontaktiRoute = KontaktiRouteImport.update({
   path: '/kontakti',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KalkulatorRoute = KalkulatorRouteImport.update({
+  id: '/kalkulator',
+  path: '/kalkulator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,6 +61,7 @@ const ProduktiSlugRoute = ProduktiSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/uslugi': typeof UslugiRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/uslugi': typeof UslugiRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/uslugi': typeof UslugiRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/kalkulator'
     | '/kontakti'
     | '/sitemap.xml'
     | '/uslugi'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/kalkulator'
     | '/kontakti'
     | '/sitemap.xml'
     | '/uslugi'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/kalkulator'
     | '/kontakti'
     | '/sitemap.xml'
     | '/uslugi'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KalkulatorRoute: typeof KalkulatorRoute
   KontaktiRoute: typeof KontaktiRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UslugiRoute: typeof UslugiRoute
@@ -151,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KontaktiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kalkulator': {
+      id: '/kalkulator'
+      path: '/kalkulator'
+      fullPath: '/kalkulator'
+      preLoaderRoute: typeof KalkulatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KalkulatorRoute: KalkulatorRoute,
   KontaktiRoute: KontaktiRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UslugiRoute: UslugiRoute,
