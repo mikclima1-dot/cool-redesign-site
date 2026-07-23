@@ -4,7 +4,6 @@ import { ArrowRight, Wind, Zap, Snowflake, Sparkles, ShieldCheck, Wrench, Truck,
 
 import { ProductCard } from "@/components/ProductCard";
 import { products, categoryCount } from "@/data/products";
-import { BrandStrip } from "@/components/BrandStrip";
 
 export const Route = createFileRoute("/")({
   head: () => ({
