@@ -220,16 +220,6 @@ function Home() {
         </div>
       </section>
 
-      {/* BRANDS */}
-      <section className="border-y border-border/60 bg-white py-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 md:px-8">
-          <p className="text-sm uppercase tracking-widest text-muted-foreground">
-            Работим с водещите марки в бранша
-          </p>
-          <BrandStrip variant="light" size="lg" />
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="mx-auto max-w-7xl px-4 py-20 md:px-8">
         <div className="rounded-3xl bg-brand-navy px-8 py-14 text-center text-white shadow-soft">

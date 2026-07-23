@@ -100,9 +100,6 @@ function ProductsPage() {
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground md:text-base">
             Разгледайте пълния каталог модели от водещи японски и европейски марки.
           </p>
-          <div className="mt-6 opacity-70">
-            <BrandStrip variant="light" size="sm" className="justify-start md:justify-start" />
-          </div>
         </div>
       </section>
 
