@@ -10,6 +10,11 @@ export const Route = createFileRoute("/kontakti")({
         content:
           "Свържете се с MIK Clima за оферта или сервиз. Работно време понеделник–петък 09:00–18:00.",
       },
+      {
+        name: "keywords",
+        content:
+          "контакти MIK Clima, телефон MIK Clima, оферта климатик, сервиз климатик, монтаж климатик, София, България, +359 897 203 732",
+      },
       { property: "og:title", content: "Контакти - MIK Clima" },
       { property: "og:description", content: "Телефон, имейл и работно време." },
       { property: "og:url", content: "https://www.mikclima.com/kontakti" },

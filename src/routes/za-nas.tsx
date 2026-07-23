@@ -10,6 +10,11 @@ export const Route = createFileRoute("/za-nas")({
         content:
           "MIK Clima е екип от специалисти по климатични системи с над 17 години опит, 10 000+ монтажа и 1100+ доволни клиенти в България.",
       },
+      {
+        name: "keywords",
+        content:
+          "MIK Clima, за нас, климатични системи, монтаж климатици, профилактика, демонтаж, София, България, Daikin, Mitsubishi, Toshiba",
+      },
       { property: "og:title", content: "За нас - MIK Clima" },
       { property: "og:description", content: "Историята и екипът зад MIK Clima." },
       { property: "og:url", content: "https://www.mikclima.com/za-nas" },

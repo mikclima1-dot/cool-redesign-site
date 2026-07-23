@@ -70,6 +70,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Професионална доставка, бърз монтаж, демонтаж и профилактика на климатични системи за дома и офиса. Гарантирано качество и консултация от експерти.",
       },
+      {
+        name: "keywords",
+        content:
+          "климатици, климатик, инверторен климатик, хиперинверторен климатик, подов климатик, колонен климатик, монтаж на климатик, профилактика климатик, демонтаж климатик, MIK Clima, София, България",
+      },
       { name: "author", content: "MIKCLIMA" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "MIKCLIMA" },
