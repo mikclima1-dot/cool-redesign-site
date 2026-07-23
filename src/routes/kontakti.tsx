@@ -80,33 +80,55 @@ function Contact() {
           ))}
         </div>
 
-        <form className="rounded-2xl border border-border/60 bg-card p-6 shadow-card">
+        <form
+          className="rounded-2xl border border-border/60 bg-card p-6 shadow-card"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const form = e.currentTarget;
+            const data = new FormData(form);
+            const name = String(data.get("name") || "");
+            const contact = String(data.get("contact") || "");
+            const message = String(data.get("message") || "");
+            const subject = encodeURIComponent(`Запитване от ${name || "клиент"}`);
+            const body = encodeURIComponent(
+              `Име: ${name}\nТелефон/имейл: ${contact}\n\n${message}`,
+            );
+            window.location.href = `mailto:info@mikclima.com?subject=${subject}&body=${body}`;
+          }}
+        >
           <h2 className="text-xl font-bold text-brand-navy">Запитване</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Оставете съобщение и ще се свържем с вас в рамките на работния ден.
           </p>
           <div className="mt-5 space-y-4">
             <input
+              name="name"
+              required
               className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-brand-teal"
               placeholder="Име"
             />
             <input
+              name="contact"
+              required
               className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-brand-teal"
               placeholder="Телефон или имейл"
             />
             <textarea
+              name="message"
               rows={5}
+              required
               className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-brand-teal"
               placeholder="Съобщение"
             />
             <button
-              type="button"
-              className="w-full rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-soft"
+              type="submit"
+              className="w-full cursor-pointer rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5"
             >
               Изпрати
             </button>
           </div>
         </form>
+
       </section>
     </>
   );
