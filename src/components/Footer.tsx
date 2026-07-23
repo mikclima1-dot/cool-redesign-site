@@ -64,6 +64,11 @@ export function Footer() {
 
         </div>
       </div>
+      <div className="border-t border-border/60 bg-white/60">
+        <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
+          <BrandStrip variant="subtle" size="md" />
+        </div>
+      </div>
       <div className="border-t border-border/60 py-4 text-center text-xs text-muted-foreground">
         © {new Date().getFullYear()} MIK Clima. Всички права запазени.
       </div>
