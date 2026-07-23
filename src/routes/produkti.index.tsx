@@ -3,6 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { ChevronDown, Filter } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
+import { BrandStrip } from "@/components/BrandStrip";
 import { CATEGORY_LABEL, products, type Category } from "@/data/products";
 
 const searchSchema = z.object({
