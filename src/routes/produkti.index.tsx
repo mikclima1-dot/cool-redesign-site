@@ -92,17 +92,17 @@ function ProductsPage() {
   return (
     <>
       <section style={{ background: "var(--gradient-hero)" }}>
-        <div className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-10">
           <p className="text-xs font-semibold uppercase tracking-widest text-brand-teal">Каталог</p>
-          <h1 className="mt-3 text-5xl font-extrabold tracking-tight text-brand-navy md:text-6xl">
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-brand-navy md:text-4xl">
             Всички климатици
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-            Разгледайте пълния каталог модели от водещи японски и европейски марки. Всяка продуктова
-            страница съдържа подробни технически спецификации и описание на функциите.
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground md:text-base">
+            Разгледайте пълния каталог модели от водещи японски и европейски марки.
           </p>
         </div>
       </section>
+
 
       <section className="mx-auto max-w-7xl px-4 py-12 md:px-8">
         <div className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-card">
