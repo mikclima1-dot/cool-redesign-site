@@ -20,7 +20,7 @@ export const Route = createFileRoute("/produkti/$slug")({
     const { product } = loaderData;
     const title = `${CATEGORY_TYPE[product.category]} ${product.brand} ${product.model} - ${product.btu.toLocaleString("bg-BG")} BTU, клас ${product.energyClass} | MIK Clima`;
     const description = `${product.brand} ${product.model} - ${CATEGORY_LABEL[product.category]} климатик ${product.btu.toLocaleString("bg-BG")} BTU, енергиен клас ${product.energyClass}. ${product.shortDescription} Цена ${product.priceEur} € / ${product.priceBgn.toFixed(2)} лв. Доставка и монтаж в цялата страна.`;
-    const url = `/produkti/${params.slug}`;
+    const url = `https://www.mikclima.com/produkti/${params.slug}`;
     const productLd = {
       "@context": "https://schema.org",
       "@type": "Product",
