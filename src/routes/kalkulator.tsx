@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AcCalculator } from "@/components/AcCalculator";
-import { Calculator, CheckCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 
 export const Route = createFileRoute("/kalkulator")({
   head: () => ({
