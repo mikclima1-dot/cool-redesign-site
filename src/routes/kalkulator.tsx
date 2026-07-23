@@ -63,29 +63,6 @@ function CalculatorPage() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-2xl bg-brand-navy px-6 py-8 text-center text-white shadow-soft md:px-10">
-          <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white/10">
-            <Calculator className="h-6 w-6 text-white" />
-          </div>
-          <h2 className="mt-4 text-2xl font-extrabold md:text-3xl">Не сте сигурни в избора?</h2>
-          <p className="mx-auto mt-2 max-w-xl text-white/80">
-            Свържете се с нас и ще Ви помогнем да изберете оптималния модел за вашия дом или офис.
-          </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <a
-              href="tel:+359897203732"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-navy transition-transform hover:scale-[1.02]"
-            >
-              Обади се
-            </a>
-            <a
-              href="/kontakti"
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
-            >
-              Поискай оферта
-            </a>
-          </div>
-        </div>
       </section>
     </>
   );
