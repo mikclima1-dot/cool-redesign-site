@@ -163,7 +163,7 @@ export function AcCalculator() {
             </div>
             <p className="mt-1 text-lg font-medium text-brand-teal">≈ {result.kw} kW</p>
             <p className="mt-4 text-sm text-muted-foreground">
-              Изчислението е ориентировъчно. За точна оферта се свържете с нас — ще преценим височината на тавана,
+              Изчислението е ориентировъчно. За точна оферта се свържете с нас. Ще преценим височината на тавана,
               броя прозорци, изложението и начина на използване.
             </p>
           </div>
@@ -174,7 +174,7 @@ export function AcCalculator() {
             className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:scale-[1.02]"
           >
             <Calculator className="h-4 w-4" />
-            Изчисли
+            Покажи подходящи модели
           </button>
         </div>
       </div>
