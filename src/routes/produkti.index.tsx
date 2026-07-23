@@ -3,6 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { ChevronDown, Filter } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
+import { BrandStrip } from "@/components/BrandStrip";
 import { CATEGORY_LABEL, products, type Category } from "@/data/products";
 
 const searchSchema = z.object({
@@ -100,6 +101,9 @@ function ProductsPage() {
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground md:text-base">
             Разгледайте пълния каталог модели от водещи японски и европейски марки.
           </p>
+          <div className="mt-6 opacity-70">
+            <BrandStrip variant="light" size="sm" className="justify-start md:justify-start" />
+          </div>
         </div>
       </section>
 

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, Clock, MapPin, Phone, Facebook, Instagram } from "lucide-react";
+import { BrandStrip } from "@/components/BrandStrip";
 
 export function Footer() {
   return (
@@ -61,6 +62,11 @@ export function Footer() {
             <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> България</li>
           </ul>
 
+        </div>
+      </div>
+      <div className="border-t border-border/60 bg-white/60">
+        <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
+          <BrandStrip variant="subtle" size="md" />
         </div>
       </div>
       <div className="border-t border-border/60 py-4 text-center text-xs text-muted-foreground">
