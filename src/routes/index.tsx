@@ -21,9 +21,9 @@ export const Route = createFileRoute("/")({
           "Професионална доставка, бърз монтаж, демонтаж и профилактика на климатични системи за дома и офиса. Гарантирано качество и консултация от експерти.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://www.mikclima.com/" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://www.mikclima.com/" }],
   }),
   component: Home,
 });

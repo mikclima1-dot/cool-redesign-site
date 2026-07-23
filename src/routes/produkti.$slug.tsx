@@ -20,7 +20,7 @@ export const Route = createFileRoute("/produkti/$slug")({
     const { product } = loaderData;
     const title = `${CATEGORY_TYPE[product.category]} ${product.brand} ${product.model} - ${product.btu.toLocaleString("bg-BG")} BTU, клас ${product.energyClass} | MIK Clima`;
     const description = `${product.brand} ${product.model} - ${CATEGORY_LABEL[product.category]} климатик ${product.btu.toLocaleString("bg-BG")} BTU, енергиен клас ${product.energyClass}. ${product.shortDescription} Цена ${product.priceEur} € / ${product.priceBgn.toFixed(2)} лв. Доставка и монтаж в цялата страна.`;
-    const url = `/produkti/${params.slug}`;
+    const url = `https://www.mikclima.com/produkti/${params.slug}`;
     const productLd = {
       "@context": "https://schema.org",
       "@type": "Product",
@@ -47,9 +47,9 @@ export const Route = createFileRoute("/produkti/$slug")({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Начало", item: "/" },
-        { "@type": "ListItem", position: 2, name: "Продукти", item: "/produkti" },
-        { "@type": "ListItem", position: 3, name: CATEGORY_LABEL[product.category], item: `/produkti?cat=${product.category}` },
+        { "@type": "ListItem", position: 1, name: "Начало", item: "https://www.mikclima.com/" },
+        { "@type": "ListItem", position: 2, name: "Продукти", item: "https://www.mikclima.com/produkti" },
+        { "@type": "ListItem", position: 3, name: CATEGORY_LABEL[product.category], item: `https://www.mikclima.com/produkti?cat=${product.category}` },
         { "@type": "ListItem", position: 4, name: product.model, item: url },
       ],
     };

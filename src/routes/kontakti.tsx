@@ -12,9 +12,9 @@ export const Route = createFileRoute("/kontakti")({
       },
       { property: "og:title", content: "Контакти - MIK Clima" },
       { property: "og:description", content: "Телефон, имейл и работно време." },
-      { property: "og:url", content: "/kontakti" },
+      { property: "og:url", content: "https://www.mikclima.com/kontakti" },
     ],
-    links: [{ rel: "canonical", href: "/kontakti" }],
+    links: [{ rel: "canonical", href: "https://www.mikclima.com/kontakti" }],
   }),
   component: Contact,
 });

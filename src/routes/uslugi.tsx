@@ -12,9 +12,9 @@ export const Route = createFileRoute("/uslugi")({
       },
       { property: "og:title", content: "Услуги | MIK Clima" },
       { property: "og:description", content: "Монтаж, поддръжка и демонтаж на климатици." },
-      { property: "og:url", content: "/uslugi" },
+      { property: "og:url", content: "https://www.mikclima.com/uslugi" },
     ],
-    links: [{ rel: "canonical", href: "/uslugi" }],
+    links: [{ rel: "canonical", href: "https://www.mikclima.com/uslugi" }],
   }),
   component: Services,
 });
