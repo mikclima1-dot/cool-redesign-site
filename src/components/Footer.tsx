@@ -48,10 +48,19 @@ export function Footer() {
         <div>
           <h4 className="text-sm font-semibold text-brand-navy">Контакти</h4>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+            <li className="flex items-center gap-2">
+              <Phone className="h-4 w-4" />
+              <a href="tel:+359897203732" className="hover:text-brand-navy">+359 897 203 732</a>
+            </li>
+            <li className="flex items-center gap-2">
+              <Phone className="h-4 w-4" />
+              <a href="tel:+359877918761" className="hover:text-brand-navy">+359 877 918 761</a>
+            </li>
             <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> info@mikclima.com</li>
             <li className="flex items-center gap-2"><Clock className="h-4 w-4" /> Пон–Пет 09:00–18:00</li>
             <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> България</li>
           </ul>
+
         </div>
       </div>
       <div className="border-t border-border/60 py-4 text-center text-xs text-muted-foreground">
