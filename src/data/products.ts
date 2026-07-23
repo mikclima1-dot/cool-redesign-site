@@ -659,7 +659,8 @@ export const products: Product[] = [
     energyClass: "A++",
     priceEur: 1579,
     priceBgn: 3088.26,
-    image: "/images/products/download.jpg",
+    image: "/images/products/gree-gvh24-column.jpg",
+
     shortDescription: "Колонен климатик Gree T-FRESH - 24000 BTU за офиси, магазини и ресторанти до 70 м².",
     description:
       "T-FRESH е колонният модел на Gree - 24000 BTU за търговски обекти. Стои на пода, свободно поставяем без монтаж по стените.",
