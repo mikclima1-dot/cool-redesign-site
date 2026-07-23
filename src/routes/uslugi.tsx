@@ -10,6 +10,11 @@ export const Route = createFileRoute("/uslugi")({
         content:
           "Професионален монтаж на климатици от 190 €, годишна профилактика и демонтаж на стара техника. Сертифициран екип и гаранция на работата.",
       },
+      {
+        name: "keywords",
+        content:
+          "монтаж на климатик, профилактика климатик, демонтаж климатик, диагностика климатик, оглед климатик, сервиз климатик, MIK Clima, София",
+      },
       { property: "og:title", content: "Услуги | MIK Clima" },
       { property: "og:description", content: "Монтаж, поддръжка и демонтаж на климатици." },
       { property: "og:url", content: "https://www.mikclima.com/uslugi" },

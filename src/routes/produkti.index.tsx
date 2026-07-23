@@ -22,6 +22,11 @@ export const Route = createFileRoute("/produkti/")({
         content:
           "Пълен каталог инверторни, хиперинверторни, подови и колонни климатици. Daikin, Mitsubishi, Toshiba, Fujitsu, Gree, Cooper & Hunter.",
       },
+      {
+        name: "keywords",
+        content:
+          "каталог климатици, инверторен климатик, хиперинверторен климатик, подов климатик, колонен климатик, Daikin, Mitsubishi, Toshiba, Fujitsu, Gree, Cooper & Hunter, цени климатици",
+      },
       { property: "og:title", content: "Всички климатици - Каталог | MIK Clima" },
       { property: "og:description", content: "38 модела климатици от водещи производители." },
       { property: "og:url", content: "https://www.mikclima.com/produkti" },
