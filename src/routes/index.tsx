@@ -4,7 +4,6 @@ import { ArrowRight, Wind, Zap, Snowflake, Sparkles, ShieldCheck, Wrench, Truck,
 
 import { ProductCard } from "@/components/ProductCard";
 import { products, categoryCount } from "@/data/products";
-import { BrandStrip } from "@/components/BrandStrip";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -218,16 +217,6 @@ function Home() {
               </Link>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* BRANDS */}
-      <section className="border-y border-border/60 bg-white py-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 md:px-8">
-          <p className="text-sm uppercase tracking-widest text-muted-foreground">
-            Работим с водещите марки в бранша
-          </p>
-          <BrandStrip variant="light" size="lg" />
         </div>
       </section>
 
