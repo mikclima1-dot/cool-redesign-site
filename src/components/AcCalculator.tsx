@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
-import { Calculator, ArrowRight, Phone, Home, Sun, Thermometer } from "lucide-react";
+import { Calculator, ArrowRight, Phone, Home, Sun, Thermometer, CheckCircle } from "lucide-react";
+import { ProductCard } from "@/components/ProductCard";
+import { products } from "@/data/products";
 
 const PRESETS = [
   { m2: 15, label: "15 м²" },
@@ -27,10 +29,25 @@ function nearestStandardBtu(raw: number): { btu: number; kw: number } {
   return { btu: next, kw: Math.round((next * 0.000293) * 10) / 10 };
 }
 
+function findMatchingProducts(btu: number, limit = 4) {
+  const same = products.filter((p) => p.btu === btu);
+  if (same.length >= limit) return same.slice(0, limit);
+
+  const higher = products
+    .filter((p) => p.btu > btu)
+    .sort((a, b) => a.btu - b.btu || a.priceEur - b.priceEur);
+  const lower = products
+    .filter((p) => p.btu < btu)
+    .sort((a, b) => b.btu - a.btu || a.priceEur - b.priceEur);
+
+  return [...same, ...higher, ...lower].slice(0, limit);
+}
+
 export function AcCalculator() {
   const [area, setArea] = useState<number>(25);
   const [orientation, setOrientation] = useState<string>("north-east");
   const [insulation, setInsulation] = useState<string>("good");
+  const [calculated, setCalculated] = useState(false);
 
   const result = useMemo(() => {
     const orientFactor = ORIENTATIONS.find((o) => o.value === orientation)?.factor ?? 1;
@@ -38,6 +55,16 @@ export function AcCalculator() {
     const baseBtu = area * 650 * orientFactor * insulFactor;
     return nearestStandardBtu(baseBtu);
   }, [area, orientation, insulation]);
+
+  const matchingProducts = useMemo(() => (calculated ? findMatchingProducts(result.btu) : []), [calculated, result.btu]);
+
+  const handleCalculate = () => {
+    setCalculated(true);
+    const resultsEl = document.getElementById("calculator-results");
+    if (resultsEl) {
+      resultsEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <div className="rounded-3xl border border-border/60 bg-card p-6 shadow-card md:p-8">
@@ -141,24 +168,62 @@ export function AcCalculator() {
             </p>
           </div>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            onClick={handleCalculate}
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:scale-[1.02]"
+          >
+            <Calculator className="h-4 w-4" />
+            Изчисли
+          </button>
+        </div>
+      </div>
+
+      {calculated && (
+        <div id="calculator-results" className="mt-10 border-t border-border/60 pt-10">
+          <div className="flex items-center gap-2">
+            <CheckCircle className="h-5 w-5 text-brand-teal" />
+            <h4 className="text-lg font-extrabold text-brand-navy">Подходящи модели за {result.btu.toLocaleString("bg")} BTU</h4>
+          </div>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Тези модели покриват препоръчителната мощност за вашето помещение.
+          </p>
+
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {matchingProducts.map((p) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {calculated && (
+        <div className="mt-12 rounded-2xl bg-brand-navy px-6 py-8 text-center text-white shadow-soft md:px-10">
+          <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white/10">
+            <Phone className="h-6 w-6 text-white" />
+          </div>
+          <h2 className="mt-4 text-2xl font-extrabold md:text-3xl">Не сте сигурни в избора?</h2>
+          <p className="mx-auto mt-2 max-w-xl text-white/80">
+            Свържете се с нас и ще Ви помогнем да изберете оптималния модел за вашия дом или офис.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
             <a
               href="tel:+359897203732"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-navy transition-transform hover:scale-[1.02]"
             >
               <Phone className="h-4 w-4" />
               Обади се
             </a>
             <a
               href="/kontakti"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-3 text-sm font-semibold text-brand-navy transition-colors hover:bg-white"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
             >
-              Поискай оферта за този размер
+              Поискай оферта
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
