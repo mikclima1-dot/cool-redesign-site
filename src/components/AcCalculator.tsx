@@ -45,6 +45,7 @@ function findMatchingProducts(btu: number, limit = 4) {
 
 export function AcCalculator() {
   const [area, setArea] = useState<number>(25);
+  const [height, setHeight] = useState<number>(2.5);
   const [orientation, setOrientation] = useState<string>("north-east");
   const [insulation, setInsulation] = useState<string>("good");
   const [calculated, setCalculated] = useState(false);
@@ -52,9 +53,10 @@ export function AcCalculator() {
   const result = useMemo(() => {
     const orientFactor = ORIENTATIONS.find((o) => o.value === orientation)?.factor ?? 1;
     const insulFactor = INSULATIONS.find((i) => i.value === insulation)?.factor ?? 1;
-    const baseBtu = area * 650 * orientFactor * insulFactor;
-    return nearestStandardBtu(baseBtu);
-  }, [area, orientation, insulation]);
+    const volume = area * height;
+    const baseBtu = volume * 260 * orientFactor * insulFactor;
+    return { ...nearestStandardBtu(baseBtu), volume };
+  }, [area, height, orientation, insulation]);
 
   const matchingProducts = useMemo(() => (calculated ? findMatchingProducts(result.btu) : []), [calculated, result.btu]);
 
