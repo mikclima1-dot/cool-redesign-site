@@ -121,6 +121,27 @@ export function AcCalculator() {
 
           <div>
             <label className="flex items-center gap-2 text-sm font-semibold text-brand-navy">
+              <Ruler className="h-4 w-4 text-brand-teal" />
+              Височина на тавана
+            </label>
+            <div className="mt-3 flex items-center gap-4">
+              <input
+                type="range"
+                min={2.0}
+                max={3.8}
+                step={0.05}
+                value={height}
+                onChange={(e) => setHeight(Number(e.target.value))}
+                className="w-full accent-brand-teal"
+              />
+              <div className="flex min-w-[5.5rem] items-center justify-center rounded-full border border-border bg-background px-3 py-2 text-sm font-bold text-brand-navy">
+                {height.toFixed(2)} м
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 text-sm font-semibold text-brand-navy">
               <Sun className="h-4 w-4 text-brand-teal" />
               Ориентация
             </label>
