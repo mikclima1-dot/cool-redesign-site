@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Calculator, ArrowRight, Phone, Home, Sun, Thermometer, CheckCircle } from "lucide-react";
+import { Calculator, ArrowRight, Phone, Home, Sun, Thermometer, CheckCircle, Ruler } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/data/products";
 
@@ -45,6 +45,7 @@ function findMatchingProducts(btu: number, limit = 4) {
 
 export function AcCalculator() {
   const [area, setArea] = useState<number>(25);
+  const [height, setHeight] = useState<number>(2.5);
   const [orientation, setOrientation] = useState<string>("north-east");
   const [insulation, setInsulation] = useState<string>("good");
   const [calculated, setCalculated] = useState(false);
@@ -52,9 +53,10 @@ export function AcCalculator() {
   const result = useMemo(() => {
     const orientFactor = ORIENTATIONS.find((o) => o.value === orientation)?.factor ?? 1;
     const insulFactor = INSULATIONS.find((i) => i.value === insulation)?.factor ?? 1;
-    const baseBtu = area * 650 * orientFactor * insulFactor;
-    return nearestStandardBtu(baseBtu);
-  }, [area, orientation, insulation]);
+    const volume = area * height;
+    const baseBtu = volume * 260 * orientFactor * insulFactor;
+    return { ...nearestStandardBtu(baseBtu), volume };
+  }, [area, height, orientation, insulation]);
 
   const matchingProducts = useMemo(() => (calculated ? findMatchingProducts(result.btu) : []), [calculated, result.btu]);
 
@@ -119,6 +121,27 @@ export function AcCalculator() {
 
           <div>
             <label className="flex items-center gap-2 text-sm font-semibold text-brand-navy">
+              <Ruler className="h-4 w-4 text-brand-teal" />
+              Височина на тавана
+            </label>
+            <div className="mt-3 flex items-center gap-4">
+              <input
+                type="range"
+                min={2.0}
+                max={3.8}
+                step={0.05}
+                value={height}
+                onChange={(e) => setHeight(Number(e.target.value))}
+                className="w-full accent-brand-teal"
+              />
+              <div className="flex min-w-[5.5rem] items-center justify-center rounded-full border border-border bg-background px-3 py-2 text-sm font-bold text-brand-navy">
+                {height.toFixed(2)} м
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 text-sm font-semibold text-brand-navy">
               <Sun className="h-4 w-4 text-brand-teal" />
               Ориентация
             </label>
@@ -162,9 +185,12 @@ export function AcCalculator() {
               <span className="text-lg font-semibold text-brand-navy">BTU</span>
             </div>
             <p className="mt-1 text-lg font-medium text-brand-teal">≈ {result.kw} kW</p>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Изчислението е ориентировъчно. За точна оферта се свържете с нас. Ще преценим височината на тавана,
-              броя прозорци, изложението и начина на използване.
+            <p className="mt-4 text-sm font-medium text-brand-navy">
+              Обем: {area} м² × {height.toFixed(2)} м ={" "}
+              <span className="font-extrabold text-brand-teal">{result.volume.toFixed(2)} м³</span>
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Изчислението е ориентировъчно. За точна оферта се свържете с нас. Ще преценим броя прозорци, изложението и начина на използване.
             </p>
           </div>
 
