@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AcCalculator } from "@/components/AcCalculator";
-import { CheckCircle, Phone, ArrowRight, HelpCircle, Zap, Sun, Thermometer, Home, Wrench } from "lucide-react";
+import { CheckCircle, Phone, ArrowRight, HelpCircle, Zap, Sun, Thermometer, Home, Wrench, Ruler } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 const faqs = [
