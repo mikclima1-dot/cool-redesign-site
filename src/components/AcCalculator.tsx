@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Calculator, ArrowRight, Phone, Home, Sun, Thermometer, CheckCircle } from "lucide-react";
+import { Calculator, ArrowRight, Phone, Home, Sun, Thermometer, CheckCircle, Ruler } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/data/products";
 
