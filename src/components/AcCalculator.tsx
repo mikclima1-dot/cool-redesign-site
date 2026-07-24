@@ -9,8 +9,7 @@ const PRESETS = [
   { m2: 25, label: "25 м²" },
   { m2: 35, label: "35 м²" },
   { m2: 50, label: "50 м²" },
-  { m2: 65, label: "65 м²" },
-  { m2: 80, label: "80 м²" },
+  { m2: 60, label: "60 м²" },
 ];
 
 const ORIENTATIONS = [
