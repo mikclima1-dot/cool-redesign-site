@@ -90,7 +90,7 @@ export function AcCalculator() {
               <input
                 type="range"
                 min={10}
-                max={80}
+                max={60}
                 step={1}
                 value={area}
                 onChange={(e) => setArea(Number(e.target.value))}
