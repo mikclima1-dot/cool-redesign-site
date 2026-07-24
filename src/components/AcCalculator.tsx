@@ -9,8 +9,7 @@ const PRESETS = [
   { m2: 25, label: "25 м²" },
   { m2: 35, label: "35 м²" },
   { m2: 50, label: "50 м²" },
-  { m2: 65, label: "65 м²" },
-  { m2: 80, label: "80 м²" },
+  { m2: 60, label: "60 м²" },
 ];
 
 const ORIENTATIONS = [
@@ -91,7 +90,7 @@ export function AcCalculator() {
               <input
                 type="range"
                 min={10}
-                max={80}
+                max={60}
                 step={1}
                 value={area}
                 onChange={(e) => setArea(Number(e.target.value))}
