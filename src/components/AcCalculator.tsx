@@ -185,9 +185,12 @@ export function AcCalculator() {
               <span className="text-lg font-semibold text-brand-navy">BTU</span>
             </div>
             <p className="mt-1 text-lg font-medium text-brand-teal">≈ {result.kw} kW</p>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Изчислението е ориентировъчно. За точна оферта се свържете с нас. Ще преценим височината на тавана,
-              броя прозорци, изложението и начина на използване.
+            <p className="mt-4 text-sm font-medium text-brand-navy">
+              Обем: {area} м² × {height.toFixed(2)} м ={" "}
+              <span className="font-extrabold text-brand-teal">{result.volume.toFixed(2)} м³</span>
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Изчислението е ориентировъчно. За точна оферта се свържете с нас. Ще преценим броя прозорци, изложението и начина на използване.
             </p>
           </div>
 
