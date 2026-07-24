@@ -137,19 +137,28 @@ function SeoContent() {
           Как работи калкулаторът за климатик
         </h2>
         <p>
-          Калкулаторът използва стандартна формула, която умножава площта на помещението по базова стойност от 650 BTU
-          на квадратен метър. След това добавя корекции според ориентацията и изолацията, за да получите по-реалистична
-          препоръка.
+          Калкулаторът изчислява обема на помещението по формулата <strong>площ × височина на тавана</strong>. След това
+          умножава обема по базова стойност от 260 BTU на кубичен метър и добавя корекции според ориентацията и
+          изолацията, за да получите по-реалистична препоръка.
         </p>
 
-        <div className="not-prose mt-6 grid gap-6 sm:grid-cols-3">
+        <div className="not-prose mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-2xl border border-border/60 bg-card p-5 shadow-card">
             <div className="grid h-10 w-10 place-items-center rounded-full bg-brand-sky-soft text-brand-teal">
               <Home className="h-5 w-5" />
             </div>
-            <h3 className="mt-4 text-lg font-bold text-brand-navy">Площ на помещението</h3>
+            <h3 className="mt-4 text-lg font-bold text-brand-navy">Площ</h3>
             <p className="mt-2 text-sm text-muted-foreground">
               Въведете квадратурата в m² или използвайте бързите бутони за най-честите стойности.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border/60 bg-card p-5 shadow-card">
+            <div className="grid h-10 w-10 place-items-center rounded-full bg-brand-sky-soft text-brand-teal">
+              <Ruler className="h-5 w-5" />
+            </div>
+            <h3 className="mt-4 text-lg font-bold text-brand-navy">Височина на тавана</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Изберете височина между 2.00 и 3.80 м. Високите тавани увеличават обема и изискват по-мощен климатик.
             </p>
           </div>
           <div className="rounded-2xl border border-border/60 bg-card p-5 shadow-card">
