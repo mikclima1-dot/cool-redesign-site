@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Calculator, ArrowRight, Phone, Home, Sun, Thermometer, CheckCircle, Ruler } from "lucide-react";
+import { Calculator, ArrowRight, Phone, Home, CheckCircle, Info } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/data/products";
 
@@ -8,56 +8,41 @@ const PRESETS = [
   { m2: 20, label: "20 м²" },
   { m2: 25, label: "25 м²" },
   { m2: 35, label: "35 м²" },
-  { m2: 50, label: "50 м²" },
+  { m2: 45, label: "45 м²" },
   { m2: 60, label: "60 м²" },
 ];
 
-const ORIENTATIONS = [
-  { value: "north-east", label: "Север / Изток", factor: 1 },
-  { value: "south-west", label: "Юг / Запад", factor: 1.15 },
-];
-
-const INSULATIONS = [
-  { value: "good", label: "Добра изолация", factor: 1 },
-  { value: "none", label: "Без изолация", factor: 1.25 },
-];
-
-function nearestStandardBtu(raw: number): { btu: number; kw: number } {
-  const standards = [9000, 12000, 18000, 24000];
-  const next = standards.find((b) => b >= raw) ?? 24000;
-  return { btu: next, kw: Math.round((next * 0.000293) * 10) / 10 };
+function recommendBtu(area: number): { btus: number[]; label: string } {
+  if (area < 15) return { btus: [9000], label: "9 000 BTU" };
+  if (area <= 20) return { btus: [9000, 12000], label: "9 000 - 12 000 BTU" };
+  if (area <= 25) return { btus: [12000], label: "12 000 BTU" };
+  if (area <= 35) return { btus: [12000, 18000], label: "12 000 - 18 000 BTU" };
+  if (area <= 45) return { btus: [18000], label: "18 000 BTU" };
+  return { btus: [24000], label: "24 000 BTU" };
 }
 
-function findMatchingProducts(btu: number, limit = 4) {
-  const same = products.filter((p) => p.btu === btu);
-  if (same.length >= limit) return same.slice(0, limit);
+function findMatchingProducts(btus: number[], limit = 4) {
+  const matches = products.filter((p) => btus.includes(p.btu));
+  if (matches.length >= limit) return matches.slice(0, limit);
 
-  const higher = products
-    .filter((p) => p.btu > btu)
-    .sort((a, b) => a.btu - b.btu || a.priceEur - b.priceEur);
-  const lower = products
-    .filter((p) => p.btu < btu)
-    .sort((a, b) => b.btu - a.btu || a.priceEur - b.priceEur);
+  const target = btus[0];
+  const others = products
+    .filter((p) => !btus.includes(p.btu))
+    .sort((a, b) => Math.abs(a.btu - target) - Math.abs(b.btu - target) || a.priceEur - b.priceEur);
 
-  return [...same, ...higher, ...lower].slice(0, limit);
+  return [...matches, ...others].slice(0, limit);
 }
 
 export function AcCalculator() {
   const [area, setArea] = useState<number>(25);
-  const [height, setHeight] = useState<number>(2.5);
-  const [orientation, setOrientation] = useState<string>("north-east");
-  const [insulation, setInsulation] = useState<string>("good");
   const [calculated, setCalculated] = useState(false);
 
-  const result = useMemo(() => {
-    const orientFactor = ORIENTATIONS.find((o) => o.value === orientation)?.factor ?? 1;
-    const insulFactor = INSULATIONS.find((i) => i.value === insulation)?.factor ?? 1;
-    const volume = area * height;
-    const baseBtu = volume * 260 * orientFactor * insulFactor;
-    return { ...nearestStandardBtu(baseBtu), volume };
-  }, [area, height, orientation, insulation]);
+  const result = useMemo(() => recommendBtu(area), [area]);
 
-  const matchingProducts = useMemo(() => (calculated ? findMatchingProducts(result.btu) : []), [calculated, result.btu]);
+  const matchingProducts = useMemo(
+    () => (calculated ? findMatchingProducts(result.btus) : []),
+    [calculated, result.btus],
+  );
 
   const handleCalculate = () => {
     setCalculated(true);
@@ -118,78 +103,27 @@ export function AcCalculator() {
             </div>
           </div>
 
-          <div>
-            <label className="flex items-center gap-2 text-sm font-semibold text-brand-navy">
-              <Ruler className="h-4 w-4 text-brand-teal" />
-              Височина на тавана
-            </label>
-            <div className="mt-3 flex items-center gap-4">
-              <input
-                type="range"
-                min={2.0}
-                max={3.8}
-                step={0.05}
-                value={height}
-                onChange={(e) => setHeight(Number(e.target.value))}
-                className="w-full accent-brand-teal"
-              />
-              <div className="flex min-w-[5.5rem] items-center justify-center rounded-full border border-border bg-background px-3 py-2 text-sm font-bold text-brand-navy">
-                {height.toFixed(2)} м
-              </div>
+          <div className="rounded-2xl border border-border/60 bg-brand-sky-soft/40 p-4">
+            <div className="flex items-start gap-2">
+              <Info className="mt-0.5 h-4 w-4 shrink-0 text-brand-teal" />
+              <p className="text-xs text-muted-foreground">
+                <span className="font-semibold text-brand-navy">Забележка:</span> Ориентацията на помещението (юг/запад изисква по-висока мощност) и качеството на изолацията също влияят на препоръката. За прецизен избор е добре да ги вземем предвид заедно с броя прозорци и начина на използване - обадете ни се за индивидуална консултация.
+              </p>
             </div>
-          </div>
-
-          <div>
-            <label className="flex items-center gap-2 text-sm font-semibold text-brand-navy">
-              <Sun className="h-4 w-4 text-brand-teal" />
-              Ориентация
-            </label>
-            <select
-              value={orientation}
-              onChange={(e) => setOrientation(e.target.value)}
-              className="mt-2 w-full rounded-full border border-border bg-background px-4 py-2.5 text-sm font-medium text-brand-navy outline-none focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/30"
-            >
-              {ORIENTATIONS.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="flex items-center gap-2 text-sm font-semibold text-brand-navy">
-              <Thermometer className="h-4 w-4 text-brand-teal" />
-              Изолация
-            </label>
-            <select
-              value={insulation}
-              onChange={(e) => setInsulation(e.target.value)}
-              className="mt-2 w-full rounded-full border border-border bg-background px-4 py-2.5 text-sm font-medium text-brand-navy outline-none focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/30"
-            >
-              {INSULATIONS.map((i) => (
-                <option key={i.value} value={i.value}>
-                  {i.label}
-                </option>
-              ))}
-            </select>
           </div>
         </div>
 
         <div className="flex flex-col justify-between rounded-2xl bg-brand-sky-soft/60 p-6">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Препоръчителна мощност</p>
-            <div className="mt-3 flex items-baseline gap-3">
-              <span className="text-4xl font-extrabold text-brand-navy md:text-5xl">{result.btu.toLocaleString("bg")}</span>
-              <span className="text-lg font-semibold text-brand-navy">BTU</span>
+            <div className="mt-3">
+              <span className="text-3xl font-extrabold text-brand-navy md:text-4xl">{result.label}</span>
             </div>
-            <p className="mt-1 text-lg font-medium text-brand-teal">≈ {result.kw} kW</p>
             <p className="mt-4 text-sm font-medium text-brand-navy">
-              Обем: {area} м² × {height.toFixed(2)} м ={" "}
-              <span className="font-extrabold text-brand-teal">{result.volume.toFixed(2)} м³</span>
+              За стая с площ <span className="font-extrabold text-brand-teal">{area} м²</span>
             </p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Изчислението е ориентировъчно. За точна оферта се свържете с нас. Ще преценим броя прозорци, изложението и начина на използване.
+            <p className="mt-3 text-sm text-muted-foreground">
+              Изчислението е ориентировъчно и служи като начален ориентир. За най-точен избор на модел спрямо вашето конкретно помещение, най-добре ни се обадете - ще Ви препоръчаме кой е точният климатик за Вас.
             </p>
           </div>
 
@@ -206,9 +140,18 @@ export function AcCalculator() {
 
       {calculated && (
         <div id="calculator-results" className="mt-10 border-t border-border/60 pt-10">
-          <div className="flex items-center gap-2">
-            <CheckCircle className="h-5 w-5 text-brand-teal" />
-            <h4 className="text-lg font-extrabold text-brand-navy">Подходящи модели за {result.btu.toLocaleString("bg")} BTU</h4>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-brand-teal" />
+              <h4 className="text-lg font-extrabold text-brand-navy">Подходящи модели за {result.label}</h4>
+            </div>
+            <a
+              href="tel:+359897203732"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:scale-[1.02]"
+            >
+              <Phone className="h-4 w-4" />
+              Обади се
+            </a>
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
             Тези модели покриват препоръчителната мощност за вашето помещение.
