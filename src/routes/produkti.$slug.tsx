@@ -1,8 +1,27 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeft, Check, Phone } from "lucide-react";
 import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
 import { productBySlugQueryOptions, productsQueryOptions } from "@/lib/products-db";
+
+const INSTALL_OPTIONS = [
+  { id: "none", label: "Без монтаж", price: 0, note: "Само климатикът" },
+  {
+    id: "standard",
+    label: "Стандартен монтаж",
+    price: 250,
+    note: "До 3 м медни тръби, стандартна конфигурация",
+  },
+  {
+    id: "extended",
+    label: "Разширен монтаж",
+    price: 350,
+    note: "До 5 м тръби, работа на височина, пробиване през стена",
+  },
+] as const;
+
+type InstallId = (typeof INSTALL_OPTIONS)[number]["id"];
 
 export const Route = createFileRoute("/produkti/$slug")({
   loader: async ({ params, context }) => {
@@ -130,6 +149,11 @@ function buildFaqs(product: Product) {
 
 function ProductDetail() {
   const { product } = Route.useLoaderData() as { product: Product };
+  const [installId, setInstallId] = useState<InstallId>("none");
+  const install = INSTALL_OPTIONS.find((o) => o.id === installId)!;
+  const totalEur = product.priceEur + install.price;
+  const EUR_TO_BGN = 1.95583;
+  const totalBgn = Math.round(totalEur * EUR_TO_BGN * 100) / 100;
   const { data: allProducts } = useSuspenseQuery(productsQueryOptions());
 
   const related = allProducts
@@ -180,20 +204,81 @@ function ProductDetail() {
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">{product.shortDescription}</p>
 
-            <div className="mt-8 flex items-end gap-4 rounded-2xl border border-border/60 bg-white p-5">
-              <div>
-                <div className="text-xs uppercase tracking-wider text-muted-foreground">Цена</div>
-                <div className="text-3xl font-extrabold text-brand-navy">{product.priceEur} €</div>
-                <div className="text-sm text-muted-foreground">
-                  {product.priceBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.
+            <div className="mt-8 rounded-2xl border border-border/60 bg-white p-5">
+              <div className="flex flex-wrap items-end gap-4">
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-muted-foreground">
+                    Цена без монтаж
+                  </div>
+                  <div className="text-3xl font-extrabold text-brand-navy">
+                    {product.priceEur} €
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {product.priceBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.
+                  </div>
                 </div>
+                <a
+                  href="tel:+359897203732"
+                  className="ml-auto inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft"
+                >
+                  <Phone className="h-4 w-4" /> Обади се
+                </a>
               </div>
-              <a
-                href="tel:+359897203732"
-                className="ml-auto inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft"
-              >
-                <Phone className="h-4 w-4" /> Обади се
-              </a>
+
+              <div className="mt-5 border-t border-border/60 pt-5">
+                <div className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
+                  Добави монтаж (по избор)
+                </div>
+                <div className="mt-3 grid gap-2">
+                  {INSTALL_OPTIONS.map((opt) => (
+                    <label
+                      key={opt.id}
+                      className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition-colors ${
+                        installId === opt.id
+                          ? "border-brand-teal bg-brand-sky-soft/60"
+                          : "border-border hover:border-brand-teal/60"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="install"
+                        value={opt.id}
+                        checked={installId === opt.id}
+                        onChange={() => setInstallId(opt.id)}
+                        className="mt-1 h-4 w-4 accent-brand-teal"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="font-semibold text-brand-navy">{opt.label}</span>
+                          <span className="font-bold text-brand-navy">
+                            {opt.price === 0 ? "—" : `+${opt.price} €`}
+                          </span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">{opt.note}</p>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+
+                {install.price > 0 && (
+                  <div className="mt-4 flex items-end justify-between rounded-xl bg-brand-navy px-4 py-3 text-white">
+                    <div className="text-xs uppercase tracking-wider text-white/70">
+                      Общо с монтаж
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-extrabold">{totalEur} €</div>
+                      <div className="text-xs text-white/70">
+                        {totalBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <p className="mt-3 text-xs text-muted-foreground">
+                  Цените за монтаж са ориентировъчни. За точна оферта според вашия обект се
+                  свържете с нас.
+                </p>
+              </div>
             </div>
           </div>
         </div>

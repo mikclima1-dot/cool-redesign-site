@@ -31,6 +31,9 @@ export function ProductCard({ product }: { product: Product }) {
         <p className="line-clamp-2 text-sm text-muted-foreground">{product.shortDescription}</p>
         <div className="mt-auto flex items-end justify-between border-t border-border/60 pt-3">
           <div>
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Цена без монтаж
+            </div>
             <div className="text-xl font-bold text-brand-navy">{product.priceEur} €</div>
             <div className="text-xs text-muted-foreground">
               {product.priceBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.

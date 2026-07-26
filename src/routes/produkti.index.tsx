@@ -13,7 +13,10 @@ const searchSchema = z.object({
   room: z.enum(["small", "medium", "large", "xlarge"]).optional(),
   sort: z.enum(["default", "price-asc", "price-desc", "btu-asc", "btu-desc"]).optional(),
   q: z.string().optional(),
+  page: z.coerce.number().int().min(1).optional(),
 });
+
+const PAGE_SIZE = 24;
 
 export const Route = createFileRoute("/produkti/")({
   validateSearch: searchSchema,
@@ -69,7 +72,7 @@ const SORT_OPTIONS = [
 ] as const;
 
 function ProductsPage() {
-  const { cat, brand, room, sort, q } = Route.useSearch();
+  const { cat, brand, room, sort, q, page } = Route.useSearch();
   const navigate = useNavigate({ from: "/produkti" });
   const [open, setOpen] = useState(false);
   const { data: products } = useSuspenseQuery(productsQueryOptions());
@@ -94,16 +97,28 @@ function ProductsPage() {
   else if (sort === "btu-asc") filtered.sort((a, b) => a.btu - b.btu);
   else if (sort === "btu-desc") filtered.sort((a, b) => b.btu - a.btu);
 
-  const update = (patch: Record<string, string | undefined>) => {
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(Math.max(1, page ?? 1), totalPages);
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  const paged = filtered.slice(pageStart, pageStart + PAGE_SIZE);
+
+  const update = (patch: Record<string, string | number | undefined>) => {
     navigate({
-      search: (prev: Record<string, string | undefined>) => {
-        const next: Record<string, string | undefined> = { ...prev, ...patch };
+      search: (prev: Record<string, string | number | undefined>) => {
+        const next: Record<string, string | number | undefined> = { ...prev, ...patch };
+        // reset page when filters change (not when explicitly setting page)
+        if (!("page" in patch)) delete next.page;
         Object.keys(next).forEach((k) => {
-          if (!next[k]) delete next[k];
+          if (next[k] === undefined || next[k] === "" || next[k] === null) delete next[k];
         });
         return next as never;
       },
     });
+  };
+
+  const goToPage = (n: number) => {
+    update({ page: n === 1 ? undefined : n });
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -178,18 +193,102 @@ function ProductsPage() {
         </div>
 
         <p className="mt-6 text-sm text-muted-foreground">
-          Показани <span className="font-bold text-brand-navy">{filtered.length}</span> от{" "}
-          {products.length} модела
+          Показани{" "}
+          <span className="font-bold text-brand-navy">
+            {filtered.length === 0 ? 0 : pageStart + 1}-{pageStart + paged.length}
+          </span>{" "}
+          от <span className="font-bold text-brand-navy">{filtered.length}</span> модела
+          {filtered.length !== products.length && ` (общо ${products.length})`}
         </p>
 
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((p) => (
+          {paged.map((p) => (
             <ProductCard key={p.slug} product={p} />
           ))}
         </div>
+
+        {totalPages > 1 && (
+          <Pagination current={currentPage} total={totalPages} onChange={goToPage} />
+        )}
       </section>
     </>
   );
+}
+
+function Pagination({
+  current,
+  total,
+  onChange,
+}: {
+  current: number;
+  total: number;
+  onChange: (n: number) => void;
+}) {
+  const pages = getPageList(current, total);
+  return (
+    <nav
+      aria-label="Странициране"
+      className="mt-10 flex flex-wrap items-center justify-center gap-2"
+    >
+      <button
+        type="button"
+        onClick={() => onChange(current - 1)}
+        disabled={current === 1}
+        className="rounded-full border border-border bg-background px-4 py-2 text-sm font-semibold text-brand-navy disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        ← Назад
+      </button>
+      {pages.map((p, i) =>
+        p === "..." ? (
+          <span key={`e${i}`} className="px-2 text-brand-navy/60">
+            …
+          </span>
+        ) : (
+          <button
+            key={p}
+            type="button"
+            onClick={() => onChange(p)}
+            aria-current={p === current ? "page" : undefined}
+            className={`min-w-10 rounded-full border px-3 py-2 text-sm font-semibold transition-colors ${
+              p === current
+                ? "border-brand-navy bg-brand-navy text-white"
+                : "border-border bg-background text-brand-navy hover:border-brand-teal hover:text-brand-teal"
+            }`}
+          >
+            {p}
+          </button>
+        ),
+      )}
+      <button
+        type="button"
+        onClick={() => onChange(current + 1)}
+        disabled={current === total}
+        className="rounded-full border border-border bg-background px-4 py-2 text-sm font-semibold text-brand-navy disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        Напред →
+      </button>
+    </nav>
+  );
+}
+
+function getPageList(current: number, total: number): (number | "...")[] {
+  const pages: (number | "...")[] = [];
+  const push = (n: number | "...") => pages.push(n);
+  const range = (a: number, b: number) => {
+    for (let i = a; i <= b; i++) push(i);
+  };
+  if (total <= 7) {
+    range(1, total);
+    return pages;
+  }
+  push(1);
+  if (current > 4) push("...");
+  const start = Math.max(2, current - 1);
+  const end = Math.min(total - 1, current + 1);
+  range(start, end);
+  if (current < total - 3) push("...");
+  push(total);
+  return pages;
 }
 
 function FilterSelect({
