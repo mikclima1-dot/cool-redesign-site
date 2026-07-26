@@ -25,8 +25,10 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
       <div className="flex flex-1 flex-col gap-3 p-5">
         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-          {product.brand} · {product.btu.toLocaleString("bg-BG")} BTU
+          {product.brand}
+          {product.btu > 0 ? ` · ${product.btu.toLocaleString("bg-BG")} BTU` : ""}
         </p>
+
         <h3 className="text-lg font-bold text-brand-navy">{CATEGORY_TYPE[product.category]} {product.brand} {product.model}</h3>
         <p className="line-clamp-2 text-sm text-muted-foreground">{product.shortDescription}</p>
         <div className="mt-auto flex items-end justify-between border-t border-border/60 pt-3">
