@@ -4,22 +4,80 @@ import { Wrench, ShieldCheck, Truck, ClipboardCheck, Eye, ArrowRight, Check } fr
 export const Route = createFileRoute("/uslugi")({
   head: () => ({
     meta: [
-      { title: "Услуги - Монтаж, профилактика и демонтаж | MIK Clima" },
+      { title: "Услуги - Монтаж, профилактика и демонтаж на климатици | MIK Clima" },
       {
         name: "description",
         content:
-          "Професионален монтаж на климатици от 190 €, годишна профилактика и демонтаж на стара техника. Сертифициран екип и гаранция на работата.",
+          "Професионален монтаж на климатици от 190 €, годишна профилактика от 60 €, демонтаж от 60 €, диагностика 40 € и оглед 25 €. Сертифициран екип и гаранция на работата.",
       },
       {
         name: "keywords",
         content:
-          "монтаж на климатик, профилактика климатик, демонтаж климатик, диагностика климатик, оглед климатик, сервиз климатик, MIK Clima, София",
+          "монтаж на климатик, монтаж климатик цена, профилактика климатик, демонтаж климатик, диагностика климатик, оглед климатик, сервиз климатик, пренасяне климатик, MIK Clima, София",
       },
-      { property: "og:title", content: "Услуги | MIK Clima" },
-      { property: "og:description", content: "Монтаж, поддръжка и демонтаж на климатици." },
+      { property: "og:title", content: "Услуги - Монтаж и Профилактика | MIK Clima" },
+      {
+        property: "og:description",
+        content: "Монтаж, профилактика, демонтаж, диагностика и оглед на климатици.",
+      },
+      { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.mikclima.com/uslugi" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Услуги - MIK Clima" },
+      { name: "twitter:description", content: "Пълно обслужване на климатични системи." },
     ],
     links: [{ rel: "canonical", href: "https://www.mikclima.com/uslugi" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: [
+            {
+              "@type": "Service",
+              name: "Монтаж на климатик",
+              description: "Стандартен монтаж до 3 л.м. тръбен път с вакуумиране и тест.",
+              provider: { "@type": "Organization", name: "MIK Clima" },
+              areaServed: "BG",
+              offers: { "@type": "Offer", price: "190", priceCurrency: "EUR" },
+            },
+            {
+              "@type": "Service",
+              name: "Профилактика на климатик",
+              description: "Годишна поддръжка - химическо почистване, дезинфекция и проверка.",
+              provider: { "@type": "Organization", name: "MIK Clima" },
+              areaServed: "BG",
+              offers: { "@type": "Offer", price: "60", priceCurrency: "EUR" },
+            },
+            {
+              "@type": "Service",
+              name: "Демонтаж и пренасяне на климатик",
+              description: "Бърз и безопасен демонтаж или пренасяне на нов адрес.",
+              provider: { "@type": "Organization", name: "MIK Clima" },
+              areaServed: "BG",
+              offers: { "@type": "Offer", price: "60", priceCurrency: "EUR" },
+            },
+            {
+              "@type": "Service",
+              name: "Посещение и диагностика",
+              description: "Диагностика на място и оценка на неизправността.",
+              provider: { "@type": "Organization", name: "MIK Clima" },
+              areaServed: "BG",
+              offers: { "@type": "Offer", price: "40", priceCurrency: "EUR" },
+            },
+            {
+              "@type": "Service",
+              name: "Оглед",
+              description: "Оглед на място и план за монтаж на нов климатик.",
+              provider: { "@type": "Organization", name: "MIK Clima" },
+              areaServed: "BG",
+              offers: { "@type": "Offer", price: "25", priceCurrency: "EUR" },
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: Services,
 });

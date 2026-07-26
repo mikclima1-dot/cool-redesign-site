@@ -8,18 +8,51 @@ export const Route = createFileRoute("/za-nas")({
       {
         name: "description",
         content:
-          "MIK Clima е екип от специалисти по климатични системи с над 17 години опит, 10 000+ монтажа и 1100+ доволни клиенти в България.",
+          "MIK Clima е екип от специалисти по климатични системи с над 17 години опит, 10 000+ монтажа и 1100+ доволни клиенти в България. Официален партньор на Daikin, Mitsubishi, Toshiba, Fujitsu, Gree и Cooper & Hunter.",
       },
       {
         name: "keywords",
         content:
-          "MIK Clima, за нас, климатични системи, монтаж климатици, профилактика, демонтаж, София, България, Daikin, Mitsubishi, Toshiba",
+          "MIK Clima, за нас, климатични системи, монтаж климатици, профилактика, демонтаж, София, България, Daikin, Mitsubishi Electric, Mitsubishi Heavy, Toshiba, Fujitsu General, Gree, Cooper & Hunter",
       },
       { property: "og:title", content: "За нас - MIK Clima" },
-      { property: "og:description", content: "Историята и екипът зад MIK Clima." },
+      { property: "og:description", content: "17+ години опит, 10 000+ монтажа, 1100+ доволни клиенти." },
+      { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.mikclima.com/za-nas" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "За нас - MIK Clima" },
+      { name: "twitter:description", content: "Историята и екипът зад MIK Clima." },
     ],
     links: [{ rel: "canonical", href: "https://www.mikclima.com/za-nas" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "MIK Clima",
+          url: "https://www.mikclima.com",
+          logo: "https://www.mikclima.com/favicon.svg",
+          description:
+            "Продажба, монтаж, профилактика и демонтаж на климатични системи в България.",
+          foundingDate: "2008",
+          address: { "@type": "PostalAddress", addressCountry: "BG" },
+          contactPoint: [
+            {
+              "@type": "ContactPoint",
+              telephone: "+359897203732",
+              contactType: "customer service",
+              areaServed: "BG",
+              availableLanguage: ["Bulgarian"],
+            },
+          ],
+          sameAs: [
+            "https://www.facebook.com/share/18u6XAvFDn",
+            "https://www.instagram.com/mik_clima/",
+          ],
+        }),
+      },
+    ],
   }),
   component: About,
 });

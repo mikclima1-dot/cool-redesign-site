@@ -101,6 +101,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children:
           "(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-MWXDZDJR');",
       },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "MIK Clima",
+          url: "https://www.mikclima.com",
+          logo: "https://www.mikclima.com/favicon.svg",
+          sameAs: [
+            "https://www.facebook.com/share/18u6XAvFDn",
+            "https://www.instagram.com/mik_clima/",
+          ],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "MIK Clima",
+          url: "https://www.mikclima.com",
+        }),
+      },
     ],
   }),
 

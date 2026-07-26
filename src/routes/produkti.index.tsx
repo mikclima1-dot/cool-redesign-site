@@ -23,22 +23,43 @@ export const Route = createFileRoute("/produkti/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(productsQueryOptions()),
   head: () => ({
     meta: [
-      { title: "Всички климатици - Каталог | MIK Clima" },
+      { title: "Климатици - Каталог с над 400 модела | MIK Clima" },
       {
         name: "description",
         content:
-          "Пълен каталог инверторни, хиперинверторни, подови и колонни климатици. Daikin, Mitsubishi, Toshiba, Fujitsu, Gree, Cooper & Hunter.",
+          "Каталог с инверторни, хиперинверторни, подови, колонни климатици и мултисистеми. Daikin, Mitsubishi Electric, Mitsubishi Heavy, Toshiba, Fujitsu General, Gree, Cooper & Hunter - официална гаранция и професионален монтаж.",
       },
       {
         name: "keywords",
         content:
-          "каталог климатици, инверторен климатик, хиперинверторен климатик, подов климатик, колонен климатик, Daikin, Mitsubishi, Toshiba, Fujitsu, Gree, Cooper & Hunter, цени климатици",
+          "каталог климатици, инверторен климатик, хиперинверторен климатик, подов климатик, колонен климатик, мултисистема климатик, мулти сплит, климатик за апартамент, климатик за къща, Daikin, Mitsubishi Electric, Mitsubishi Heavy, Toshiba, Fujitsu General, Gree, Cooper & Hunter, цени климатици, климатик с монтаж",
       },
-      { property: "og:title", content: "Всички климатици - Каталог | MIK Clima" },
-      { property: "og:description", content: "Стотици модели климатици от водещи производители." },
+      { property: "og:title", content: "Каталог климатици - над 400 модела | MIK Clima" },
+      {
+        property: "og:description",
+        content:
+          "Инверторни, хиперинверторни, подови, колонни климатици и мултисистеми от водещите марки.",
+      },
+      { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.mikclima.com/produkti" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Каталог климатици | MIK Clima" },
+      { name: "twitter:description", content: "Стотици модели от водещи производители." },
     ],
     links: [{ rel: "canonical", href: "https://www.mikclima.com/produkti" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Начало", item: "https://www.mikclima.com/" },
+            { "@type": "ListItem", position: 2, name: "Продукти", item: "https://www.mikclima.com/produkti" },
+          ],
+        }),
+      },
+    ],
   }),
   component: ProductsPage,
   errorComponent: ({ error }) => (
