@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Wind, Zap, Snowflake, Sparkles, ShieldCheck, Wrench, Truck, Phone } from "lucide-react";
+import { ArrowRight, Wind, Zap, Snowflake, Sparkles, Layers, ShieldCheck, Wrench, Truck, Phone } from "lucide-react";
 
 
 import { ProductCard } from "@/components/ProductCard";
