@@ -41,7 +41,9 @@ const categoryCards = [
   { key: "hyper", label: "Хиперинверторни", icon: Zap, href: "/produkti", search: { cat: "hyper" as const } },
   { key: "floor", label: "Подови", icon: Snowflake, href: "/produkti", search: { cat: "floor" as const } },
   { key: "column", label: "Колонни", icon: Sparkles, href: "/produkti", search: { cat: "column" as const } },
+  { key: "multi", label: "Мултисистеми", icon: Layers, href: "/produkti", search: { cat: "multi" as const } },
 ] as const;
+
 
 function Home() {
   const { data: products = [] } = useQuery(productsQueryOptions());
