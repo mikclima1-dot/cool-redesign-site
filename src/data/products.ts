@@ -1,10 +1,11 @@
-export type Category = "inverter" | "hyper" | "floor" | "column";
+export type Category = "inverter" | "hyper" | "floor" | "column" | "multi";
 
 export const CATEGORY_LABEL: Record<Category, string> = {
   inverter: "Инверторни",
   hyper: "Хиперинверторни",
   floor: "Подови",
   column: "Колонни",
+  multi: "Мултисистеми",
 };
 
 export const CATEGORY_TYPE: Record<Category, string> = {
@@ -12,7 +13,9 @@ export const CATEGORY_TYPE: Record<Category, string> = {
   hyper: "Хиперинверторен климатик",
   floor: "Подов климатик",
   column: "Колонен климатик",
+  multi: "Инверторна мултисистема",
 };
+
 
 export interface Product {
   slug: string;
