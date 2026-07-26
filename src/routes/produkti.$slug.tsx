@@ -218,38 +218,31 @@ function ProductDetail() {
                 <div className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
                   Добави монтаж (по избор)
                 </div>
-                <div className="mt-3 grid gap-2">
-                  {INSTALL_OPTIONS.map((opt) => (
-                    <label
-                      key={opt.id}
-                      className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition-colors ${
-                        installId === opt.id
-                          ? "border-brand-teal bg-brand-sky-soft/60"
-                          : "border-border hover:border-brand-teal/60"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="install"
-                        value={opt.id}
-                        checked={installId === opt.id}
-                        onChange={() => setInstallId(opt.id)}
-                        className="mt-1 h-4 w-4 accent-brand-teal"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between gap-3">
-                          <span className="font-semibold text-brand-navy">{opt.label}</span>
-                          <span className="font-bold text-brand-navy">
-                            {opt.price === 0 ? "—" : `+${opt.price} €`}
-                          </span>
-                        </div>
-                        <p className="text-xs text-muted-foreground">{opt.note}</p>
-                      </div>
-                    </label>
-                  ))}
-                </div>
+                <label
+                  className={`mt-3 flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition-colors ${
+                    withInstall
+                      ? "border-brand-teal bg-brand-sky-soft/60"
+                      : "border-border hover:border-brand-teal/60"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={withInstall}
+                    onChange={(e) => setWithInstall(e.target.checked)}
+                    className="mt-1 h-4 w-4 accent-brand-teal"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="font-semibold text-brand-navy">Стандартен монтаж</span>
+                      <span className="font-bold text-brand-navy">+{installPrice} €</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Цената се изчислява спрямо мощността на климатика ({product.btu.toLocaleString("bg-BG")} BTU).
+                    </p>
+                  </div>
+                </label>
 
-                {install.price > 0 && (
+                {withInstall && (
                   <div className="mt-4 flex items-end justify-between rounded-xl bg-brand-navy px-4 py-3 text-white">
                     <div className="text-xs uppercase tracking-wider text-white/70">
                       Общо с монтаж
