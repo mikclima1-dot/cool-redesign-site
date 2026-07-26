@@ -1,11 +1,16 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeft, Check, Phone } from "lucide-react";
-import { CATEGORY_LABEL, CATEGORY_TYPE, products, type Product } from "@/data/products";
+import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
+import { productBySlugQueryOptions, productsQueryOptions } from "@/lib/products-db";
 
 export const Route = createFileRoute("/produkti/$slug")({
-  loader: ({ params }): { product: Product } => {
-    const product = products.find((p) => p.slug === params.slug);
+  loader: async ({ params, context }) => {
+    const product = await context.queryClient.ensureQueryData(
+      productBySlugQueryOptions(params.slug),
+    );
     if (!product) throw notFound();
+    context.queryClient.prefetchQuery(productsQueryOptions());
     return { product };
   },
   head: ({ loaderData, params }) => {
