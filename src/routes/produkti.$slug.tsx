@@ -1,8 +1,27 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeft, Check, Phone } from "lucide-react";
 import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
 import { productBySlugQueryOptions, productsQueryOptions } from "@/lib/products-db";
+
+const INSTALL_OPTIONS = [
+  { id: "none", label: "Без монтаж", price: 0, note: "Само климатикът" },
+  {
+    id: "standard",
+    label: "Стандартен монтаж",
+    price: 250,
+    note: "До 3 м медни тръби, стандартна конфигурация",
+  },
+  {
+    id: "extended",
+    label: "Разширен монтаж",
+    price: 350,
+    note: "До 5 м тръби, работа на височина, пробиване през стена",
+  },
+] as const;
+
+type InstallId = (typeof INSTALL_OPTIONS)[number]["id"];
 
 export const Route = createFileRoute("/produkti/$slug")({
   loader: async ({ params, context }) => {
