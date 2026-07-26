@@ -20,11 +20,13 @@ const EUR_TO_BGN = 1.95583;
 
 export function deriveCategory(title: string): Category {
   const t = title.toLowerCase();
+  if (t.includes("мултисистема")) return "multi";
   if (t.includes("хипер")) return "hyper";
   if (t.includes("подов")) return "floor";
   if (t.includes("колон")) return "column";
   return "inverter";
 }
+
 
 function deriveEnergyClass(title: string, description: string): string {
   const m = (title + " " + description).match(/клас\s*(A\+{0,3})/i);

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Wind, Zap, Snowflake, Sparkles, ShieldCheck, Wrench, Truck, Phone } from "lucide-react";
+import { ArrowRight, Wind, Zap, Snowflake, Sparkles, Layers, ShieldCheck, Wrench, Truck, Phone } from "lucide-react";
 
 
 import { ProductCard } from "@/components/ProductCard";
@@ -41,7 +41,9 @@ const categoryCards = [
   { key: "hyper", label: "Хиперинверторни", icon: Zap, href: "/produkti", search: { cat: "hyper" as const } },
   { key: "floor", label: "Подови", icon: Snowflake, href: "/produkti", search: { cat: "floor" as const } },
   { key: "column", label: "Колонни", icon: Sparkles, href: "/produkti", search: { cat: "column" as const } },
+  { key: "multi", label: "Мултисистеми", icon: Layers, href: "/produkti", search: { cat: "multi" as const } },
 ] as const;
+
 
 function Home() {
   const { data: products = [] } = useQuery(productsQueryOptions());
