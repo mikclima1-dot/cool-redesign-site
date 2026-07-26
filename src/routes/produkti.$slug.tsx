@@ -236,9 +236,6 @@ function ProductDetail() {
                       <span className="font-semibold text-brand-navy">Стандартен монтаж</span>
                       <span className="font-bold text-brand-navy">+{installPrice} €</span>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Цената се изчислява спрямо мощността на климатика ({product.btu.toLocaleString("bg-BG")} BTU).
-                    </p>
                   </div>
                 </label>
 
@@ -255,11 +252,6 @@ function ProductDetail() {
                     </div>
                   </div>
                 )}
-
-                <p className="mt-3 text-xs text-muted-foreground">
-                  Цените за монтаж са ориентировъчни. За точна оферта според вашия обект се
-                  свържете с нас.
-                </p>
               </div>
             </div>
           </div>
