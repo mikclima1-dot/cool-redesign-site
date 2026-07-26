@@ -110,8 +110,17 @@ function ProductsPage() {
         </div>
       </section>
 
-
       <section className="mx-auto max-w-7xl px-4 py-12 md:px-8">
+        <label className="relative mb-4 block">
+          <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-navy/60" />
+          <input
+            type="search"
+            value={q ?? ""}
+            onChange={(e) => update({ q: e.target.value || undefined })}
+            placeholder="Търсене по марка или модел (напр. Daikin, Gree, INFINITY)"
+            className="w-full rounded-full border border-border bg-background py-3 pl-11 pr-4 text-sm font-medium text-brand-navy shadow-sm outline-none transition-colors focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/30"
+          />
+        </label>
         <div className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-card">
           <button
             type="button"
