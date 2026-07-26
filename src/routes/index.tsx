@@ -1,9 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Wind, Zap, Snowflake, Sparkles, ShieldCheck, Wrench, Truck, Phone } from "lucide-react";
 
 
 import { ProductCard } from "@/components/ProductCard";
-import { products, categoryCount } from "@/data/products";
+import { categoryCount } from "@/data/products";
+import { productsQueryOptions } from "@/lib/products-db";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,7 +44,9 @@ const categoryCards = [
 ] as const;
 
 function Home() {
+  const { data: products = [] } = useQuery(productsQueryOptions());
   const featured = products.slice(0, 8);
+
 
   return (
     <>
