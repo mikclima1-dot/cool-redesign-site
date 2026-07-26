@@ -54,7 +54,9 @@ const CATEGORIES: { value: Category; label: string }[] = [
   { value: "hyper", label: CATEGORY_LABEL.hyper },
   { value: "floor", label: CATEGORY_LABEL.floor },
   { value: "column", label: CATEGORY_LABEL.column },
+  { value: "multi", label: CATEGORY_LABEL.multi },
 ];
+
 
 const ROOM_SIZES = [
   { value: "small", label: "До 20 м² (9 000 BTU)", match: (btu: number) => btu <= 9000 },
