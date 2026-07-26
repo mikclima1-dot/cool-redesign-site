@@ -55,8 +55,9 @@ export const Route = createFileRoute("/produkti/$slug")({
         url,
       },
       additionalProperty: [
-        { "@type": "PropertyValue", name: "BTU", value: String(product.btu) },
+        ...(hasBtu ? [{ "@type": "PropertyValue", name: "BTU", value: String(product.btu) }] : []),
         { "@type": "PropertyValue", name: "Енергиен клас", value: product.energyClass },
+
         { "@type": "PropertyValue", name: "Категория", value: CATEGORY_LABEL[product.category] },
         { "@type": "PropertyValue", name: "Модел", value: product.model },
       ],
