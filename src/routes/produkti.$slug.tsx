@@ -119,11 +119,18 @@ export const Route = createFileRoute("/produkti/$slug")({
 
 function buildFaqs(product: Product) {
   const cat = CATEGORY_LABEL[product.category].toLowerCase();
+  const hasBtu = product.btu > 0;
+  const areaFaq = hasBtu
+    ? {
+        q: `Каква площ обслужва ${product.brand} ${product.model}?`,
+        a: `Модел ${product.model} е с мощност ${product.btu.toLocaleString("bg-BG")} BTU и е подходящ за помещения с площ около ${Math.round(product.btu / 550)}-${Math.round(product.btu / 400)} м², в зависимост от изолацията и височината на тавана.`,
+      }
+    : {
+        q: `За какви помещения е подходящ ${product.brand} ${product.model}?`,
+        a: `${product.brand} ${product.model} е ${cat} и мощността зависи от конкретната конфигурация с вътрешните тела. За точна преценка на подходящите помещения се свържете с нас на +359 897 203 732.`,
+      };
   return [
-    {
-      q: `Каква площ обслужва ${product.brand} ${product.model}?`,
-      a: `Модел ${product.model} е с мощност ${product.btu.toLocaleString("bg-BG")} BTU и е подходящ за помещения с площ около ${Math.round(product.btu / 550)}-${Math.round(product.btu / 400)} м², в зависимост от изолацията и височината на тавана.`,
-    },
+    areaFaq,
     {
       q: `Какъв е енергийният клас на ${product.model}?`,
       a: `${product.brand} ${product.model} е с енергиен клас ${product.energyClass}, което гарантира ниска консумация на електроенергия и по-ниски сметки при ежедневна употреба.`,
@@ -142,6 +149,7 @@ function buildFaqs(product: Product) {
     },
   ];
 }
+
 
 function ProductDetail() {
   const { product } = Route.useLoaderData() as { product: Product };
