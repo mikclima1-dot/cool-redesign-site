@@ -23,7 +23,7 @@ function recommendBtu(area: number): { btus: number[]; label: string } {
   return { btus: [24000], label: "24 000 BTU" };
 }
 
-function findMatchingProducts(btus: number[], limit = 4) {
+function findMatchingProducts(products: import("@/data/products").Product[], btus: number[], limit = 4) {
   const matches = products.filter((p) => btus.includes(p.btu));
   if (matches.length >= limit) return matches.slice(0, limit);
 
@@ -38,13 +38,15 @@ function findMatchingProducts(btus: number[], limit = 4) {
 export function AcCalculator() {
   const [area, setArea] = useState<number>(25);
   const [calculated, setCalculated] = useState(false);
+  const { data: products = [] } = useQuery(productsQueryOptions());
 
   const result = useMemo(() => recommendBtu(area), [area]);
 
   const matchingProducts = useMemo(
-    () => (calculated ? findMatchingProducts(result.btus) : []),
-    [calculated, result.btus],
+    () => (calculated ? findMatchingProducts(products, result.btus) : []),
+    [calculated, products, result.btus],
   );
+
 
   const handleCalculate = () => {
     setCalculated(true);
