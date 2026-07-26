@@ -273,7 +273,7 @@ function ProductDetail() {
             </h2>
             <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {related.map((p) => (
-                <RelatedCard key={p.slug} slug={p.slug} />
+                <RelatedCard key={p.slug} product={p} />
               ))}
             </div>
           </div>
@@ -283,8 +283,7 @@ function ProductDetail() {
   );
 }
 
-function RelatedCard({ slug }: { slug: string }) {
-  const p = products.find((x) => x.slug === slug)!;
+function RelatedCard({ product: p }: { product: Product }) {
   return (
     <Link
       to="/produkti/$slug"
