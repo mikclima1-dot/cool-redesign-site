@@ -1,9 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronDown, Filter, Search } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
-import { CATEGORY_LABEL, products, type Category } from "@/data/products";
+import { CATEGORY_LABEL, type Category } from "@/data/products";
+import { productsQueryOptions } from "@/lib/products-db";
 
 const searchSchema = z.object({
   cat: z.enum(["inverter", "hyper", "floor", "column"]).optional(),
@@ -15,6 +17,7 @@ const searchSchema = z.object({
 
 export const Route = createFileRoute("/produkti/")({
   validateSearch: searchSchema,
+  loader: ({ context }) => context.queryClient.ensureQueryData(productsQueryOptions()),
   head: () => ({
     meta: [
       { title: "Всички климатици - Каталог | MIK Clima" },
@@ -29,12 +32,18 @@ export const Route = createFileRoute("/produkti/")({
           "каталог климатици, инверторен климатик, хиперинверторен климатик, подов климатик, колонен климатик, Daikin, Mitsubishi, Toshiba, Fujitsu, Gree, Cooper & Hunter, цени климатици",
       },
       { property: "og:title", content: "Всички климатици - Каталог | MIK Clima" },
-      { property: "og:description", content: "38 модела климатици от водещи производители." },
+      { property: "og:description", content: "Стотици модели климатици от водещи производители." },
       { property: "og:url", content: "https://www.mikclima.com/produkti" },
     ],
     links: [{ rel: "canonical", href: "https://www.mikclima.com/produkti" }],
   }),
   component: ProductsPage,
+  errorComponent: ({ error }) => (
+    <div className="mx-auto max-w-3xl px-4 py-24 text-center">
+      <h1 className="text-2xl font-bold text-brand-navy">Грешка при зареждане на каталога</h1>
+      <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
+    </div>
+  ),
 });
 
 const CATEGORIES: { value: Category; label: string }[] = [
@@ -63,6 +72,7 @@ function ProductsPage() {
   const { cat, brand, room, sort, q } = Route.useSearch();
   const navigate = useNavigate({ from: "/produkti" });
   const [open, setOpen] = useState(false);
+  const { data: products } = useSuspenseQuery(productsQueryOptions());
 
   const brandOptions = Array.from(new Set(products.map((p) => p.brand))).sort();
 
