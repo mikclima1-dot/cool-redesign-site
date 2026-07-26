@@ -60,7 +60,7 @@ const SORT_OPTIONS = [
 ] as const;
 
 function ProductsPage() {
-  const { cat, brand, room, sort } = Route.useSearch();
+  const { cat, brand, room, sort, q } = Route.useSearch();
   const navigate = useNavigate({ from: "/produkti" });
   const [open, setOpen] = useState(false);
 
@@ -72,6 +72,12 @@ function ProductsPage() {
   if (room) {
     const rs = ROOM_SIZES.find((r) => r.value === room);
     if (rs) filtered = filtered.filter((p) => rs.match(p.btu));
+  }
+  if (q && q.trim()) {
+    const needle = q.trim().toLowerCase();
+    filtered = filtered.filter((p) =>
+      `${p.brand} ${p.model} ${p.fullName}`.toLowerCase().includes(needle),
+    );
   }
   if (sort === "price-asc") filtered.sort((a, b) => a.priceEur - b.priceEur);
   else if (sort === "price-desc") filtered.sort((a, b) => b.priceEur - a.priceEur);
