@@ -8,7 +8,7 @@ import { CATEGORY_LABEL, type Category } from "@/data/products";
 import { productsQueryOptions } from "@/lib/products-db";
 
 const searchSchema = z.object({
-  cat: z.enum(["inverter", "hyper", "floor", "column"]).optional(),
+  cat: z.enum(["inverter", "hyper", "floor", "column", "multi"]).optional(),
   brand: z.string().optional(),
   room: z.enum(["small", "medium", "large", "xlarge"]).optional(),
   sort: z.enum(["default", "price-asc", "price-desc", "btu-asc", "btu-desc"]).optional(),
