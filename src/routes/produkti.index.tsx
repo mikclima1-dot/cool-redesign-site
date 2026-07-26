@@ -13,7 +13,10 @@ const searchSchema = z.object({
   room: z.enum(["small", "medium", "large", "xlarge"]).optional(),
   sort: z.enum(["default", "price-asc", "price-desc", "btu-asc", "btu-desc"]).optional(),
   q: z.string().optional(),
+  page: z.coerce.number().int().min(1).optional(),
 });
+
+const PAGE_SIZE = 24;
 
 export const Route = createFileRoute("/produkti/")({
   validateSearch: searchSchema,
