@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
-import { ChevronDown, Filter } from "lucide-react";
+import { ChevronDown, Filter, Search } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
 import { CATEGORY_LABEL, products, type Category } from "@/data/products";
 
@@ -10,6 +10,7 @@ const searchSchema = z.object({
   brand: z.string().optional(),
   room: z.enum(["small", "medium", "large", "xlarge"]).optional(),
   sort: z.enum(["default", "price-asc", "price-desc", "btu-asc", "btu-desc"]).optional(),
+  q: z.string().optional(),
 });
 
 export const Route = createFileRoute("/produkti/")({
@@ -59,7 +60,7 @@ const SORT_OPTIONS = [
 ] as const;
 
 function ProductsPage() {
-  const { cat, brand, room, sort } = Route.useSearch();
+  const { cat, brand, room, sort, q } = Route.useSearch();
   const navigate = useNavigate({ from: "/produkti" });
   const [open, setOpen] = useState(false);
 
@@ -71,6 +72,12 @@ function ProductsPage() {
   if (room) {
     const rs = ROOM_SIZES.find((r) => r.value === room);
     if (rs) filtered = filtered.filter((p) => rs.match(p.btu));
+  }
+  if (q && q.trim()) {
+    const needle = q.trim().toLowerCase();
+    filtered = filtered.filter((p) =>
+      `${p.brand} ${p.model} ${p.fullName}`.toLowerCase().includes(needle),
+    );
   }
   if (sort === "price-asc") filtered.sort((a, b) => a.priceEur - b.priceEur);
   else if (sort === "price-desc") filtered.sort((a, b) => b.priceEur - a.priceEur);
@@ -103,8 +110,17 @@ function ProductsPage() {
         </div>
       </section>
 
-
       <section className="mx-auto max-w-7xl px-4 py-12 md:px-8">
+        <label className="relative mb-4 block">
+          <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-navy/60" />
+          <input
+            type="search"
+            value={q ?? ""}
+            onChange={(e) => update({ q: e.target.value || undefined })}
+            placeholder="Търсене по марка или модел (напр. Daikin, Gree, INFINITY)"
+            className="w-full rounded-full border border-border bg-background py-3 pl-11 pr-4 text-sm font-medium text-brand-navy shadow-sm outline-none transition-colors focus:border-brand-teal focus:ring-2 focus:ring-brand-teal/30"
+          />
+        </label>
         <div className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-card">
           <button
             type="button"
