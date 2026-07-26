@@ -130,11 +130,12 @@ function buildFaqs(product: Product) {
 
 function ProductDetail() {
   const { product } = Route.useLoaderData() as { product: Product };
+  const { data: allProducts } = useSuspenseQuery(productsQueryOptions());
 
-
-  const related = products
+  const related = allProducts
     .filter((p) => p.category === product.category && p.slug !== product.slug)
     .slice(0, 4);
+
 
   return (
     <>
