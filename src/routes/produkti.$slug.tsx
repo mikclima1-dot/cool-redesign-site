@@ -196,9 +196,12 @@ function ProductDetail() {
               <span className="rounded-full bg-brand-teal px-3 py-1 text-xs font-bold text-white">
                 Клас {product.energyClass}
               </span>
-              <span className="rounded-full border border-brand-navy/20 px-3 py-1 text-xs font-semibold text-brand-navy">
-                {product.btu.toLocaleString("bg-BG")} BTU
-              </span>
+              {product.btu > 0 && (
+                <span className="rounded-full border border-brand-navy/20 px-3 py-1 text-xs font-semibold text-brand-navy">
+                  {product.btu.toLocaleString("bg-BG")} BTU
+                </span>
+              )}
+
             </div>
             <p className="mt-4 text-sm font-semibold uppercase tracking-widest text-brand-teal">
               {product.brand}
