@@ -308,10 +308,15 @@ function ProductDetail() {
                 <dd className="font-medium text-brand-navy">{product.brand}</dd>
                 <dt className="text-muted-foreground">Модел</dt>
                 <dd className="font-medium text-brand-navy">{product.model}</dd>
-                <dt className="text-muted-foreground">Мощност</dt>
-                <dd className="font-medium text-brand-navy">
-                  {product.btu.toLocaleString("bg-BG")} BTU
-                </dd>
+                {product.btu > 0 && (
+                  <>
+                    <dt className="text-muted-foreground">Мощност</dt>
+                    <dd className="font-medium text-brand-navy">
+                      {product.btu.toLocaleString("bg-BG")} BTU
+                    </dd>
+                  </>
+                )}
+
                 <dt className="text-muted-foreground">Енергиен клас</dt>
                 <dd className="font-medium text-brand-navy">{product.energyClass}</dd>
                 <dt className="text-muted-foreground">Категория</dt>
