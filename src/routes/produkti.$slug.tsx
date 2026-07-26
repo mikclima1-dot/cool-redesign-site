@@ -6,11 +6,13 @@ import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
 import { productBySlugQueryOptions, productsQueryOptions } from "@/lib/products-db";
 
 function installPriceForBtu(btu: number): number {
+  if (!btu || btu <= 0) return 230;
   if (btu >= 7000 && btu <= 12000) return 190;
   if (btu > 12000 && btu <= 24000) return 210;
   if (btu > 24000) return 230;
   return 190;
 }
+
 
 export const Route = createFileRoute("/produkti/$slug")({
   loader: async ({ params, context }) => {
