@@ -253,10 +253,6 @@ function ProductDetail() {
                   </div>
                 )}
 
-                <p className="mt-3 text-xs text-muted-foreground">
-                  Цените за монтаж са ориентировъчни. За точна оферта според вашия обект се
-                  свържете с нас.
-                </p>
               </div>
             </div>
           </div>
