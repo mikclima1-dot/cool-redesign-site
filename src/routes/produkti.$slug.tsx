@@ -6,11 +6,13 @@ import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
 import { productBySlugQueryOptions, productsQueryOptions } from "@/lib/products-db";
 
 function installPriceForBtu(btu: number): number {
+  if (!btu || btu <= 0) return 230;
   if (btu >= 7000 && btu <= 12000) return 190;
   if (btu > 12000 && btu <= 24000) return 210;
   if (btu > 24000) return 230;
   return 190;
 }
+
 
 export const Route = createFileRoute("/produkti/$slug")({
   loader: async ({ params, context }) => {
@@ -31,8 +33,11 @@ export const Route = createFileRoute("/produkti/$slug")({
       };
     }
     const { product } = loaderData;
-    const title = `${CATEGORY_TYPE[product.category]} ${product.brand} ${product.model} - ${product.btu.toLocaleString("bg-BG")} BTU, клас ${product.energyClass} | MIK Clima`;
-    const description = `${product.brand} ${product.model} - ${CATEGORY_LABEL[product.category]} климатик ${product.btu.toLocaleString("bg-BG")} BTU, енергиен клас ${product.energyClass}. ${product.shortDescription} Цена ${product.priceEur} € / ${product.priceBgn.toFixed(2)} лв. Доставка и монтаж.`;
+    const hasBtu = product.btu > 0;
+    const btuSuffix = hasBtu ? `${product.btu.toLocaleString("bg-BG")} BTU, ` : "";
+    const title = `${CATEGORY_TYPE[product.category]} ${product.brand} ${product.model} - ${btuSuffix}клас ${product.energyClass} | MIK Clima`;
+    const description = `${product.brand} ${product.model} - ${CATEGORY_LABEL[product.category]} климатик${hasBtu ? ` ${product.btu.toLocaleString("bg-BG")} BTU,` : ","} енергиен клас ${product.energyClass}. ${product.shortDescription} Цена ${product.priceEur} € / ${product.priceBgn.toFixed(2)} лв. Доставка и монтаж.`;
+
     const url = `https://www.mikclima.com/produkti/${params.slug}`;
     const productLd = {
       "@context": "https://schema.org",
@@ -50,8 +55,9 @@ export const Route = createFileRoute("/produkti/$slug")({
         url,
       },
       additionalProperty: [
-        { "@type": "PropertyValue", name: "BTU", value: String(product.btu) },
+        ...(hasBtu ? [{ "@type": "PropertyValue", name: "BTU", value: String(product.btu) }] : []),
         { "@type": "PropertyValue", name: "Енергиен клас", value: product.energyClass },
+
         { "@type": "PropertyValue", name: "Категория", value: CATEGORY_LABEL[product.category] },
         { "@type": "PropertyValue", name: "Модел", value: product.model },
       ],
@@ -81,8 +87,9 @@ export const Route = createFileRoute("/produkti/$slug")({
         { name: "description", content: description },
         {
           name: "keywords",
-          content: `${product.brand}, ${product.model}, ${CATEGORY_TYPE[product.category].toLowerCase()}, ${CATEGORY_LABEL[product.category].toLowerCase()} климатик, ${product.btu.toLocaleString("bg-BG")} BTU, енергиен клас ${product.energyClass}, климатик цена, монтаж климатик, MIK Clima`,
+          content: `${product.brand}, ${product.model}, ${CATEGORY_TYPE[product.category].toLowerCase()}, ${CATEGORY_LABEL[product.category].toLowerCase()} климатик, ${hasBtu ? `${product.btu.toLocaleString("bg-BG")} BTU, ` : ""}енергиен клас ${product.energyClass}, климатик цена, монтаж климатик, MIK Clima`,
         },
+
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:image", content: product.image },
@@ -112,11 +119,18 @@ export const Route = createFileRoute("/produkti/$slug")({
 
 function buildFaqs(product: Product) {
   const cat = CATEGORY_LABEL[product.category].toLowerCase();
+  const hasBtu = product.btu > 0;
+  const areaFaq = hasBtu
+    ? {
+        q: `Каква площ обслужва ${product.brand} ${product.model}?`,
+        a: `Модел ${product.model} е с мощност ${product.btu.toLocaleString("bg-BG")} BTU и е подходящ за помещения с площ около ${Math.round(product.btu / 550)}-${Math.round(product.btu / 400)} м², в зависимост от изолацията и височината на тавана.`,
+      }
+    : {
+        q: `За какви помещения е подходящ ${product.brand} ${product.model}?`,
+        a: `${product.brand} ${product.model} е ${cat} и мощността зависи от конкретната конфигурация с вътрешните тела. За точна преценка на подходящите помещения се свържете с нас на +359 897 203 732.`,
+      };
   return [
-    {
-      q: `Каква площ обслужва ${product.brand} ${product.model}?`,
-      a: `Модел ${product.model} е с мощност ${product.btu.toLocaleString("bg-BG")} BTU и е подходящ за помещения с площ около ${Math.round(product.btu / 550)}-${Math.round(product.btu / 400)} м², в зависимост от изолацията и височината на тавана.`,
-    },
+    areaFaq,
     {
       q: `Какъв е енергийният клас на ${product.model}?`,
       a: `${product.brand} ${product.model} е с енергиен клас ${product.energyClass}, което гарантира ниска консумация на електроенергия и по-ниски сметки при ежедневна употреба.`,
@@ -135,6 +149,7 @@ function buildFaqs(product: Product) {
     },
   ];
 }
+
 
 function ProductDetail() {
   const { product } = Route.useLoaderData() as { product: Product };
@@ -181,9 +196,12 @@ function ProductDetail() {
               <span className="rounded-full bg-brand-teal px-3 py-1 text-xs font-bold text-white">
                 Клас {product.energyClass}
               </span>
-              <span className="rounded-full border border-brand-navy/20 px-3 py-1 text-xs font-semibold text-brand-navy">
-                {product.btu.toLocaleString("bg-BG")} BTU
-              </span>
+              {product.btu > 0 && (
+                <span className="rounded-full border border-brand-navy/20 px-3 py-1 text-xs font-semibold text-brand-navy">
+                  {product.btu.toLocaleString("bg-BG")} BTU
+                </span>
+              )}
+
             </div>
             <p className="mt-4 text-sm font-semibold uppercase tracking-widest text-brand-teal">
               {product.brand}
@@ -290,10 +308,15 @@ function ProductDetail() {
                 <dd className="font-medium text-brand-navy">{product.brand}</dd>
                 <dt className="text-muted-foreground">Модел</dt>
                 <dd className="font-medium text-brand-navy">{product.model}</dd>
-                <dt className="text-muted-foreground">Мощност</dt>
-                <dd className="font-medium text-brand-navy">
-                  {product.btu.toLocaleString("bg-BG")} BTU
-                </dd>
+                {product.btu > 0 && (
+                  <>
+                    <dt className="text-muted-foreground">Мощност</dt>
+                    <dd className="font-medium text-brand-navy">
+                      {product.btu.toLocaleString("bg-BG")} BTU
+                    </dd>
+                  </>
+                )}
+
                 <dt className="text-muted-foreground">Енергиен клас</dt>
                 <dd className="font-medium text-brand-navy">{product.energyClass}</dd>
                 <dt className="text-muted-foreground">Категория</dt>
