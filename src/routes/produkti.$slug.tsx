@@ -87,8 +87,9 @@ export const Route = createFileRoute("/produkti/$slug")({
         { name: "description", content: description },
         {
           name: "keywords",
-          content: `${product.brand}, ${product.model}, ${CATEGORY_TYPE[product.category].toLowerCase()}, ${CATEGORY_LABEL[product.category].toLowerCase()} климатик, ${product.btu.toLocaleString("bg-BG")} BTU, енергиен клас ${product.energyClass}, климатик цена, монтаж климатик, MIK Clima`,
+          content: `${product.brand}, ${product.model}, ${CATEGORY_TYPE[product.category].toLowerCase()}, ${CATEGORY_LABEL[product.category].toLowerCase()} климатик, ${hasBtu ? `${product.btu.toLocaleString("bg-BG")} BTU, ` : ""}енергиен клас ${product.energyClass}, климатик цена, монтаж климатик, MIK Clima`,
         },
+
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:image", content: product.image },
