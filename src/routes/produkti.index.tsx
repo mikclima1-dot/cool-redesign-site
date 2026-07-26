@@ -10,6 +10,7 @@ const searchSchema = z.object({
   brand: z.string().optional(),
   room: z.enum(["small", "medium", "large", "xlarge"]).optional(),
   sort: z.enum(["default", "price-asc", "price-desc", "btu-asc", "btu-desc"]).optional(),
+  q: z.string().optional(),
 });
 
 export const Route = createFileRoute("/produkti/")({
