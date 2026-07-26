@@ -4,8 +4,8 @@ import { ArrowRight, Wind, Zap, Snowflake, Sparkles, Layers, ShieldCheck, Wrench
 
 
 import { ProductCard } from "@/components/ProductCard";
-import { categoryCount } from "@/data/products";
 import { productsQueryOptions } from "@/lib/products-db";
+import type { Category } from "@/data/products";
 
 
 export const Route = createFileRoute("/")({
@@ -48,6 +48,10 @@ const categoryCards = [
 function Home() {
   const { data: products = [] } = useQuery(productsQueryOptions());
   const featured = products.slice(0, 8);
+  const counts = products.reduce<Record<string, number>>((acc, p) => {
+    acc[p.category] = (acc[p.category] ?? 0) + 1;
+    return acc;
+  }, {});
 
 
   return (
@@ -154,7 +158,7 @@ function Home() {
               <div className="min-w-0">
                 <div className="text-sm font-bold text-brand-navy">{label}</div>
                 <div className="text-xs text-muted-foreground">
-                  {categoryCount(key as never)} модела
+                  {counts[key as Category] ?? 0} модела
                 </div>
               </div>
             </Link>
