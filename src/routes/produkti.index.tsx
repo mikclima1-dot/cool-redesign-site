@@ -72,7 +72,7 @@ const SORT_OPTIONS = [
 ] as const;
 
 function ProductsPage() {
-  const { cat, brand, room, sort, q } = Route.useSearch();
+  const { cat, brand, room, sort, q, page } = Route.useSearch();
   const navigate = useNavigate({ from: "/produkti" });
   const [open, setOpen] = useState(false);
   const { data: products } = useSuspenseQuery(productsQueryOptions());
@@ -97,16 +97,28 @@ function ProductsPage() {
   else if (sort === "btu-asc") filtered.sort((a, b) => a.btu - b.btu);
   else if (sort === "btu-desc") filtered.sort((a, b) => b.btu - a.btu);
 
-  const update = (patch: Record<string, string | undefined>) => {
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(Math.max(1, page ?? 1), totalPages);
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  const paged = filtered.slice(pageStart, pageStart + PAGE_SIZE);
+
+  const update = (patch: Record<string, string | number | undefined>) => {
     navigate({
-      search: (prev: Record<string, string | undefined>) => {
-        const next: Record<string, string | undefined> = { ...prev, ...patch };
+      search: (prev: Record<string, string | number | undefined>) => {
+        const next: Record<string, string | number | undefined> = { ...prev, ...patch };
+        // reset page when filters change (not when explicitly setting page)
+        if (!("page" in patch)) delete next.page;
         Object.keys(next).forEach((k) => {
-          if (!next[k]) delete next[k];
+          if (next[k] === undefined || next[k] === "" || next[k] === null) delete next[k];
         });
         return next as never;
       },
     });
+  };
+
+  const goToPage = (n: number) => {
+    update({ page: n === 1 ? undefined : n });
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
