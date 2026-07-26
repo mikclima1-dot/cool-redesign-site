@@ -149,6 +149,11 @@ function buildFaqs(product: Product) {
 
 function ProductDetail() {
   const { product } = Route.useLoaderData() as { product: Product };
+  const [installId, setInstallId] = useState<InstallId>("none");
+  const install = INSTALL_OPTIONS.find((o) => o.id === installId)!;
+  const totalEur = product.priceEur + install.price;
+  const EUR_TO_BGN = 1.95583;
+  const totalBgn = Math.round(totalEur * EUR_TO_BGN * 100) / 100;
   const { data: allProducts } = useSuspenseQuery(productsQueryOptions());
 
   const related = allProducts
