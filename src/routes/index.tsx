@@ -3,9 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Wind, Zap, Snowflake, Sparkles, Layers, ShieldCheck, Wrench, Truck, Phone } from "lucide-react";
 
 
-import { ProductCard } from "@/components/ProductCard";
-import { categoryCount } from "@/data/products";
 import { productsQueryOptions } from "@/lib/products-db";
+import type { Category } from "@/data/products";
 
 
 export const Route = createFileRoute("/")({
