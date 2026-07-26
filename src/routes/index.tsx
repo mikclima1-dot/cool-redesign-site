@@ -44,7 +44,9 @@ const categoryCards = [
 ] as const;
 
 function Home() {
+  const { data: products = [] } = useQuery(productsQueryOptions());
   const featured = products.slice(0, 8);
+
 
   return (
     <>
