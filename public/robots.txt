@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# Block internal or non-indexable helpers
+Disallow: /lovable/
+
 Sitemap: https://www.mikclima.com/sitemap.xml
