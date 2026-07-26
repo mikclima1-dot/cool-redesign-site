@@ -4,22 +4,55 @@ import { Mail, Phone, Clock, MapPin } from "lucide-react";
 export const Route = createFileRoute("/kontakti")({
   head: () => ({
     meta: [
-      { title: "Контакти - MIK Clima | Свържете се с нас" },
+      { title: "Контакти - MIK Clima | Телефон, имейл и оферта" },
       {
         name: "description",
         content:
-          "Свържете се с MIK Clima за оферта или сервиз. Работно време понеделник–петък 09:00–18:00.",
+          "Свържете се с MIK Clima за оферта, монтаж или сервиз на климатик. Телефони +359 897 203 732 и +359 877 918 761. Работно време понеделник-петък 09:00-18:00.",
       },
       {
         name: "keywords",
         content:
-          "контакти MIK Clima, телефон MIK Clima, оферта климатик, сервиз климатик, монтаж климатик, София, България, +359 897 203 732",
+          "контакти MIK Clima, телефон MIK Clima, оферта климатик, сервиз климатик, монтаж климатик, София, България, +359 897 203 732, +359 877 918 761",
       },
       { property: "og:title", content: "Контакти - MIK Clima" },
-      { property: "og:description", content: "Телефон, имейл и работно време." },
+      { property: "og:description", content: "Телефон, имейл и работно време на MIK Clima." },
+      { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.mikclima.com/kontakti" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Контакти - MIK Clima" },
+      { name: "twitter:description", content: "Свържете се с нас за оферта или сервиз." },
     ],
     links: [{ rel: "canonical", href: "https://www.mikclima.com/kontakti" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "MIK Clima",
+          image: "https://www.mikclima.com/favicon.svg",
+          url: "https://www.mikclima.com",
+          telephone: ["+359897203732", "+359877918761"],
+          email: "info@mikclima.com",
+          address: { "@type": "PostalAddress", addressCountry: "BG" },
+          areaServed: "BG",
+          priceRange: "€€",
+          openingHoursSpecification: [
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              opens: "09:00",
+              closes: "18:00",
+            },
+          ],
+          sameAs: [
+            "https://www.facebook.com/share/18u6XAvFDn",
+            "https://www.instagram.com/mik_clima/",
+          ],
+        }),
+      },
+    ],
   }),
   component: Contact,
 });
