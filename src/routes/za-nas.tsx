@@ -8,7 +8,7 @@ export const Route = createFileRoute("/za-nas")({
       {
         name: "description",
         content:
-          "MIK Clima е екип от специалисти по климатични системи с над 17 години опит, 10 000+ монтажа и 1100+ доволни клиенти в България. Официален партньор на Daikin, Mitsubishi, Toshiba, Fujitsu, Gree и Cooper & Hunter.",
+          "MIK Clima е екип от специалисти по климатични системи с над 17 години опит, 10 000+ монтажа и хиляди доволни клиенти. Официален партньор на Daikin, Mitsubishi, Toshiba, Fujitsu, Gree и Cooper & Hunter.",
       },
       {
         name: "keywords",
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/za-nas")({
           "MIK Clima, за нас, климатични системи, монтаж климатици, профилактика, демонтаж, София, България, Daikin, Mitsubishi Electric, Mitsubishi Heavy, Toshiba, Fujitsu General, Gree, Cooper & Hunter",
       },
       { property: "og:title", content: "За нас - MIK Clima" },
-      { property: "og:description", content: "17+ години опит, 10 000+ монтажа, 1100+ доволни клиенти." },
+      { property: "og:description", content: "17+ години опит, 10 000+ монтажа, хиляди доволни клиенти." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.mikclima.com/za-nas" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -90,7 +90,7 @@ function About() {
           {[
             { icon: Award, n: "17+", l: "години опит" },
             { icon: Wrench, n: "10 000+", l: "монтажа" },
-            { icon: Users, n: "1100+", l: "доволни клиенти" },
+            { icon: Users, n: "Хиляди", l: "доволни клиенти" },
             { icon: ShieldCheck, n: "100%", l: "гаранция на работата" },
           ].map((s) => (
             <div key={s.l} className="rounded-2xl border border-border/60 bg-card p-6 shadow-card">

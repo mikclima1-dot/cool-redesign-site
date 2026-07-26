@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Wind, Zap, Snowflake, Sparkles, Layers, ShieldCheck, Wrench, Truck, Phone } from "lucide-react";
 
 
+import { ProductCard } from "@/components/ProductCard";
 import { productsQueryOptions } from "@/lib/products-db";
 import type { Category } from "@/data/products";
 
@@ -47,6 +48,10 @@ const categoryCards = [
 function Home() {
   const { data: products = [] } = useQuery(productsQueryOptions());
   const featured = products.slice(0, 8);
+  const counts = products.reduce<Record<string, number>>((acc, p) => {
+    acc[p.category] = (acc[p.category] ?? 0) + 1;
+    return acc;
+  }, {});
 
 
   return (
@@ -153,7 +158,7 @@ function Home() {
               <div className="min-w-0">
                 <div className="text-sm font-bold text-brand-navy">{label}</div>
                 <div className="text-xs text-muted-foreground">
-                  {categoryCount(key as never)} модела
+                  {counts[key as Category] ?? 0} модела
                 </div>
               </div>
             </Link>
