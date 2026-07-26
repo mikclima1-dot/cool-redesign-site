@@ -1,7 +1,9 @@
 import { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Calculator, ArrowRight, Phone, Home, CheckCircle, Info } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
-import { products } from "@/data/products";
+import { productsQueryOptions } from "@/lib/products-db";
+
 
 const PRESETS = [
   { m2: 15, label: "15 м²" },
