@@ -44,6 +44,9 @@ export function Footer() {
             <li><Link to="/uslugi" className="hover:text-brand-navy">Услуги</Link></li>
             <li><Link to="/za-nas" className="hover:text-brand-navy">За нас</Link></li>
             <li><Link to="/kontakti" className="hover:text-brand-navy">Контакти</Link></li>
+            <li><Link to="/kalkulator" className="hover:text-brand-navy">Калкулатор</Link></li>
+            <li><Link to="/politika-za-poveritelnost" className="hover:text-brand-navy">Политика за поверителност</Link></li>
+            <li><Link to="/obshti-usloviya" className="hover:text-brand-navy">Общи условия</Link></li>
           </ul>
         </div>
         <div>
