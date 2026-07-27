@@ -234,41 +234,77 @@ function ProductDetail() {
 
               <div className="mt-5 border-t border-border/60 pt-5">
                 <div className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
-                  Добави монтаж (по избор)
+                  {product.category === "multi" ? "Цени за монтаж" : "Добави монтаж (по избор)"}
                 </div>
-                <label
-                  className={`mt-3 flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition-colors ${
-                    withInstall
-                      ? "border-brand-teal bg-brand-sky-soft/60"
-                      : "border-border hover:border-brand-teal/60"
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={withInstall}
-                    onChange={(e) => setWithInstall(e.target.checked)}
-                    className="mt-1 h-4 w-4 accent-brand-teal"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="font-semibold text-brand-navy">Стандартен монтаж</span>
-                      <span className="font-bold text-brand-navy">+{installPrice} €</span>
-                    </div>
-                  </div>
-                </label>
 
-                {withInstall && (
-                  <div className="mt-4 flex items-end justify-between rounded-xl bg-brand-navy px-4 py-3 text-white">
-                    <div className="text-xs uppercase tracking-wider text-white/70">
-                      Общо с монтаж
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-extrabold">{totalEur} €</div>
-                      <div className="text-xs text-white/70">
-                        {totalBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.
-                      </div>
-                    </div>
+                {product.category === "multi" ? (
+                  <div className="mt-3 rounded-xl border border-border bg-brand-sky-soft/40 p-4">
+                    <p className="text-sm text-brand-navy/80">
+                      Мултисистемите се монтират с няколко вътрешни тела. Цената зависи от техния брой и мощност:
+                    </p>
+                    <ul className="mt-3 space-y-2 text-sm">
+                      <li className="flex items-start justify-between gap-3 border-b border-border/60 pb-2">
+                        <span className="text-brand-navy/90">До 2 вътрешни тела до 12 000 BTU</span>
+                        <span className="font-bold text-brand-navy whitespace-nowrap">220 €</span>
+                      </li>
+                      <li className="flex items-start justify-between gap-3 border-b border-border/60 pb-2">
+                        <span className="text-brand-navy/90">3 вътрешни тела до 12 000 BTU</span>
+                        <span className="font-bold text-brand-navy whitespace-nowrap">265 €</span>
+                      </li>
+                      <li className="flex items-start justify-between gap-3 border-b border-border/60 pb-2">
+                        <span className="text-brand-navy/90">2 вътрешни тела над 12 000 BTU</span>
+                        <span className="font-bold text-brand-navy whitespace-nowrap">240 €</span>
+                      </li>
+                      <li className="flex items-start justify-between gap-3 border-b border-border/60 pb-2">
+                        <span className="text-brand-navy/90">Всяко допълнително тяло до 12 000 BTU</span>
+                        <span className="font-bold text-brand-navy whitespace-nowrap">+45 €</span>
+                      </li>
+                      <li className="flex items-start justify-between gap-3">
+                        <span className="text-brand-navy/90">Всяко допълнително тяло над 12 000 BTU</span>
+                        <span className="font-bold text-brand-navy whitespace-nowrap">+55 €</span>
+                      </li>
+                    </ul>
+                    <p className="mt-3 text-xs text-muted-foreground">
+                      За точна оферта според конфигурацията се свържете с нас на +359 897 203 732.
+                    </p>
                   </div>
+                ) : (
+                  <>
+                    <label
+                      className={`mt-3 flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition-colors ${
+                        withInstall
+                          ? "border-brand-teal bg-brand-sky-soft/60"
+                          : "border-border hover:border-brand-teal/60"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={withInstall}
+                        onChange={(e) => setWithInstall(e.target.checked)}
+                        className="mt-1 h-4 w-4 accent-brand-teal"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="font-semibold text-brand-navy">Стандартен монтаж</span>
+                          <span className="font-bold text-brand-navy">+{installPrice} €</span>
+                        </div>
+                      </div>
+                    </label>
+
+                    {withInstall && (
+                      <div className="mt-4 flex items-end justify-between rounded-xl bg-brand-navy px-4 py-3 text-white">
+                        <div className="text-xs uppercase tracking-wider text-white/70">
+                          Общо с монтаж
+                        </div>
+                        <div className="text-right">
+                          <div className="text-2xl font-extrabold">{totalEur} €</div>
+                          <div className="text-xs text-white/70">
+                            {totalBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>
