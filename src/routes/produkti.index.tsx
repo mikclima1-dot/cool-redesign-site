@@ -81,8 +81,8 @@ const CATEGORIES: { value: Category; label: string }[] = [
 
 const ROOM_SIZES = [
   { value: "small", label: "До 20 м² (9 000 BTU)", match: (btu: number) => btu <= 9000 },
-  { value: "medium", label: "20–30 м² (12 000 BTU)", match: (btu: number) => btu > 9000 && btu <= 14000 },
-  { value: "large", label: "30–45 м² (18 000 BTU)", match: (btu: number) => btu > 14000 && btu <= 20000 },
+  { value: "medium", label: "20-30 м² (12 000 BTU)", match: (btu: number) => btu > 9000 && btu <= 14000 },
+  { value: "large", label: "30-45 м² (18 000 BTU)", match: (btu: number) => btu > 14000 && btu <= 20000 },
   { value: "xlarge", label: "45+ м² (24 000+ BTU)", match: (btu: number) => btu > 20000 },
 ] as const;
 

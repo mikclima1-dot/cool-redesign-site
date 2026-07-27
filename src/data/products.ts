@@ -46,9 +46,9 @@ export const products: Product[] = [
     priceEur: 689,
     priceBgn: 1347.57,
     image: "/images/products/infinity-1200x800-1-1024x683.jpg",
-    shortDescription: "Инверторен климатик Gree INFINITY II с Wi-Fi и клас A++ за помещения 20–25 м².",
+    shortDescription: "Инверторен климатик Gree INFINITY II с Wi-Fi и клас A++ за помещения 20-25 м².",
     description:
-      "Gree INFINITY II е един от най-успешните битови модели на марката с чист скандинавски дизайн и клас A++. Wi-Fi модул е стандарт – можете да управлявате климатика от телефон навсякъде.",
+      "Gree INFINITY II е един от най-успешните битови модели на марката с чист скандинавски дизайн и клас A++. Wi-Fi модул е стандарт - можете да управлявате климатика от телефон навсякъде.",
     features: [
       "Инверторна технология с плавен старт",
       "Wi-Fi управление през мобилно приложение",
@@ -224,7 +224,7 @@ export const products: Product[] = [
       "/images/products/Mitsubishi-Electric-MSZ-HR25VFMUZ-HR25VF-9000-BTU-A-HR25VF-404-700x700-1.jpg",
     shortDescription: "Mitsubishi Electric HR серията - балансът между цена и легендарната японска надеждност.",
     description:
-      "MSZ-HR е стартовата серия на Mitsubishi Electric, но с всички ключови технологии на марката – Econo Cool, i-see сензор и тих режим.",
+      "MSZ-HR е стартовата серия на Mitsubishi Electric, но с всички ключови технологии на марката - Econo Cool, i-see сензор и тих режим.",
     features: ["Econo Cool", "Wide & Long въздушен поток", "Auto Vane", "Клас A++"],
     sourceUrl: "/images/products/",
   },

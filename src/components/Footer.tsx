@@ -61,7 +61,7 @@ export function Footer() {
               <a href="tel:+359877918761" className="hover:text-brand-navy">+359 877 918 761</a>
             </li>
             <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> info@mikclima.com</li>
-            <li className="flex items-center gap-2"><Clock className="h-4 w-4" /> Пон–Пет 09:00–18:00</li>
+            <li className="flex items-center gap-2"><Clock className="h-4 w-4" /> Пон-Пет 09:00-18:00</li>
             <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> България</li>
           </ul>
 
