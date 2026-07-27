@@ -168,7 +168,7 @@ function Services() {
                 <s.icon className="h-6 w-6" />
               </div>
               <div className="mt-5 flex items-center justify-between">
-                <h3 className="text-lg font-bold text-brand-navy">{s.title}</h3>
+                <h2 className="text-lg font-bold text-brand-navy">{s.title}</h2>
                 <span className="rounded-full bg-brand-sky px-3 py-1 text-xs font-bold text-brand-navy">
                   {s.price}
                 </span>
