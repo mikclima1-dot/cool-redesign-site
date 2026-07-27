@@ -52,6 +52,25 @@ export const Route = createFileRoute("/produkti/")({
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Каталог климатици - MIK Clima",
+          url: "https://www.mikclima.com/produkti",
+          description:
+            "Инверторни, хиперинверторни, подови, колонни климатици и мултисистеми от водещите марки.",
+          isPartOf: { "@type": "WebSite", name: "MIK Clima", url: "https://www.mikclima.com" },
+          about: [
+            "Инверторни климатици",
+            "Хиперинверторни климатици",
+            "Подови климатици",
+            "Колонни климатици",
+            "Мултисистеми",
+          ],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "Начало", item: "https://www.mikclima.com/" },
