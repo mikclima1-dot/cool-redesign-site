@@ -185,6 +185,7 @@ function RootComponent() {
           <Outlet />
         </main>
         <Footer />
+        <MessengerChat />
       </div>
     </QueryClientProvider>
   );
