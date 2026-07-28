@@ -19,6 +19,8 @@ import { Route as KalkulatorRouteImport } from './routes/kalkulator'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProduktiIndexRouteImport } from './routes/produkti.index'
 import { Route as ProduktiSlugRouteImport } from './routes/produkti.$slug'
+import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const ZaNasRoute = ZaNasRouteImport.update({
   id: '/za-nas',
@@ -70,6 +72,17 @@ const ProduktiSlugRoute = ProduktiSlugRouteImport.update({
   path: '/produkti/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
+  id: '/api/public/contact',
+  path: '/api/public/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +95,8 @@ export interface FileRoutesByFullPath {
   '/za-nas': typeof ZaNasRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
   '/produkti/': typeof ProduktiIndexRoute
+  '/api/public/contact': typeof ApiPublicContactRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +109,8 @@ export interface FileRoutesByTo {
   '/za-nas': typeof ZaNasRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
   '/produkti': typeof ProduktiIndexRoute
+  '/api/public/contact': typeof ApiPublicContactRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +124,8 @@ export interface FileRoutesById {
   '/za-nas': typeof ZaNasRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
   '/produkti/': typeof ProduktiIndexRoute
+  '/api/public/contact': typeof ApiPublicContactRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +140,8 @@ export interface FileRouteTypes {
     | '/za-nas'
     | '/produkti/$slug'
     | '/produkti/'
+    | '/api/public/contact'
+    | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +154,8 @@ export interface FileRouteTypes {
     | '/za-nas'
     | '/produkti/$slug'
     | '/produkti'
+    | '/api/public/contact'
+    | '/lovable/email/transactional/preview'
   id:
     | '__root__'
     | '/'
@@ -145,6 +168,8 @@ export interface FileRouteTypes {
     | '/za-nas'
     | '/produkti/$slug'
     | '/produkti/'
+    | '/api/public/contact'
+    | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +183,8 @@ export interface RootRouteChildren {
   ZaNasRoute: typeof ZaNasRoute
   ProduktiSlugRoute: typeof ProduktiSlugRoute
   ProduktiIndexRoute: typeof ProduktiIndexRoute
+  ApiPublicContactRoute: typeof ApiPublicContactRoute
+  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +259,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProduktiSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/contact': {
+      id: '/api/public/contact'
+      path: '/api/public/contact'
+      fullPath: '/api/public/contact'
+      preLoaderRoute: typeof ApiPublicContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -246,17 +287,9 @@ const rootRouteChildren: RootRouteChildren = {
   ZaNasRoute: ZaNasRoute,
   ProduktiSlugRoute: ProduktiSlugRoute,
   ProduktiIndexRoute: ProduktiIndexRoute,
+  ApiPublicContactRoute: ApiPublicContactRoute,
+  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

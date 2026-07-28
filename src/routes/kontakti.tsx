@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Mail, Phone, Clock, MapPin } from "lucide-react";
+import { useState } from "react";
+
 
 export const Route = createFileRoute("/kontakti")({
   head: () => ({
@@ -58,6 +60,9 @@ export const Route = createFileRoute("/kontakti")({
 });
 
 function Contact() {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
   return (
     <>
       <section style={{ background: "var(--gradient-hero)" }}>
@@ -115,18 +120,40 @@ function Contact() {
 
         <form
           className="rounded-2xl border border-border/60 bg-card p-6 shadow-card"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             const form = e.currentTarget;
             const data = new FormData(form);
-            const name = String(data.get("name") || "");
-            const contact = String(data.get("contact") || "");
-            const message = String(data.get("message") || "");
-            const subject = encodeURIComponent(`Запитване от ${name || "клиент"}`);
-            const body = encodeURIComponent(
-              `Име: ${name}\nТелефон/имейл: ${contact}\n\n${message}`,
-            );
-            window.location.href = `mailto:info@mikclima.com?subject=${subject}&body=${body}`;
+            const payload = {
+              name: String(data.get("name") || ""),
+              contact: String(data.get("contact") || ""),
+              message: String(data.get("message") || ""),
+              website: String(data.get("website") || ""),
+            };
+            setStatus("sending");
+            setErrorMsg(null);
+            try {
+              const res = await fetch("/api/public/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              });
+              const body = await res.json().catch(() => ({}));
+              if (res.ok && body?.ok) {
+                setStatus("sent");
+                form.reset();
+              } else {
+                setStatus("error");
+                setErrorMsg(
+                  res.status === 429
+                    ? "Твърде много опити. Опитайте отново след минута."
+                    : "Неуспешно изпращане. Опитайте отново или ни се обадете.",
+                );
+              }
+            } catch {
+              setStatus("error");
+              setErrorMsg("Неуспешно изпращане. Проверете връзката с интернет.");
+            }
           }}
         >
           <h2 className="text-xl font-bold text-brand-navy">Запитване</h2>
@@ -153,12 +180,30 @@ function Contact() {
               className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-brand-teal"
               placeholder="Съобщение"
             />
+            {/* honeypot */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              className="hidden"
+              aria-hidden="true"
+            />
             <button
               type="submit"
-              className="w-full cursor-pointer rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5"
+              disabled={status === "sending"}
+              className="w-full cursor-pointer rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5 disabled:opacity-60"
             >
-              Изпрати
+              {status === "sending" ? "Изпращане..." : "Изпрати"}
             </button>
+            {status === "sent" && (
+              <p className="text-sm font-medium text-brand-teal">
+                Благодарим! Ще се свържем с вас скоро.
+              </p>
+            )}
+            {status === "error" && errorMsg && (
+              <p className="text-sm font-medium text-red-600">{errorMsg}</p>
+            )}
           </div>
         </form>
 
@@ -166,3 +211,4 @@ function Contact() {
     </>
   );
 }
+
