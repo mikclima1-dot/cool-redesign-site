@@ -189,10 +189,22 @@ function Contact() {
             />
             <button
               type="submit"
-              className="w-full cursor-pointer rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5"
+              disabled={status === "sending"}
+              className="w-full cursor-pointer rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5 disabled:opacity-60"
             >
-              Изпрати
+              {status === "sending" ? "Изпращане..." : "Изпрати"}
             </button>
+            {status === "sent" && (
+              <p className="text-center text-sm font-medium text-brand-teal">
+                Благодарим! Съобщението е изпратено успешно.
+              </p>
+            )}
+            {status === "error" && (
+              <p className="text-center text-sm font-medium text-red-600">
+                Възникна грешка: {errorMsg}. Моля опитайте отново или се обадете.
+              </p>
+            )}
+
 
           </div>
         </form>
