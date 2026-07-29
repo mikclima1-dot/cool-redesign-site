@@ -61,6 +61,9 @@ export const Route = createFileRoute("/kontakti")({
 });
 
 function Contact() {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
   return (
     <>
       <section style={{ background: "var(--gradient-hero)" }}>
