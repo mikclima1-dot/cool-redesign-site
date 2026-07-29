@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Mail, Phone, Clock, MapPin } from "lucide-react";
-import { useState } from "react";
 
 
 export const Route = createFileRoute("/kontakti")({
@@ -60,9 +59,6 @@ export const Route = createFileRoute("/kontakti")({
 });
 
 function Contact() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
   return (
     <>
       <section style={{ background: "var(--gradient-hero)" }}>
@@ -120,42 +116,21 @@ function Contact() {
 
         <form
           className="rounded-2xl border border-border/60 bg-card p-6 shadow-card"
-          onSubmit={async (e) => {
+          onSubmit={(e) => {
             e.preventDefault();
             const form = e.currentTarget;
             const data = new FormData(form);
-            const payload = {
-              name: String(data.get("name") || ""),
-              contact: String(data.get("contact") || ""),
-              message: String(data.get("message") || ""),
-              website: String(data.get("website") || ""),
-            };
-            setStatus("sending");
-            setErrorMsg(null);
-            try {
-              const res = await fetch("/api/public/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-              });
-              const body = await res.json().catch(() => ({}));
-              if (res.ok && body?.ok) {
-                setStatus("sent");
-                form.reset();
-              } else {
-                setStatus("error");
-                setErrorMsg(
-                  res.status === 429
-                    ? "Твърде много опити. Опитайте отново след минута."
-                    : "Неуспешно изпращане. Опитайте отново или ни се обадете.",
-                );
-              }
-            } catch {
-              setStatus("error");
-              setErrorMsg("Неуспешно изпращане. Проверете връзката с интернет.");
-            }
+            const name = String(data.get("name") || "");
+            const contact = String(data.get("contact") || "");
+            const message = String(data.get("message") || "");
+            const subject = encodeURIComponent(`Запитване от ${name}`);
+            const body = encodeURIComponent(
+              `Име: ${name}\nКонтакт: ${contact}\n\nСъобщение:\n${message}`,
+            );
+            window.location.href = `mailto:info@mikclima.com?subject=${subject}&body=${body}`;
           }}
         >
+
           <h2 className="text-xl font-bold text-brand-navy">Запитване</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Оставете съобщение и ще се свържем с вас в рамките на работния ден.
@@ -191,19 +166,11 @@ function Contact() {
             />
             <button
               type="submit"
-              disabled={status === "sending"}
-              className="w-full cursor-pointer rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+              className="w-full cursor-pointer rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5"
             >
-              {status === "sending" ? "Изпращане..." : "Изпрати"}
+              Изпрати
             </button>
-            {status === "sent" && (
-              <p className="text-sm font-medium text-brand-teal">
-                Благодарим! Ще се свържем с вас скоро.
-              </p>
-            )}
-            {status === "error" && errorMsg && (
-              <p className="text-sm font-medium text-red-600">{errorMsg}</p>
-            )}
+
           </div>
         </form>
 
