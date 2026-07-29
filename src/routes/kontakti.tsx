@@ -121,19 +121,37 @@ function Contact() {
 
         <form
           className="rounded-2xl border border-border/60 bg-card p-6 shadow-card"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
+            if (status === "sending") return;
             const form = e.currentTarget;
             const data = new FormData(form);
-            const name = String(data.get("name") || "");
-            const contact = String(data.get("contact") || "");
-            const message = String(data.get("message") || "");
-            const subject = encodeURIComponent(`Запитване от ${name}`);
-            const body = encodeURIComponent(
-              `Име: ${name}\nКонтакт: ${contact}\n\nСъобщение:\n${message}`,
-            );
-            window.location.href = `mailto:info@mikclima.com?subject=${subject}&body=${body}`;
+            const payload = {
+              name: String(data.get("name") || ""),
+              contact: String(data.get("contact") || ""),
+              message: String(data.get("message") || ""),
+              website: String(data.get("website") || ""),
+            };
+            setStatus("sending");
+            setErrorMsg("");
+            try {
+              const res = await fetch("/api/public/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              });
+              const json = await res.json().catch(() => ({}));
+              if (!res.ok || json?.ok === false) {
+                throw new Error(json?.error || `HTTP ${res.status}`);
+              }
+              setStatus("sent");
+              form.reset();
+            } catch (err) {
+              setStatus("error");
+              setErrorMsg(err instanceof Error ? err.message : "Неуспешно изпращане");
+            }
           }}
+
         >
 
           <h2 className="text-xl font-bold text-brand-navy">Запитване</h2>
