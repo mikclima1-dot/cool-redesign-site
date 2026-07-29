@@ -166,19 +166,11 @@ function Contact() {
             />
             <button
               type="submit"
-              disabled={status === "sending"}
-              className="w-full cursor-pointer rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+              className="w-full cursor-pointer rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5"
             >
-              {status === "sending" ? "Изпращане..." : "Изпрати"}
+              Изпрати
             </button>
-            {status === "sent" && (
-              <p className="text-sm font-medium text-brand-teal">
-                Благодарим! Ще се свържем с вас скоро.
-              </p>
-            )}
-            {status === "error" && errorMsg && (
-              <p className="text-sm font-medium text-red-600">{errorMsg}</p>
-            )}
+
           </div>
         </form>
 
