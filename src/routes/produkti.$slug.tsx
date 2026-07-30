@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeft, Check, Phone } from "lucide-react";
 import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
@@ -159,6 +159,31 @@ function ProductDetail() {
   const EUR_TO_BGN = 1.95583;
   const totalBgn = Math.round(totalEur * EUR_TO_BGN * 100) / 100;
   const { data: allProducts } = useSuspenseQuery(productsQueryOptions());
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const w = window as unknown as { dataLayer?: unknown[] };
+    w.dataLayer = w.dataLayer || [];
+    // clear previous ecommerce object per GA4 best practice
+    w.dataLayer.push({ ecommerce: null });
+    w.dataLayer.push({
+      event: "view_item",
+      ecommerce: {
+        currency: "EUR",
+        value: product.priceEur,
+        items: [
+          {
+            item_id: product.slug,
+            item_name: `${CATEGORY_TYPE[product.category]} ${product.brand} ${product.model}`,
+            item_brand: product.brand,
+            item_category: CATEGORY_LABEL[product.category],
+            price: product.priceEur,
+            quantity: 1,
+          },
+        ],
+      },
+    });
+  }, [product]);
 
   const related = allProducts
     .filter((p) => p.category === product.category && p.slug !== product.slug)
