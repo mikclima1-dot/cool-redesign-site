@@ -256,6 +256,11 @@ function ProductDetail() {
                   <Phone className="h-4 w-4" /> Обади се
                 </a>
               </div>
+              <p className="mt-3 text-sm text-muted-foreground">
+                <Link to="/kontakti" className="font-medium text-brand-teal underline-offset-2 hover:underline">
+                  или ни изпрати запитване
+                </Link>
+              </p>
 
               <div className="mt-5 border-t border-border/60 pt-5">
                 <div className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
