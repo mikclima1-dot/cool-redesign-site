@@ -2,6 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Mail, Phone, Clock, MapPin } from "lucide-react";
 import { useState } from "react";
 
+declare global {
+  interface Window {
+    dataLayer: Record<string, unknown>[];
+  }
+}
+
+
 
 
 export const Route = createFileRoute("/kontakti")({
@@ -127,29 +134,37 @@ function Contact() {
             const form = e.currentTarget;
             const data = new FormData(form);
             const payload = {
+              access_key: "43a4247a-cd87-40ce-b83e-c8ee0c9742ae",
+              subject: "Ново запитване от сайта MikClima",
               name: String(data.get("name") || ""),
-              contact: String(data.get("contact") || ""),
+              email: String(data.get("contact") || ""),
               message: String(data.get("message") || ""),
-              website: String(data.get("website") || ""),
+              botcheck: String(data.get("website") || ""),
             };
             setStatus("sending");
             setErrorMsg("");
             try {
-              const res = await fetch("/api/public/contact", {
+              const res = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                },
                 body: JSON.stringify(payload),
               });
               const json = await res.json().catch(() => ({}));
-              if (!res.ok || json?.ok === false) {
-                throw new Error(json?.error || `HTTP ${res.status}`);
+              if (!res.ok || json?.success !== true) {
+                throw new Error(json?.message || `HTTP ${res.status}`);
               }
+              window.dataLayer = window.dataLayer || [];
+              window.dataLayer.push({ event: "form_submission" });
               setStatus("sent");
               form.reset();
             } catch (err) {
               setStatus("error");
               setErrorMsg(err instanceof Error ? err.message : "Неуспешно изпращане");
             }
+
           }}
 
         >
