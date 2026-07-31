@@ -249,20 +249,6 @@ function ProductDetail() {
                     {product.priceBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.
                   </div>
                 </div>
-                <div className="ml-auto">
-                  <a
-                    href="tel:+359897203732"
-                    className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-semibold text-primary-foreground shadow-soft"
-                  >
-                    <Phone className="h-5 w-5" /> Обади се
-                  </a>
-                  <p className="mt-2 text-right text-sm text-muted-foreground">
-                    <Link to="/kontakti" className="font-medium text-brand-teal underline-offset-2 hover:underline">
-                      или ни изпрати запитване
-                    </Link>
-                  </p>
-                </div>
-              </div>
 
               <div className="mt-5 border-t border-border/60 pt-5">
                 <div className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
