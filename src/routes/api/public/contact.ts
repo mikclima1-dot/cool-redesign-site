@@ -1,16 +1,22 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
-import { sendTemplateEmail } from '@/lib/email-templates/send-email'
+import nodemailer from 'nodemailer'
+
+// Runs on the Node.js runtime (nodemailer opens a raw TCP socket to SMTP,
+// which is not possible on an Edge runtime).
+export const runtime = 'nodejs'
 
 const schema = z.object({
   name: z.string().trim().min(1).max(120),
   contact: z.string().trim().min(3).max(200),
   message: z.string().trim().min(1).max(4000),
   // honeypot: bots often fill hidden fields
-  website: z.string().max(0).optional(),
+  website: z.string().optional(),
 })
 
-// naive in-memory rate limit per IP (best-effort per worker instance)
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// naive in-memory rate limit per IP (best-effort per instance)
 const hits = new Map<string, number[]>()
 function rateLimited(ip: string, limit = 5, windowMs = 60_000) {
   const now = Date.now()
@@ -36,7 +42,7 @@ export const Route = createFileRoute('/api/public/contact')({
         try {
           payload = await request.json()
         } catch {
-          return Response.json({ ok: false, error: 'invalid_json' }, { status: 400 })
+          return Response.json({ ok: false, error: 'invalid_input' }, { status: 400 })
         }
 
         const parsed = schema.safeParse(payload)
@@ -44,30 +50,73 @@ export const Route = createFileRoute('/api/public/contact')({
           return Response.json({ ok: false, error: 'invalid_input' }, { status: 400 })
         }
         const { name, contact, message, website } = parsed.data
-        if (website) {
-          // honeypot triggered - pretend success
+
+        // honeypot triggered - pretend success, send nothing
+        if (website && website.trim() !== '') {
           return Response.json({ ok: true })
+        }
+
+        const host = process.env.SMTP_HOST
+        const port = Number(process.env.SMTP_PORT || 465)
+        const user = process.env.SMTP_USER
+        const pass = process.env.SMTP_PASS
+        const mailTo = process.env.MAIL_TO
+
+        if (!host || !user || !pass || !mailTo) {
+          console.error('contact form: SMTP env vars missing')
+          return Response.json({ ok: false, error: 'send_failed' }, { status: 500 })
         }
 
         const submittedAt = new Date().toLocaleString('bg-BG', {
           timeZone: 'Europe/Sofia',
         })
-        const idempotencyKey = `contact-${ip}-${Date.now()}`
+
+        const transporter = nodemailer.createTransport({
+          host,
+          port,
+          secure: port === 465, // implicit TLS
+          auth: { user, pass },
+        })
+
+        const text = [
+          'Ново запитване от сайта',
+          `Получено на: ${submittedAt}`,
+          '',
+          `Име: ${name}`,
+          `Телефон / имейл: ${contact}`,
+          '',
+          'Съобщение:',
+          message,
+        ].join('\n')
+
+        const esc = (s: string) =>
+          s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+        const html = `
+          <div style="font-family:Arial,sans-serif;color:#0b2545;max-width:560px">
+            <h2 style="margin:0 0 6px">Ново запитване от сайта</h2>
+            <p style="color:#6b7280;font-size:13px;margin:0 0 16px">Получено на ${esc(submittedAt)}</p>
+            <div style="border:1px solid #e5e7eb;border-radius:12px;padding:18px 20px;background:#f9fafb">
+              <p style="margin:0 0 10px"><strong>Име:</strong> ${esc(name)}</p>
+              <p style="margin:0 0 10px"><strong>Телефон / имейл:</strong> ${esc(contact)}</p>
+              <p style="margin:0 0 4px"><strong>Съобщение:</strong></p>
+              <p style="margin:0;white-space:pre-wrap">${esc(message)}</p>
+            </div>
+          </div>`
 
         try {
-          const result = await sendTemplateEmail('contact-inquiry', 'info@mikclima.com', {
-            templateData: { name, contact, message, submittedAt },
-            idempotencyKey,
-            replyTo: contact.includes('@') ? contact : undefined,
+          await transporter.sendMail({
+            from: '"MIK Clima website" <info@mikclima.com>',
+            to: mailTo,
+            ...(EMAIL_RE.test(contact) ? { replyTo: contact } : {}),
+            subject: `Ново запитване от сайта - ${name}`,
+            text,
+            html,
           })
-          if (!result.sent) {
-            return Response.json({ ok: false, error: 'suppressed' }, { status: 202 })
-          }
           return Response.json({ ok: true })
         } catch (err: unknown) {
-          const msg = err instanceof Error ? err.message : String(err)
-          console.error('contact form send failed', msg)
-          return Response.json({ ok: false, error: 'send_failed', detail: msg }, { status: 500 })
+          console.error('contact form SMTP send failed', err)
+          return Response.json({ ok: false, error: 'send_failed' }, { status: 500 })
         }
       },
     },
