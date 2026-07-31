@@ -134,17 +134,15 @@ function Contact() {
             const form = e.currentTarget;
             const data = new FormData(form);
             const payload = {
-              access_key: "43a4247a-cd87-40ce-b83e-c8ee0c9742ae",
-              subject: "Ново запитване от сайта MikClima",
               name: String(data.get("name") || ""),
-              email: String(data.get("contact") || ""),
+              contact: String(data.get("contact") || ""),
               message: String(data.get("message") || ""),
-              botcheck: String(data.get("website") || ""),
+              website: String(data.get("website") || ""),
             };
             setStatus("sending");
             setErrorMsg("");
             try {
-              const res = await fetch("https://api.web3forms.com/submit", {
+              const res = await fetch("/api/public/contact", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -153,8 +151,8 @@ function Contact() {
                 body: JSON.stringify(payload),
               });
               const json = await res.json().catch(() => ({}));
-              if (!res.ok || json?.success !== true) {
-                throw new Error(json?.message || `HTTP ${res.status}`);
+              if (!res.ok || json?.ok !== true) {
+                throw new Error(json?.error || `HTTP ${res.status}`);
               }
               window.dataLayer = window.dataLayer || [];
               window.dataLayer.push({ event: "form_submission" });
