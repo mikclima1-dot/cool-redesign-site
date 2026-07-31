@@ -249,6 +249,7 @@ function ProductDetail() {
                     {product.priceBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.
                   </div>
                 </div>
+              </div>
 
               <div className="mt-5 border-t border-border/60 pt-5">
                 <div className="text-xs font-semibold uppercase tracking-wider text-brand-navy">
