@@ -14,6 +14,7 @@ import { Route as UslugiRouteImport } from './routes/uslugi'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PolitikaZaPoveritelnostRouteImport } from './routes/politika-za-poveritelnost'
 import { Route as ObshtiUsloviyaRouteImport } from './routes/obshti-usloviya'
+import { Route as MetaProductsDotcsvRouteImport } from './routes/meta-products[.]csv'
 import { Route as KontaktiRouteImport } from './routes/kontakti'
 import { Route as KalkulatorRouteImport } from './routes/kalkulator'
 import { Route as IndexRouteImport } from './routes/index'
@@ -44,6 +45,11 @@ const PolitikaZaPoveritelnostRoute = PolitikaZaPoveritelnostRouteImport.update({
 const ObshtiUsloviyaRoute = ObshtiUsloviyaRouteImport.update({
   id: '/obshti-usloviya',
   path: '/obshti-usloviya',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MetaProductsDotcsvRoute = MetaProductsDotcsvRouteImport.update({
+  id: '/meta-products.csv',
+  path: '/meta-products.csv',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KontaktiRoute = KontaktiRouteImport.update({
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
+  '/meta-products.csv': typeof MetaProductsDotcsvRoute
   '/obshti-usloviya': typeof ObshtiUsloviyaRoute
   '/politika-za-poveritelnost': typeof PolitikaZaPoveritelnostRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
+  '/meta-products.csv': typeof MetaProductsDotcsvRoute
   '/obshti-usloviya': typeof ObshtiUsloviyaRoute
   '/politika-za-poveritelnost': typeof PolitikaZaPoveritelnostRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
+  '/meta-products.csv': typeof MetaProductsDotcsvRoute
   '/obshti-usloviya': typeof ObshtiUsloviyaRoute
   '/politika-za-poveritelnost': typeof PolitikaZaPoveritelnostRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/'
     | '/kalkulator'
     | '/kontakti'
+    | '/meta-products.csv'
     | '/obshti-usloviya'
     | '/politika-za-poveritelnost'
     | '/sitemap.xml'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/'
     | '/kalkulator'
     | '/kontakti'
+    | '/meta-products.csv'
     | '/obshti-usloviya'
     | '/politika-za-poveritelnost'
     | '/sitemap.xml'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/'
     | '/kalkulator'
     | '/kontakti'
+    | '/meta-products.csv'
     | '/obshti-usloviya'
     | '/politika-za-poveritelnost'
     | '/sitemap.xml'
@@ -163,6 +175,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   KalkulatorRoute: typeof KalkulatorRoute
   KontaktiRoute: typeof KontaktiRoute
+  MetaProductsDotcsvRoute: typeof MetaProductsDotcsvRoute
   ObshtiUsloviyaRoute: typeof ObshtiUsloviyaRoute
   PolitikaZaPoveritelnostRoute: typeof PolitikaZaPoveritelnostRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -208,6 +221,13 @@ declare module '@tanstack/react-router' {
       path: '/obshti-usloviya'
       fullPath: '/obshti-usloviya'
       preLoaderRoute: typeof ObshtiUsloviyaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/meta-products.csv': {
+      id: '/meta-products.csv'
+      path: '/meta-products.csv'
+      fullPath: '/meta-products.csv'
+      preLoaderRoute: typeof MetaProductsDotcsvRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kontakti': {
@@ -259,6 +279,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   KalkulatorRoute: KalkulatorRoute,
   KontaktiRoute: KontaktiRoute,
+  MetaProductsDotcsvRoute: MetaProductsDotcsvRoute,
   ObshtiUsloviyaRoute: ObshtiUsloviyaRoute,
   PolitikaZaPoveritelnostRoute: PolitikaZaPoveritelnostRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -271,3 +292,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
