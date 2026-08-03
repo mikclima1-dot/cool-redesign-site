@@ -21,8 +21,15 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         let productEntries: { path: string; priority: string; changefreq: string }[] = [];
         try {
-          const url = process.env.VITE_SUPABASE_URL!;
-          const key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY!;
+          const env = import.meta.env as Record<string, string | undefined>;
+          const url =
+            env.VITE_SUPABASE_URL ??
+            process.env["VITE_SUPABASE_URL"] ??
+            process.env["SUPABASE_URL"]!;
+          const key =
+            env.VITE_SUPABASE_PUBLISHABLE_KEY ??
+            process.env["VITE_SUPABASE_PUBLISHABLE_KEY"] ??
+            process.env["SUPABASE_ANON_KEY"]!;
           const supabase = createClient(url, key, {
             auth: { persistSession: false },
           });
