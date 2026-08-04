@@ -91,9 +91,9 @@ export const Route = createFileRoute('/api/public/contact')({
 
         const esc = (s: string) =>
           s
-            .replace(/&/g, '&')
-            .replace(/</g, '<')
-            .replace(/>/g, '>')
+            .replace(/&/g, '\u0026amp;')
+            .replace(/</g, '\u0026lt;')
+            .replace(/>/g, '\u0026gt;')
 
         const html = `
           <div style="font-family:Arial,sans-serif;color:#0b2545;max-width:560px">
