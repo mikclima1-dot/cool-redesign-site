@@ -8,13 +8,12 @@ export const runtime = 'nodejs'
 
 const schema = z.object({
   name: z.string().trim().min(1).max(120),
-  contact: z.string().trim().min(3).max(200),
+  email: z.string().trim().email().max(200),
+  phone: z.string().trim().max(100).optional(),
   message: z.string().trim().min(1).max(4000),
   // honeypot: bots often fill hidden fields
   website: z.string().optional(),
 })
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 // naive in-memory rate limit per IP (best-effort per instance)
 const hits = new Map<string, number[]>()
@@ -49,7 +48,7 @@ export const Route = createFileRoute('/api/public/contact')({
         if (!parsed.success) {
           return Response.json({ ok: false, error: 'invalid_input' }, { status: 400 })
         }
-        const { name, contact, message, website } = parsed.data
+        const { name, email, phone, message, website } = parsed.data
 
         // honeypot triggered - pretend success, send nothing
         if (website && website.trim() !== '') {
@@ -83,14 +82,18 @@ export const Route = createFileRoute('/api/public/contact')({
           `Получено на: ${submittedAt}`,
           '',
           `Име: ${name}`,
-          `Телефон / имейл: ${contact}`,
+          `Имейл: ${email}`,
+          ...(phone ? [`Телефон: ${phone}`] : []),
           '',
           'Съобщение:',
           message,
         ].join('\n')
 
         const esc = (s: string) =>
-          s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          s
+            .replace(/&/g, '\u0026amp;')
+            .replace(/</g, '\u0026lt;')
+            .replace(/>/g, '\u0026gt;')
 
         const html = `
           <div style="font-family:Arial,sans-serif;color:#0b2545;max-width:560px">
@@ -98,7 +101,8 @@ export const Route = createFileRoute('/api/public/contact')({
             <p style="color:#6b7280;font-size:13px;margin:0 0 16px">Получено на ${esc(submittedAt)}</p>
             <div style="border:1px solid #e5e7eb;border-radius:12px;padding:18px 20px;background:#f9fafb">
               <p style="margin:0 0 10px"><strong>Име:</strong> ${esc(name)}</p>
-              <p style="margin:0 0 10px"><strong>Телефон / имейл:</strong> ${esc(contact)}</p>
+              <p style="margin:0 0 10px"><strong>Имейл:</strong> ${esc(email)}</p>
+              ${phone ? `<p style="margin:0 0 10px"><strong>Телефон:</strong> ${esc(phone)}</p>` : ''}
               <p style="margin:0 0 4px"><strong>Съобщение:</strong></p>
               <p style="margin:0;white-space:pre-wrap">${esc(message)}</p>
             </div>
@@ -108,7 +112,7 @@ export const Route = createFileRoute('/api/public/contact')({
           await transporter.sendMail({
             from: '"MIK Clima website" <info@mikclima.com>',
             to: mailTo,
-            ...(EMAIL_RE.test(contact) ? { replyTo: contact } : {}),
+            replyTo: email,
             subject: `Ново запитване от сайта - ${name}`,
             text,
             html,
