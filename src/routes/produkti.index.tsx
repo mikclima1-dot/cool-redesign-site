@@ -174,16 +174,7 @@ function ProductsPage() {
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground md:text-base">
             Разгледайте пълния каталог модели от водещи японски и европейски марки.
           </p>
-          <a
-            href="/meta-products.csv"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-2 rounded-full border border-brand-navy/20 bg-background px-4 py-2 text-xs font-semibold uppercase tracking-widest text-brand-navy transition-colors hover:border-brand-teal hover:text-brand-teal"
-          >
-            Отвори Meta продуктов фийд
-          </a>
         </div>
-
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-12 md:px-8">
