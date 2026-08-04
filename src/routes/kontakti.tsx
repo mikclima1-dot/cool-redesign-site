@@ -135,7 +135,8 @@ function Contact() {
             const data = new FormData(form);
             const payload = {
               name: String(data.get("name") || ""),
-              contact: String(data.get("contact") || ""),
+              email: String(data.get("email") || ""),
+              phone: String(data.get("phone") || ""),
               message: String(data.get("message") || ""),
               website: String(data.get("website") || ""),
             };
@@ -179,10 +180,11 @@ function Contact() {
               placeholder="Име"
             />
             <input
-              name="contact"
+              name="email"
+              type="email"
               required
               className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-brand-teal"
-              placeholder="Телефон или имейл"
+              placeholder="Имейл *"
             />
             <textarea
               name="message"
@@ -190,6 +192,12 @@ function Contact() {
               required
               className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-brand-teal"
               placeholder="Съобщение"
+            />
+            <input
+              name="phone"
+              type="tel"
+              className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-brand-teal"
+              placeholder="Телефон (по желание)"
             />
             {/* honeypot */}
             <input

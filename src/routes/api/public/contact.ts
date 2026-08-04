@@ -8,7 +8,8 @@ export const runtime = 'nodejs'
 
 const schema = z.object({
   name: z.string().trim().min(1).max(120),
-  contact: z.string().trim().min(3).max(200),
+  email: z.string().trim().email().max(200),
+  phone: z.string().trim().max(100).optional(),
   message: z.string().trim().min(1).max(4000),
   // honeypot: bots often fill hidden fields
   website: z.string().optional(),
@@ -49,7 +50,7 @@ export const Route = createFileRoute('/api/public/contact')({
         if (!parsed.success) {
           return Response.json({ ok: false, error: 'invalid_input' }, { status: 400 })
         }
-        const { name, contact, message, website } = parsed.data
+        const { name, email, phone, message, website } = parsed.data
 
         // honeypot triggered - pretend success, send nothing
         if (website && website.trim() !== '') {
