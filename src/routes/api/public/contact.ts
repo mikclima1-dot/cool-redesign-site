@@ -90,7 +90,10 @@ export const Route = createFileRoute('/api/public/contact')({
         ].join('\n')
 
         const esc = (s: string) =>
-          s.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>')
+          s
+            .replace(/&/g, '&')
+            .replace(/</g, '<')
+            .replace(/>/g, '>')
 
         const html = `
           <div style="font-family:Arial,sans-serif;color:#0b2545;max-width:560px">
