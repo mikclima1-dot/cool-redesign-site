@@ -8,29 +8,28 @@ type Consent = {
   ads: boolean;
 };
 
-declare global {
-  interface Window {
-    dataLayer?: Array<unknown>;
-    gtag?: (...args: unknown[]) => void;
-  }
+type DL = Array<Record<string, unknown>> & { push: (...args: unknown[]) => number };
+
+function getDataLayer(): DL {
+  const w = window as unknown as { dataLayer?: DL };
+  w.dataLayer = w.dataLayer || ([] as unknown as DL);
+  return w.dataLayer;
 }
 
-function gtagFallback(...args: unknown[]) {
-  window.dataLayer = window.dataLayer || [];
-  // eslint-disable-next-line prefer-rest-params
-  window.dataLayer.push(args);
+function gtag(...args: unknown[]) {
+  const w = window as unknown as { gtag?: (...a: unknown[]) => void };
+  if (w.gtag) w.gtag(...args);
+  else getDataLayer().push(args);
 }
 
 function applyConsent(c: Consent) {
-  const g = window.gtag ?? gtagFallback;
-  g("consent", "update", {
+  gtag("consent", "update", {
     ad_storage: c.ads ? "granted" : "denied",
     ad_user_data: c.ads ? "granted" : "denied",
     ad_personalization: c.ads ? "granted" : "denied",
     analytics_storage: c.analytics ? "granted" : "denied",
   });
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
+  getDataLayer().push({
     event: "consent_update",
     consent_analytics: c.analytics ? "granted" : "denied",
     consent_ads: c.ads ? "granted" : "denied",
