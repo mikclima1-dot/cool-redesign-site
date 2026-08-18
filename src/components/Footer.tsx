@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { openCookieSettings } from "@/components/CookieConsent";
 import { Mail, Clock, MapPin, Phone, Facebook, Instagram } from "lucide-react";
 import { BrandStrip } from "@/components/BrandStrip";
 
@@ -46,6 +47,7 @@ export function Footer() {
             <li><Link to="/kontakti" className="hover:text-brand-navy">Контакти</Link></li>
             <li><Link to="/kalkulator" className="hover:text-brand-navy">Калкулатор</Link></li>
             <li><Link to="/politika-za-poveritelnost" className="hover:text-brand-navy">Политика за поверителност</Link></li>
+            <li><button type="button" onClick={() => openCookieSettings()} className="hover:text-brand-navy">Настройки за бисквитки</button></li>
             <li><Link to="/obshti-usloviya" className="hover:text-brand-navy">Общи условия</Link></li>
           </ul>
         </div>
