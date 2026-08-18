@@ -13,6 +13,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MessengerChat } from "@/components/MessengerChat";
+import { CookieConsent } from "@/components/CookieConsent";
 
 function NotFoundComponent() {
   return (
@@ -190,6 +191,7 @@ function RootComponent() {
         </main>
         <Footer />
         <MessengerChat />
+        <CookieConsent />
       </div>
     </QueryClientProvider>
   );
