@@ -115,7 +115,7 @@ const SORT_OPTIONS = [
 
 function ProductsPage() {
   const { cat, brand, room, sort, q, page } = Route.useSearch();
-  const navigate = useNavigate({ from: "/produkti" });
+  const navigate = useNavigate({ from: "/produkti/" });
   const [open, setOpen] = useState(false);
   const { data: products } = useSuspenseQuery(productsQueryOptions());
 
