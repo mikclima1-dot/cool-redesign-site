@@ -13,6 +13,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MessengerChat } from "@/components/MessengerChat";
+import { CookieConsent } from "@/components/CookieConsent";
 
 function NotFoundComponent() {
   return (
@@ -98,6 +99,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
     scripts: [
+      {
+        children:
+          "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;(function(){var s=null;try{s=JSON.parse(localStorage.getItem('mikclima_consent_v1'))}catch(e){}var a=s&&s.analytics?'granted':'denied';var ad=s&&s.ads?'granted':'denied';gtag('consent','default',{ad_storage:ad,ad_user_data:ad,ad_personalization:ad,analytics_storage:a,functionality_storage:'granted',security_storage:'granted',wait_for_update:500});gtag('set','ads_data_redaction',ad!=='granted');gtag('set','url_passthrough',true);})();",
+      },
       {
         children:
           "(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-MWXDZDJR');",
@@ -186,6 +191,7 @@ function RootComponent() {
         </main>
         <Footer />
         <MessengerChat />
+        <CookieConsent />
       </div>
     </QueryClientProvider>
   );
