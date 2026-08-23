@@ -1,9 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowLeft, Check, Phone } from "lucide-react";
+import { ArrowLeft, Check, Phone, ShoppingCart } from "lucide-react";
 import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
 import { productBySlugQueryOptions, productsQueryOptions } from "@/lib/products-db";
+import { QuickOrderDialog } from "@/components/QuickOrderDialog";
 
 function installPriceForBtu(btu: number): number {
   if (!btu || btu <= 0) return 230;
@@ -154,6 +155,7 @@ function buildFaqs(product: Product) {
 function ProductDetail() {
   const { product } = Route.useLoaderData() as { product: Product };
   const [withInstall, setWithInstall] = useState(false);
+  const [quickOrderOpen, setQuickOrderOpen] = useState(false);
   const installPrice = installPriceForBtu(product.btu);
   const totalEur = product.priceEur + (withInstall ? installPrice : 0);
   const EUR_TO_BGN = 1.95583;
@@ -341,6 +343,20 @@ function ProductDetail() {
                   Изпрати запитване
                 </Link>
               </div>
+
+              <button
+                type="button"
+                onClick={() => setQuickOrderOpen(true)}
+                className="mt-3 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-navy px-7 py-4 text-base font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5"
+              >
+                <ShoppingCart className="h-5 w-5" /> Направи бърза поръчка за този модел
+              </button>
+
+              <QuickOrderDialog
+                product={product}
+                open={quickOrderOpen}
+                onClose={() => setQuickOrderOpen(false)}
+              />
             </div>
           </div>
         </div>

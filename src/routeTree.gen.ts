@@ -25,6 +25,7 @@ import { Route as ProduktiSlugRouteImport } from './routes/produkti.$slug'
 import { Route as AdminKalendarRouteImport } from './routes/admin.kalendar'
 import { Route as AdminPorachkiIndexRouteImport } from './routes/admin.porachki.index'
 import { Route as AdminKlientiIndexRouteImport } from './routes/admin.klienti.index'
+import { Route as ApiPublicQuickOrderRouteImport } from './routes/api/public/quick-order'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 import { Route as AdminPorachkiNovaRouteImport } from './routes/admin.porachki.nova'
 import { Route as AdminKlientiIdRouteImport } from './routes/admin.klienti.$id'
@@ -109,6 +110,11 @@ const AdminKlientiIndexRoute = AdminKlientiIndexRouteImport.update({
   path: '/klienti/',
   getParentRoute: () => AdminRoute,
 } as any)
+const ApiPublicQuickOrderRoute = ApiPublicQuickOrderRouteImport.update({
+  id: '/api/public/quick-order',
+  path: '/api/public/quick-order',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   id: '/api/public/contact',
   path: '/api/public/contact',
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/admin/klienti/$id': typeof AdminKlientiIdRoute
   '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/quick-order': typeof ApiPublicQuickOrderRoute
   '/admin/klienti/': typeof AdminKlientiIndexRoute
   '/admin/porachki/': typeof AdminPorachkiIndexRoute
 }
@@ -163,6 +170,7 @@ export interface FileRoutesByTo {
   '/admin/klienti/$id': typeof AdminKlientiIdRoute
   '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/quick-order': typeof ApiPublicQuickOrderRoute
   '/admin/klienti': typeof AdminKlientiIndexRoute
   '/admin/porachki': typeof AdminPorachkiIndexRoute
 }
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/admin/klienti/$id': typeof AdminKlientiIdRoute
   '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/quick-order': typeof ApiPublicQuickOrderRoute
   '/admin/klienti/': typeof AdminKlientiIndexRoute
   '/admin/porachki/': typeof AdminPorachkiIndexRoute
 }
@@ -208,6 +217,7 @@ export interface FileRouteTypes {
     | '/admin/klienti/$id'
     | '/admin/porachki/nova'
     | '/api/public/contact'
+    | '/api/public/quick-order'
     | '/admin/klienti/'
     | '/admin/porachki/'
   fileRoutesByTo: FileRoutesByTo
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/admin/klienti/$id'
     | '/admin/porachki/nova'
     | '/api/public/contact'
+    | '/api/public/quick-order'
     | '/admin/klienti'
     | '/admin/porachki'
   id:
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/admin/klienti/$id'
     | '/admin/porachki/nova'
     | '/api/public/contact'
+    | '/api/public/quick-order'
     | '/admin/klienti/'
     | '/admin/porachki/'
   fileRoutesById: FileRoutesById
@@ -267,6 +279,7 @@ export interface RootRouteChildren {
   ProduktiSlugRoute: typeof ProduktiSlugRoute
   ProduktiIndexRoute: typeof ProduktiIndexRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
+  ApiPublicQuickOrderRoute: typeof ApiPublicQuickOrderRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -383,6 +396,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminKlientiIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/api/public/quick-order': {
+      id: '/api/public/quick-order'
+      path: '/api/public/quick-order'
+      fullPath: '/api/public/quick-order'
+      preLoaderRoute: typeof ApiPublicQuickOrderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/contact': {
       id: '/api/public/contact'
       path: '/api/public/contact'
@@ -441,6 +461,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProduktiSlugRoute: ProduktiSlugRoute,
   ProduktiIndexRoute: ProduktiIndexRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
+  ApiPublicQuickOrderRoute: ApiPublicQuickOrderRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
