@@ -13,7 +13,7 @@ import {
   type Order,
 } from "@/lib/admin";
 
-import { Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/porachki/")({
   component: OrdersPage,
@@ -200,6 +200,15 @@ function OrdersPage() {
                     {money(Number(o.total_price) - Number(o.paid_amount))}
                   </td>
                   <td className="px-3 py-3">
+                    <div className="flex items-center gap-1">
+                    <Link
+                      to="/admin/porachki/$id"
+                      params={{ id: o.id }}
+                      aria-label="Редактирай"
+                      className="rounded-md p-1.5 text-slate-400 hover:bg-slate-100 hover:text-brand-navy"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Link>
                     <button
                       onClick={() => void remove(o.id)}
                       aria-label="Изтрий"
@@ -207,6 +216,7 @@ function OrdersPage() {
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
+                    </div>
                   </td>
                 </tr>
               ))

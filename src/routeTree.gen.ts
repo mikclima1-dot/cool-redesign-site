@@ -28,6 +28,7 @@ import { Route as AdminKlientiIndexRouteImport } from './routes/admin.klienti.in
 import { Route as ApiPublicQuickOrderRouteImport } from './routes/api/public/quick-order'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 import { Route as AdminPorachkiNovaRouteImport } from './routes/admin.porachki.nova'
+import { Route as AdminPorachkiIdRouteImport } from './routes/admin.porachki.$id'
 import { Route as AdminKlientiIdRouteImport } from './routes/admin.klienti.$id'
 
 const ZaNasRoute = ZaNasRouteImport.update({
@@ -125,6 +126,11 @@ const AdminPorachkiNovaRoute = AdminPorachkiNovaRouteImport.update({
   path: '/porachki/nova',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPorachkiIdRoute = AdminPorachkiIdRouteImport.update({
+  id: '/porachki/$id',
+  path: '/porachki/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminKlientiIdRoute = AdminKlientiIdRouteImport.update({
   id: '/klienti/$id',
   path: '/klienti/$id',
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/produkti/': typeof ProduktiIndexRoute
   '/admin/klienti/$id': typeof AdminKlientiIdRoute
+  '/admin/porachki/$id': typeof AdminPorachkiIdRoute
   '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/quick-order': typeof ApiPublicQuickOrderRoute
@@ -168,6 +175,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/produkti': typeof ProduktiIndexRoute
   '/admin/klienti/$id': typeof AdminKlientiIdRoute
+  '/admin/porachki/$id': typeof AdminPorachkiIdRoute
   '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/quick-order': typeof ApiPublicQuickOrderRoute
@@ -191,6 +199,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/produkti/': typeof ProduktiIndexRoute
   '/admin/klienti/$id': typeof AdminKlientiIdRoute
+  '/admin/porachki/$id': typeof AdminPorachkiIdRoute
   '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/quick-order': typeof ApiPublicQuickOrderRoute
@@ -215,6 +224,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/produkti/'
     | '/admin/klienti/$id'
+    | '/admin/porachki/$id'
     | '/admin/porachki/nova'
     | '/api/public/contact'
     | '/api/public/quick-order'
@@ -236,6 +246,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/produkti'
     | '/admin/klienti/$id'
+    | '/admin/porachki/$id'
     | '/admin/porachki/nova'
     | '/api/public/contact'
     | '/api/public/quick-order'
@@ -258,6 +269,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/produkti/'
     | '/admin/klienti/$id'
+    | '/admin/porachki/$id'
     | '/admin/porachki/nova'
     | '/api/public/contact'
     | '/api/public/quick-order'
@@ -417,6 +429,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPorachkiNovaRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/porachki/$id': {
+      id: '/admin/porachki/$id'
+      path: '/porachki/$id'
+      fullPath: '/admin/porachki/$id'
+      preLoaderRoute: typeof AdminPorachkiIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/klienti/$id': {
       id: '/admin/klienti/$id'
       path: '/klienti/$id'
@@ -431,6 +450,7 @@ interface AdminRouteChildren {
   AdminKalendarRoute: typeof AdminKalendarRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminKlientiIdRoute: typeof AdminKlientiIdRoute
+  AdminPorachkiIdRoute: typeof AdminPorachkiIdRoute
   AdminPorachkiNovaRoute: typeof AdminPorachkiNovaRoute
   AdminKlientiIndexRoute: typeof AdminKlientiIndexRoute
   AdminPorachkiIndexRoute: typeof AdminPorachkiIndexRoute
@@ -440,6 +460,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminKalendarRoute: AdminKalendarRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminKlientiIdRoute: AdminKlientiIdRoute,
+  AdminPorachkiIdRoute: AdminPorachkiIdRoute,
   AdminPorachkiNovaRoute: AdminPorachkiNovaRoute,
   AdminKlientiIndexRoute: AdminKlientiIndexRoute,
   AdminPorachkiIndexRoute: AdminPorachkiIndexRoute,
