@@ -152,13 +152,13 @@ function OrdersPage() {
           <tbody className="divide-y divide-slate-100">
             {isLoading ? (
               <tr>
-                <td colSpan={11} className="px-3 py-6 text-slate-500">
+                <td colSpan={12} className="px-3 py-6 text-slate-500">
                   Зареждане...
                 </td>
               </tr>
             ) : rows.length === 0 ? (
               <tr>
-                <td colSpan={11} className="px-3 py-6 text-slate-500">
+                <td colSpan={12} className="px-3 py-6 text-slate-500">
                   Няма поръчки.
                 </td>
               </tr>

@@ -292,7 +292,7 @@ function NewOrderPage() {
                   </Field>
                 </div>
                 <div className="sm:col-span-2">
-                  <Field label="Ед. цена (лв.)">
+                  <Field label="Ед. цена (€)">
                     <input
                       type="number"
                       step="0.01"
