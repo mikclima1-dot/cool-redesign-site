@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
   formatDate,
+  formatDateTime,
   formatTime,
   money,
   orderUnitsLabel,
@@ -22,6 +23,9 @@ function OrdersPage() {
   const qc = useQueryClient();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
+  const [dateField, setDateField] = useState<"installation_date" | "created_at">("installation_date");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "orders"],
@@ -43,9 +47,14 @@ function OrdersPage() {
         (o.customers?.name ?? "").toLowerCase().includes(q) ||
         (o.customers?.phone ?? "").toLowerCase().includes(q);
       const matchesStatus = !status || o.status === status;
-      return matchesQ && matchesStatus;
+      const raw = dateField === "created_at" ? o.created_at : o.installation_date;
+      const day = raw ? String(raw).slice(0, 10) : "";
+      const matchesFrom = !dateFrom || (day && day >= dateFrom);
+      const matchesTo = !dateTo || (day && day <= dateTo);
+      return matchesQ && matchesStatus && matchesFrom && matchesTo;
     });
-  }, [data, search, status]);
+  }, [data, search, status, dateField, dateFrom, dateTo]);
+
 
   async function updateStatus(id: string, value: string) {
     await supabase.from("orders").update({ status: value }).eq("id", id);
@@ -89,10 +98,41 @@ function OrdersPage() {
             </option>
           ))}
         </select>
+        <select
+          value={dateField}
+          onChange={(e) => setDateField(e.target.value as "installation_date" | "created_at")}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-brand-navy"
+        >
+          <option value="installation_date">Дата за монтаж</option>
+          <option value="created_at">Дата на създаване</option>
+        </select>
+        <input
+          type="date"
+          value={dateFrom}
+          onChange={(e) => setDateFrom(e.target.value)}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-brand-navy"
+        />
+        <input
+          type="date"
+          value={dateTo}
+          onChange={(e) => setDateTo(e.target.value)}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-brand-navy"
+        />
+        {(dateFrom || dateTo) && (
+          <button
+            onClick={() => {
+              setDateFrom("");
+              setDateTo("");
+            }}
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-600 hover:bg-slate-50"
+          >
+            Изчисти дати
+          </button>
+        )}
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-        <table className="w-full min-w-[980px] text-sm">
+        <table className="w-full min-w-[1100px] text-sm">
           <thead className="bg-slate-50 text-left text-xs uppercase text-slate-500">
             <tr>
               <th className="px-3 py-3">№</th>
@@ -101,6 +141,7 @@ function OrdersPage() {
               <th className="px-3 py-3">Услуга</th>
               <th className="px-3 py-3">Климатик</th>
               <th className="px-3 py-3">Дата за монтаж</th>
+              <th className="px-3 py-3">Създадена</th>
               <th className="px-3 py-3">Статус</th>
               <th className="px-3 py-3">Обща цена</th>
               <th className="px-3 py-3">Платено</th>
@@ -111,13 +152,13 @@ function OrdersPage() {
           <tbody className="divide-y divide-slate-100">
             {isLoading ? (
               <tr>
-                <td colSpan={11} className="px-3 py-6 text-slate-500">
+                <td colSpan={12} className="px-3 py-6 text-slate-500">
                   Зареждане...
                 </td>
               </tr>
             ) : rows.length === 0 ? (
               <tr>
-                <td colSpan={11} className="px-3 py-6 text-slate-500">
+                <td colSpan={12} className="px-3 py-6 text-slate-500">
                   Няма поръчки.
                 </td>
               </tr>
@@ -136,6 +177,9 @@ function OrdersPage() {
 
                   <td className="px-3 py-3 whitespace-nowrap">
                     {formatDate(o.installation_date)} {formatTime(o.installation_time)}
+                  </td>
+                  <td className="px-3 py-3 whitespace-nowrap text-slate-500">
+                    {formatDateTime(o.created_at)}
                   </td>
                   <td className="px-3 py-3">
                     <select

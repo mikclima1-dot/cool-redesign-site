@@ -7,27 +7,32 @@ export const SERVICE_TYPES = [
   "Друго",
 ] as const;
 
-export const ORDER_STATUSES = [
-  "Нова",
-  "Потвърдена",
-  "Насрочена",
-  "Завършена",
-  "Отказана",
-] as const;
+export const ORDER_STATUSES = ["Предстояща", "Завършена", "Отказана"] as const;
 
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
 
 export const STATUS_CLASSES: Record<string, string> = {
-  Нова: "bg-slate-100 text-slate-700",
-  Потвърдена: "bg-blue-100 text-blue-700",
-  Насрочена: "bg-amber-100 text-amber-800",
+  Предстояща: "bg-amber-100 text-amber-800",
   Завършена: "bg-emerald-100 text-emerald-700",
   Отказана: "bg-rose-100 text-rose-700",
 };
 
 export function money(value: number | null | undefined) {
   const n = Number(value ?? 0);
-  return `${n.toLocaleString("bg-BG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} лв.`;
+  return `${n.toLocaleString("bg-BG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
+}
+
+export function formatDateTime(value: string | null | undefined) {
+  if (!value) return "-";
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "-";
+  return d.toLocaleString("bg-BG", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 export function formatDate(value: string | null | undefined) {
