@@ -47,13 +47,14 @@ function LoginScreen({ onSignedIn }: { onSignedIn: () => void }) {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-brand-navy px-4 py-10">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-sm"
+        className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-xl"
       >
-        <h1 className="text-xl font-semibold text-brand-navy">MIK Clima - Админ панел</h1>
-        <p className="mt-1 text-sm text-slate-500">Вход само за оторизиран потребител.</p>
+        <img src="/logo.png" alt="MIK Clima" className="mx-auto h-14 w-auto" />
+        <h1 className="mt-5 text-center text-lg font-semibold text-brand-navy">Админ панел</h1>
+        <p className="mt-1 text-center text-sm text-slate-500">Вход само за оторизиран потребител.</p>
 
         <label className="mt-6 block text-sm font-medium text-slate-700">Имейл</label>
         <input
