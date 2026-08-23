@@ -27,7 +27,11 @@ function CustomersPage() {
 
   const q = search.trim().toLowerCase();
   const rows = (data ?? []).filter(
-    (c) => !q || c.name.toLowerCase().includes(q) || c.phone.toLowerCase().includes(q),
+    (c) =>
+      !q ||
+      c.name.toLowerCase().includes(q) ||
+      c.phone.toLowerCase().includes(q) ||
+      (c.email ?? "").toLowerCase().includes(q),
   );
 
   return (
