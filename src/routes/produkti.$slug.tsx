@@ -1,9 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowLeft, Check, Phone } from "lucide-react";
+import { ArrowLeft, Check, Phone, ShoppingCart } from "lucide-react";
 import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
 import { productBySlugQueryOptions, productsQueryOptions } from "@/lib/products-db";
+import { QuickOrderDialog } from "@/components/QuickOrderDialog";
 
 function installPriceForBtu(btu: number): number {
   if (!btu || btu <= 0) return 230;
@@ -154,6 +155,7 @@ function buildFaqs(product: Product) {
 function ProductDetail() {
   const { product } = Route.useLoaderData() as { product: Product };
   const [withInstall, setWithInstall] = useState(false);
+  const [quickOrderOpen, setQuickOrderOpen] = useState(false);
   const installPrice = installPriceForBtu(product.btu);
   const totalEur = product.priceEur + (withInstall ? installPrice : 0);
   const EUR_TO_BGN = 1.95583;
