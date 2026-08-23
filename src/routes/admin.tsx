@@ -47,13 +47,14 @@ function LoginScreen({ onSignedIn }: { onSignedIn: () => void }) {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-brand-navy px-4 py-10">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-sm"
+        className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-xl"
       >
-        <h1 className="text-xl font-semibold text-brand-navy">MIK Clima - Админ панел</h1>
-        <p className="mt-1 text-sm text-slate-500">Вход само за оторизиран потребител.</p>
+        <img src="/logo.png" alt="MIK Clima" className="mx-auto h-14 w-auto" />
+        <h1 className="mt-5 text-center text-lg font-semibold text-brand-navy">Админ панел</h1>
+        <p className="mt-1 text-center text-sm text-slate-500">Вход само за оторизиран потребител.</p>
 
         <label className="mt-6 block text-sm font-medium text-slate-700">Имейл</label>
         <input
@@ -162,48 +163,74 @@ function AdminLayout() {
     );
   }
 
+  const userEmail = session.user.email ?? "";
+
   return (
-    <div className="min-h-screen bg-slate-50 md:flex">
-      <header className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 md:hidden">
-        <span className="font-semibold text-brand-navy">MIK Clima Админ</span>
-        <button aria-label="Меню" onClick={() => setMenuOpen((v) => !v)}>
+    <div className="min-h-screen bg-slate-100 md:flex">
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-2.5 shadow-sm md:hidden">
+        <img src="/logo.png" alt="MIK Clima" className="h-10 w-auto" />
+        <button
+          aria-label="Меню"
+          onClick={() => setMenuOpen((v) => !v)}
+          className="rounded-lg border border-slate-200 p-2 text-brand-navy"
+        >
           {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </header>
 
       <aside
-        className={`${menuOpen ? "block" : "hidden"} border-b border-slate-200 bg-white p-3 md:sticky md:top-0 md:block md:h-screen md:w-60 md:shrink-0 md:border-b-0 md:border-r md:p-4`}
+        className={`${menuOpen ? "block" : "hidden"} bg-brand-navy p-3 text-white md:sticky md:top-0 md:block md:flex md:h-screen md:w-64 md:shrink-0 md:flex-col md:p-4`}
       >
-        <div className="mb-6 hidden px-2 text-lg font-semibold text-brand-navy md:block">
-          MIK Clima
+        <div className="mb-6 hidden rounded-xl bg-white p-3 md:block">
+          <img src="/logo.png" alt="MIK Clima" className="mx-auto h-12 w-auto" />
         </div>
+        <p className="mb-3 hidden px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50 md:block">
+          Админ панел
+        </p>
         <nav className="flex flex-col gap-1">
           {NAV.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               activeOptions={{ exact: item.exact ?? false }}
-              activeProps={{ className: "bg-brand-navy text-white" }}
-              inactiveProps={{ className: "text-slate-600 hover:bg-slate-100" }}
+              activeProps={{ className: "bg-white text-brand-navy shadow-sm" }}
+              inactiveProps={{ className: "text-white/70 hover:bg-white/10 hover:text-white" }}
               onClick={() => setMenuOpen(false)}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium"
+              className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors"
             >
               <item.icon className="h-4 w-4" />
               {item.label}
             </Link>
           ))}
+        </nav>
+
+        <div className="mt-4 border-t border-white/10 pt-4 md:mt-auto">
+          <div className="flex items-center gap-3 px-1">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-sm font-semibold uppercase text-white">
+              {userEmail.slice(0, 1) || "A"}
+            </span>
+            <span className="min-w-0 flex-1 truncate text-xs text-white/70">{userEmail}</span>
+          </div>
           <button
             onClick={handleSignOut}
-            className="mt-2 flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
+            className="mt-3 flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
           >
             <LogOut className="h-4 w-4" />
             Изход
           </button>
-        </nav>
+          <Link
+            to="/"
+            className="mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-2 text-xs text-white/50 transition-colors hover:text-white"
+          >
+            Към сайта mikclima.com
+          </Link>
+        </div>
       </aside>
 
       <main className="min-w-0 flex-1 p-4 md:p-8">
-        <Outlet />
+        <div className="mx-auto max-w-6xl">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
