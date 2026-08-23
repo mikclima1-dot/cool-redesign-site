@@ -17,6 +17,7 @@ import { Route as ObshtiUsloviyaRouteImport } from './routes/obshti-usloviya'
 import { Route as MetaProductsDotcsvRouteImport } from './routes/meta-products[.]csv'
 import { Route as KontaktiRouteImport } from './routes/kontakti'
 import { Route as KalkulatorRouteImport } from './routes/kalkulator'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProduktiIndexRouteImport } from './routes/produkti.index'
 import { Route as ProduktiSlugRouteImport } from './routes/produkti.$slug'
@@ -62,6 +63,11 @@ const KalkulatorRoute = KalkulatorRouteImport.update({
   path: '/kalkulator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -85,6 +91,7 @@ const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/meta-products.csv': typeof MetaProductsDotcsvRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/meta-products.csv': typeof MetaProductsDotcsvRoute
@@ -114,6 +122,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/meta-products.csv': typeof MetaProductsDotcsvRoute
@@ -130,6 +139,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/kalkulator'
     | '/kontakti'
     | '/meta-products.csv'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/kalkulator'
     | '/kontakti'
     | '/meta-products.csv'
@@ -158,6 +169,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/kalkulator'
     | '/kontakti'
     | '/meta-products.csv'
@@ -173,6 +185,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   KalkulatorRoute: typeof KalkulatorRoute
   KontaktiRoute: typeof KontaktiRoute
   MetaProductsDotcsvRoute: typeof MetaProductsDotcsvRoute
@@ -244,6 +257,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KalkulatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -277,6 +297,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   KalkulatorRoute: KalkulatorRoute,
   KontaktiRoute: KontaktiRoute,
   MetaProductsDotcsvRoute: MetaProductsDotcsvRoute,
