@@ -9,7 +9,7 @@ import {
   STATUS_CLASSES,
   type Order,
 } from "@/lib/admin";
-import { Plus } from "lucide-react";
+import { CalendarDays, CheckCircle2, Euro, Plus } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
   component: Dashboard,
