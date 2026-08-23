@@ -98,10 +98,41 @@ function OrdersPage() {
             </option>
           ))}
         </select>
+        <select
+          value={dateField}
+          onChange={(e) => setDateField(e.target.value as "installation_date" | "created_at")}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-brand-navy"
+        >
+          <option value="installation_date">Дата за монтаж</option>
+          <option value="created_at">Дата на създаване</option>
+        </select>
+        <input
+          type="date"
+          value={dateFrom}
+          onChange={(e) => setDateFrom(e.target.value)}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-brand-navy"
+        />
+        <input
+          type="date"
+          value={dateTo}
+          onChange={(e) => setDateTo(e.target.value)}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-brand-navy"
+        />
+        {(dateFrom || dateTo) && (
+          <button
+            onClick={() => {
+              setDateFrom("");
+              setDateTo("");
+            }}
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-600 hover:bg-slate-50"
+          >
+            Изчисти дати
+          </button>
+        )}
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-        <table className="w-full min-w-[980px] text-sm">
+        <table className="w-full min-w-[1100px] text-sm">
           <thead className="bg-slate-50 text-left text-xs uppercase text-slate-500">
             <tr>
               <th className="px-3 py-3">№</th>
@@ -110,6 +141,7 @@ function OrdersPage() {
               <th className="px-3 py-3">Услуга</th>
               <th className="px-3 py-3">Климатик</th>
               <th className="px-3 py-3">Дата за монтаж</th>
+              <th className="px-3 py-3">Създадена</th>
               <th className="px-3 py-3">Статус</th>
               <th className="px-3 py-3">Обща цена</th>
               <th className="px-3 py-3">Платено</th>
