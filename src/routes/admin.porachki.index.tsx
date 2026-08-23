@@ -23,6 +23,9 @@ function OrdersPage() {
   const qc = useQueryClient();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
+  const [dateField, setDateField] = useState<"installation_date" | "created_at">("installation_date");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "orders"],
@@ -44,9 +47,14 @@ function OrdersPage() {
         (o.customers?.name ?? "").toLowerCase().includes(q) ||
         (o.customers?.phone ?? "").toLowerCase().includes(q);
       const matchesStatus = !status || o.status === status;
-      return matchesQ && matchesStatus;
+      const raw = dateField === "created_at" ? o.created_at : o.installation_date;
+      const day = raw ? String(raw).slice(0, 10) : "";
+      const matchesFrom = !dateFrom || (day && day >= dateFrom);
+      const matchesTo = !dateTo || (day && day <= dateTo);
+      return matchesQ && matchesStatus && matchesFrom && matchesTo;
     });
-  }, [data, search, status]);
+  }, [data, search, status, dateField, dateFrom, dateTo]);
+
 
   async function updateStatus(id: string, value: string) {
     await supabase.from("orders").update({ status: value }).eq("id", id);
