@@ -41,32 +41,65 @@ function Dashboard() {
       o.status !== "Отказана",
   );
   const done = orders.filter((o) => o.status === "Завършена");
+  const revenue = done.reduce((sum, o) => sum + (Number(o.total_price) || 0), 0);
+
+  const stats = [
+    {
+      label: "Предстоящи монтажи",
+      value: String(upcoming.length),
+      icon: CalendarDays,
+      accent: "bg-brand-sky-soft text-brand-navy",
+    },
+    {
+      label: "Приключени поръчки",
+      value: String(done.length),
+      icon: CheckCircle2,
+      accent: "bg-emerald-50 text-emerald-600",
+    },
+    {
+      label: "Оборот от приключени",
+      value: money(revenue),
+      icon: Euro,
+      accent: "bg-amber-50 text-amber-600",
+    },
+  ];
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-semibold text-brand-navy">Табло</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-brand-navy px-5 py-5 text-white shadow-sm">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">
+            MIK Clima
+          </p>
+          <h1 className="mt-1 text-2xl font-semibold">Табло</h1>
+        </div>
         <Link
           to="/admin/porachki/nova"
-          className="inline-flex items-center gap-2 rounded-lg bg-brand-navy px-4 py-2.5 text-sm font-semibold text-white"
+          className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-brand-navy transition-opacity hover:opacity-90"
         >
           <Plus className="h-4 w-4" /> Нова поръчка
         </Link>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <p className="text-sm text-slate-500">Предстоящи монтажи</p>
-          <p className="mt-1 text-3xl font-semibold text-brand-navy">{upcoming.length}</p>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <p className="text-sm text-slate-500">Приключени поръчки</p>
-          <p className="mt-1 text-3xl font-semibold text-brand-navy">{done.length}</p>
-        </div>
+      <div className="grid gap-4 sm:grid-cols-3">
+        {stats.map((s) => (
+          <div
+            key={s.label}
+            className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm text-slate-500">{s.label}</p>
+              <span className={`flex h-9 w-9 items-center justify-center rounded-lg ${s.accent}`}>
+                <s.icon className="h-4.5 w-4.5" />
+              </span>
+            </div>
+            <p className="mt-2 text-3xl font-semibold text-brand-navy">{s.value}</p>
+          </div>
+        ))}
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white">
-        <div className="border-b border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="border-b border-slate-200 bg-slate-50/60 px-5 py-3 text-sm font-semibold text-slate-700">
           Най-близки предстоящи монтажи
         </div>
         {isLoading ? (
