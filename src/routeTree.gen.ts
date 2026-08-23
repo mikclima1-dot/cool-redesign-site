@@ -17,10 +17,17 @@ import { Route as ObshtiUsloviyaRouteImport } from './routes/obshti-usloviya'
 import { Route as MetaProductsDotcsvRouteImport } from './routes/meta-products[.]csv'
 import { Route as KontaktiRouteImport } from './routes/kontakti'
 import { Route as KalkulatorRouteImport } from './routes/kalkulator'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProduktiIndexRouteImport } from './routes/produkti.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProduktiSlugRouteImport } from './routes/produkti.$slug'
+import { Route as AdminKalendarRouteImport } from './routes/admin.kalendar'
+import { Route as AdminPorachkiIndexRouteImport } from './routes/admin.porachki.index'
+import { Route as AdminKlientiIndexRouteImport } from './routes/admin.klienti.index'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as AdminPorachkiNovaRouteImport } from './routes/admin.porachki.nova'
+import { Route as AdminKlientiIdRouteImport } from './routes/admin.klienti.$id'
 
 const ZaNasRoute = ZaNasRouteImport.update({
   id: '/za-nas',
@@ -62,6 +69,11 @@ const KalkulatorRoute = KalkulatorRouteImport.update({
   path: '/kalkulator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -72,19 +84,50 @@ const ProduktiIndexRoute = ProduktiIndexRouteImport.update({
   path: '/produkti/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ProduktiSlugRoute = ProduktiSlugRouteImport.update({
   id: '/produkti/$slug',
   path: '/produkti/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminKalendarRoute = AdminKalendarRouteImport.update({
+  id: '/kalendar',
+  path: '/kalendar',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPorachkiIndexRoute = AdminPorachkiIndexRouteImport.update({
+  id: '/porachki/',
+  path: '/porachki/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminKlientiIndexRoute = AdminKlientiIndexRouteImport.update({
+  id: '/klienti/',
+  path: '/klienti/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   id: '/api/public/contact',
   path: '/api/public/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPorachkiNovaRoute = AdminPorachkiNovaRouteImport.update({
+  id: '/porachki/nova',
+  path: '/porachki/nova',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminKlientiIdRoute = AdminKlientiIdRouteImport.update({
+  id: '/klienti/$id',
+  path: '/klienti/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/meta-products.csv': typeof MetaProductsDotcsvRoute
@@ -93,9 +136,15 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/uslugi': typeof UslugiRoute
   '/za-nas': typeof ZaNasRoute
+  '/admin/kalendar': typeof AdminKalendarRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/produkti/': typeof ProduktiIndexRoute
+  '/admin/klienti/$id': typeof AdminKlientiIdRoute
+  '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/admin/klienti/': typeof AdminKlientiIndexRoute
+  '/admin/porachki/': typeof AdminPorachkiIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -107,13 +156,20 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/uslugi': typeof UslugiRoute
   '/za-nas': typeof ZaNasRoute
+  '/admin/kalendar': typeof AdminKalendarRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/produkti': typeof ProduktiIndexRoute
+  '/admin/klienti/$id': typeof AdminKlientiIdRoute
+  '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/admin/klienti': typeof AdminKlientiIndexRoute
+  '/admin/porachki': typeof AdminPorachkiIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/meta-products.csv': typeof MetaProductsDotcsvRoute
@@ -122,14 +178,21 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/uslugi': typeof UslugiRoute
   '/za-nas': typeof ZaNasRoute
+  '/admin/kalendar': typeof AdminKalendarRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/produkti/': typeof ProduktiIndexRoute
+  '/admin/klienti/$id': typeof AdminKlientiIdRoute
+  '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/admin/klienti/': typeof AdminKlientiIndexRoute
+  '/admin/porachki/': typeof AdminPorachkiIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/kalkulator'
     | '/kontakti'
     | '/meta-products.csv'
@@ -138,9 +201,15 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/uslugi'
     | '/za-nas'
+    | '/admin/kalendar'
     | '/produkti/$slug'
+    | '/admin/'
     | '/produkti/'
+    | '/admin/klienti/$id'
+    | '/admin/porachki/nova'
     | '/api/public/contact'
+    | '/admin/klienti/'
+    | '/admin/porachki/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -152,12 +221,19 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/uslugi'
     | '/za-nas'
+    | '/admin/kalendar'
     | '/produkti/$slug'
+    | '/admin'
     | '/produkti'
+    | '/admin/klienti/$id'
+    | '/admin/porachki/nova'
     | '/api/public/contact'
+    | '/admin/klienti'
+    | '/admin/porachki'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/kalkulator'
     | '/kontakti'
     | '/meta-products.csv'
@@ -166,13 +242,20 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/uslugi'
     | '/za-nas'
+    | '/admin/kalendar'
     | '/produkti/$slug'
+    | '/admin/'
     | '/produkti/'
+    | '/admin/klienti/$id'
+    | '/admin/porachki/nova'
     | '/api/public/contact'
+    | '/admin/klienti/'
+    | '/admin/porachki/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   KalkulatorRoute: typeof KalkulatorRoute
   KontaktiRoute: typeof KontaktiRoute
   MetaProductsDotcsvRoute: typeof MetaProductsDotcsvRoute
@@ -244,6 +327,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KalkulatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -258,12 +348,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProduktiIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/produkti/$slug': {
       id: '/produkti/$slug'
       path: '/produkti/$slug'
       fullPath: '/produkti/$slug'
       preLoaderRoute: typeof ProduktiSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/kalendar': {
+      id: '/admin/kalendar'
+      path: '/kalendar'
+      fullPath: '/admin/kalendar'
+      preLoaderRoute: typeof AdminKalendarRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/porachki/': {
+      id: '/admin/porachki/'
+      path: '/porachki'
+      fullPath: '/admin/porachki/'
+      preLoaderRoute: typeof AdminPorachkiIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/klienti/': {
+      id: '/admin/klienti/'
+      path: '/klienti'
+      fullPath: '/admin/klienti/'
+      preLoaderRoute: typeof AdminKlientiIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/api/public/contact': {
       id: '/api/public/contact'
@@ -272,11 +390,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/porachki/nova': {
+      id: '/admin/porachki/nova'
+      path: '/porachki/nova'
+      fullPath: '/admin/porachki/nova'
+      preLoaderRoute: typeof AdminPorachkiNovaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/klienti/$id': {
+      id: '/admin/klienti/$id'
+      path: '/klienti/$id'
+      fullPath: '/admin/klienti/$id'
+      preLoaderRoute: typeof AdminKlientiIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminKalendarRoute: typeof AdminKalendarRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminKlientiIdRoute: typeof AdminKlientiIdRoute
+  AdminPorachkiNovaRoute: typeof AdminPorachkiNovaRoute
+  AdminKlientiIndexRoute: typeof AdminKlientiIndexRoute
+  AdminPorachkiIndexRoute: typeof AdminPorachkiIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminKalendarRoute: AdminKalendarRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminKlientiIdRoute: AdminKlientiIdRoute,
+  AdminPorachkiNovaRoute: AdminPorachkiNovaRoute,
+  AdminKlientiIndexRoute: AdminKlientiIndexRoute,
+  AdminPorachkiIndexRoute: AdminPorachkiIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   KalkulatorRoute: KalkulatorRoute,
   KontaktiRoute: KontaktiRoute,
   MetaProductsDotcsvRoute: MetaProductsDotcsvRoute,
