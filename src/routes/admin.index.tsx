@@ -1,7 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { formatDate, formatTime, money, STATUS_CLASSES, type Order } from "@/lib/admin";
+import {
+  formatDate,
+  formatTime,
+  money,
+  orderUnitsLabel,
+  STATUS_CLASSES,
+  type Order,
+} from "@/lib/admin";
 import { Plus } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
@@ -75,10 +82,10 @@ function Dashboard() {
                     {o.customers?.name} - {o.customers?.phone}
                   </p>
                   <p className="truncate text-xs text-slate-500">
-                    {o.service_type}
-                    {o.brand ? ` - ${o.brand} ${o.model ?? ""}` : ""}
+                    {o.service_type} - {orderUnitsLabel(o)}
                     {o.customers?.address ? ` - ${o.customers.address}` : ""}
                   </p>
+
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm text-slate-700">

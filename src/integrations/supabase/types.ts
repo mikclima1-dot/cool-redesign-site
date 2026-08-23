@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           address: string | null
           created_at: string
+          email: string | null
           id: string
           name: string
           neighborhood: string | null
@@ -26,6 +27,7 @@ export type Database = {
         Insert: {
           address?: string | null
           created_at?: string
+          email?: string | null
           id?: string
           name: string
           neighborhood?: string | null
@@ -34,6 +36,7 @@ export type Database = {
         Update: {
           address?: string | null
           created_at?: string
+          email?: string | null
           id?: string
           name?: string
           neighborhood?: string | null
@@ -50,6 +53,7 @@ export type Database = {
           id: string
           installation_date: string | null
           installation_time: string | null
+          items: Json
           model: string | null
           notes: string | null
           order_no: number
@@ -67,6 +71,7 @@ export type Database = {
           id?: string
           installation_date?: string | null
           installation_time?: string | null
+          items?: Json
           model?: string | null
           notes?: string | null
           order_no?: number
@@ -84,6 +89,7 @@ export type Database = {
           id?: string
           installation_date?: string | null
           installation_time?: string | null
+          items?: Json
           model?: string | null
           notes?: string | null
           order_no?: number

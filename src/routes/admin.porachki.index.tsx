@@ -6,10 +6,12 @@ import {
   formatDate,
   formatTime,
   money,
+  orderUnitsLabel,
   ORDER_STATUSES,
   STATUS_CLASSES,
   type Order,
 } from "@/lib/admin";
+
 import { Plus, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/porachki/")({
@@ -130,11 +132,8 @@ function OrdersPage() {
                     </a>
                   </td>
                   <td className="px-3 py-3">{o.service_type}</td>
-                  <td className="px-3 py-3">
-                    {[o.brand, o.model, o.btu ? `${o.btu} BTU` : null, `x${o.quantity}`]
-                      .filter(Boolean)
-                      .join(" ")}
-                  </td>
+                  <td className="px-3 py-3">{orderUnitsLabel(o)}</td>
+
                   <td className="px-3 py-3 whitespace-nowrap">
                     {formatDate(o.installation_date)} {formatTime(o.installation_time)}
                   </td>

@@ -5,10 +5,12 @@ import {
   formatDate,
   formatTime,
   money,
+  orderUnitsLabel,
   STATUS_CLASSES,
   type Customer,
   type Order,
 } from "@/lib/admin";
+
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/admin/klienti/$id")({
@@ -51,8 +53,10 @@ function CustomerDetail() {
         <h1 className="text-2xl font-semibold text-brand-navy">{customer.name}</h1>
         <p className="mt-1 text-sm text-slate-600">
           {customer.phone}
+          {customer.email ? ` · ${customer.email}` : ""}
           {customer.address ? ` · ${customer.address}` : ""}
         </p>
+
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
@@ -80,10 +84,8 @@ function CustomerDetail() {
                 <tr key={o.id}>
                   <td className="px-4 py-3 text-slate-500">{o.order_no}</td>
                   <td className="px-4 py-3">{o.service_type}</td>
-                  <td className="px-4 py-3">
-                    {[o.brand, o.model, o.btu ? `${o.btu} BTU` : null].filter(Boolean).join(" ") ||
-                      "-"}
-                  </td>
+                  <td className="px-4 py-3">{orderUnitsLabel(o)}</td>
+
                   <td className="px-4 py-3 whitespace-nowrap">
                     {formatDate(o.installation_date)} {formatTime(o.installation_time)}
                   </td>

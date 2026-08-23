@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { money, ORDER_STATUSES, SERVICE_TYPES } from "@/lib/admin";
+import { money, ORDER_STATUSES, SERVICE_TYPES, type OrderItem } from "@/lib/admin";
+import { Plus, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/porachki/nova")({
   component: NewOrderPage,
@@ -20,21 +21,57 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
+type CatalogItem = {
+  slug: string;
+  title: string;
+  brand: string;
+  btu: number | null;
+  price: number;
+};
+
+const emptyItem: OrderItem = {
+  slug: null,
+  title: "",
+  brand: "",
+  btu: null,
+  quantity: 1,
+  unit_price: 0,
+};
+
 function NewOrderPage() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { data: catalog } = useQuery({
+    queryKey: ["admin", "catalog"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("products")
+        .select("slug, title, brand, btu, price")
+        .order("title", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as CatalogItem[];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const catalogByTitle = useMemo(() => {
+    const map = new Map<string, CatalogItem>();
+    for (const p of catalog ?? []) map.set(p.title, p);
+    return map;
+  }, [catalog]);
+
+  const [items, setItems] = useState<OrderItem[]>([{ ...emptyItem }]);
+  const [priceTouched, setPriceTouched] = useState(false);
+
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    email: "",
     address: "",
     service_type: SERVICE_TYPES[0] as string,
-    brand: "",
-    model: "",
-    btu: "",
-    quantity: "1",
     installation_date: "",
     installation_time: "",
     notes: "",
@@ -43,10 +80,41 @@ function NewOrderPage() {
     status: ORDER_STATUSES[0] as string,
   });
 
-  const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    setForm((f) => ({ ...f, [key]: e.target.value }));
+  const set =
+    (key: keyof typeof form) =>
+    (
+      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+    ) => {
+      if (key === "total_price") setPriceTouched(true);
+      setForm((f) => ({ ...f, [key]: e.target.value }));
+    };
 
-  const remaining = Number(form.total_price || 0) - Number(form.paid_amount || 0);
+  const itemsTotal = items.reduce(
+    (sum, it) => sum + Number(it.unit_price || 0) * Number(it.quantity || 0),
+    0,
+  );
+
+  const effectiveTotal = priceTouched || form.total_price ? Number(form.total_price || 0) : itemsTotal;
+  const remaining = effectiveTotal - Number(form.paid_amount || 0);
+
+  function updateItem(index: number, patch: Partial<OrderItem>) {
+    setItems((list) => list.map((it, i) => (i === index ? { ...it, ...patch } : it)));
+  }
+
+  function onTitleChange(index: number, value: string) {
+    const match = catalogByTitle.get(value);
+    if (match) {
+      updateItem(index, {
+        slug: match.slug,
+        title: match.title,
+        brand: match.brand,
+        btu: match.btu,
+        unit_price: Number(match.price ?? 0),
+      });
+    } else {
+      updateItem(index, { title: value, slug: null });
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -54,6 +122,8 @@ function NewOrderPage() {
     setError(null);
 
     const phone = form.phone.trim();
+    const email = form.email.trim() || null;
+
     const { data: existing } = await supabase
       .from("customers")
       .select("id")
@@ -68,6 +138,7 @@ function NewOrderPage() {
         .insert({
           name: form.name.trim(),
           phone,
+          email,
           address: form.address.trim() || null,
         })
         .select("id")
@@ -81,21 +152,39 @@ function NewOrderPage() {
     } else {
       await supabase
         .from("customers")
-        .update({ name: form.name.trim(), address: form.address.trim() || null })
+        .update({
+          name: form.name.trim(),
+          email,
+          address: form.address.trim() || null,
+        })
         .eq("id", customerId);
     }
+
+    const cleanItems = items
+      .filter((it) => it.title.trim())
+      .map((it) => ({
+        slug: it.slug,
+        title: it.title.trim(),
+        brand: it.brand?.trim() || null,
+        btu: it.btu ? Number(it.btu) : null,
+        quantity: Number(it.quantity || 1),
+        unit_price: Number(it.unit_price || 0),
+      }));
+
+    const first = cleanItems[0];
 
     const { error: oErr } = await supabase.from("orders").insert({
       customer_id: customerId,
       service_type: form.service_type,
-      brand: form.brand.trim() || null,
-      model: form.model.trim() || null,
-      btu: form.btu ? Number(form.btu) : null,
-      quantity: Number(form.quantity || 1),
+      items: cleanItems,
+      brand: first?.brand ?? null,
+      model: first?.title ?? null,
+      btu: first?.btu ?? null,
+      quantity: cleanItems.reduce((s, it) => s + it.quantity, 0) || 1,
       installation_date: form.installation_date || null,
       installation_time: form.installation_time || null,
       notes: form.notes.trim() || null,
-      total_price: Number(form.total_price || 0),
+      total_price: effectiveTotal,
       paid_amount: Number(form.paid_amount || 0),
       status: form.status,
     });
@@ -122,16 +211,118 @@ function NewOrderPage() {
           <Field label="Телефон">
             <input required value={form.phone} onChange={set("phone")} className={inputClass} />
           </Field>
-          <div className="sm:col-span-2">
-            <Field label="Адрес">
-              <input value={form.address} onChange={set("address")} className={inputClass} />
-            </Field>
-          </div>
+          <Field label="Имейл">
+            <input
+              type="email"
+              value={form.email}
+              onChange={set("email")}
+              placeholder="по желание"
+              className={inputClass}
+            />
+          </Field>
+          <Field label="Адрес">
+            <input value={form.address} onChange={set("address")} className={inputClass} />
+          </Field>
         </div>
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-5">
-        <h2 className="mb-4 text-sm font-semibold uppercase text-slate-500">Поръчка</h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-sm font-semibold uppercase text-slate-500">Климатици</h2>
+          <button
+            type="button"
+            onClick={() => setItems((l) => [...l, { ...emptyItem }])}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-brand-navy"
+          >
+            <Plus className="h-4 w-4" /> Добави климатик
+          </button>
+        </div>
+
+        <datalist id="products-list">
+          {(catalog ?? []).map((p) => (
+            <option key={p.slug} value={p.title} />
+          ))}
+        </datalist>
+
+        <div className="space-y-4">
+          {items.map((it, i) => (
+            <div key={i} className="rounded-lg border border-slate-200 p-4">
+              <div className="grid gap-3 sm:grid-cols-6">
+                <div className="sm:col-span-6">
+                  <Field label="Модел (от каталога или ръчно)">
+                    <input
+                      list="products-list"
+                      value={it.title}
+                      onChange={(e) => onTitleChange(i, e.target.value)}
+                      placeholder="Започнете да пишете марка или модел"
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
+                <div className="sm:col-span-2">
+                  <Field label="Марка">
+                    <input
+                      value={it.brand ?? ""}
+                      onChange={(e) => updateItem(i, { brand: e.target.value })}
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
+                <div className="sm:col-span-1">
+                  <Field label="BTU">
+                    <input
+                      type="number"
+                      value={it.btu ?? ""}
+                      onChange={(e) =>
+                        updateItem(i, { btu: e.target.value ? Number(e.target.value) : null })
+                      }
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
+                <div className="sm:col-span-1">
+                  <Field label="Брой">
+                    <input
+                      type="number"
+                      min="1"
+                      value={it.quantity}
+                      onChange={(e) => updateItem(i, { quantity: Number(e.target.value || 1) })}
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
+                <div className="sm:col-span-2">
+                  <Field label="Ед. цена (лв.)">
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={it.unit_price || ""}
+                      onChange={(e) => updateItem(i, { unit_price: Number(e.target.value || 0) })}
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
+              </div>
+              {items.length > 1 ? (
+                <button
+                  type="button"
+                  onClick={() => setItems((l) => l.filter((_, idx) => idx !== i))}
+                  className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-rose-600"
+                >
+                  <Trash2 className="h-3.5 w-3.5" /> Премахни
+                </button>
+              ) : null}
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-4 text-sm text-slate-600">
+          Сума от климатиците: <span className="font-semibold">{money(itemsTotal)}</span>
+        </p>
+      </section>
+
+      <section className="rounded-xl border border-slate-200 bg-white p-5">
+        <h2 className="mb-4 text-sm font-semibold uppercase text-slate-500">Услуга и монтаж</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Тип услуга">
             <select value={form.service_type} onChange={set("service_type")} className={inputClass}>
@@ -142,30 +333,7 @@ function NewOrderPage() {
               ))}
             </select>
           </Field>
-          <Field label="Марка климатик">
-            <input value={form.brand} onChange={set("brand")} className={inputClass} />
-          </Field>
-          <Field label="Модел">
-            <input value={form.model} onChange={set("model")} className={inputClass} />
-          </Field>
-          <Field label="BTU">
-            <input type="number" value={form.btu} onChange={set("btu")} className={inputClass} />
-          </Field>
-          <Field label="Количество">
-            <input
-              type="number"
-              min="1"
-              value={form.quantity}
-              onChange={set("quantity")}
-              className={inputClass}
-            />
-          </Field>
-        </div>
-      </section>
-
-      <section className="rounded-xl border border-slate-200 bg-white p-5">
-        <h2 className="mb-4 text-sm font-semibold uppercase text-slate-500">Монтаж</h2>
-        <div className="grid gap-4 sm:grid-cols-2">
+          <div />
           <Field label="Дата">
             <input
               type="date"
@@ -193,15 +361,30 @@ function NewOrderPage() {
       <section className="rounded-xl border border-slate-200 bg-white p-5">
         <h2 className="mb-4 text-sm font-semibold uppercase text-slate-500">Цена</h2>
         <div className="grid gap-4 sm:grid-cols-3">
-          <Field label="Обща цена">
-            <input
-              type="number"
-              step="0.01"
-              value={form.total_price}
-              onChange={set("total_price")}
-              className={inputClass}
-            />
-          </Field>
+          <div>
+            <Field label="Обща цена">
+              <input
+                type="number"
+                step="0.01"
+                value={form.total_price}
+                onChange={set("total_price")}
+                placeholder={itemsTotal ? String(itemsTotal.toFixed(2)) : ""}
+                className={inputClass}
+              />
+            </Field>
+            {itemsTotal > 0 ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setPriceTouched(true);
+                  setForm((f) => ({ ...f, total_price: itemsTotal.toFixed(2) }));
+                }}
+                className="mt-1 text-xs font-medium text-brand-navy underline-offset-2 hover:underline"
+              >
+                Попълни от климатиците
+              </button>
+            ) : null}
+          </div>
           <Field label="Платено">
             <input
               type="number"

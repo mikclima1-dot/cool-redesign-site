@@ -27,7 +27,11 @@ function CustomersPage() {
 
   const q = search.trim().toLowerCase();
   const rows = (data ?? []).filter(
-    (c) => !q || c.name.toLowerCase().includes(q) || c.phone.toLowerCase().includes(q),
+    (c) =>
+      !q ||
+      c.name.toLowerCase().includes(q) ||
+      c.phone.toLowerCase().includes(q) ||
+      (c.email ?? "").toLowerCase().includes(q),
   );
 
   return (
@@ -42,25 +46,27 @@ function CustomersPage() {
       />
 
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-        <table className="w-full min-w-[600px] text-sm">
+        <table className="w-full min-w-[720px] text-sm">
           <thead className="bg-slate-50 text-left text-xs uppercase text-slate-500">
             <tr>
               <th className="px-4 py-3">Име</th>
               <th className="px-4 py-3">Телефон</th>
+              <th className="px-4 py-3">Имейл</th>
               <th className="px-4 py-3">Адрес</th>
               <th className="px-4 py-3">Брой поръчки</th>
             </tr>
+
           </thead>
           <tbody className="divide-y divide-slate-100">
             {isLoading ? (
               <tr>
-                <td colSpan={4} className="px-4 py-6 text-slate-500">
+                <td colSpan={5} className="px-4 py-6 text-slate-500">
                   Зареждане...
                 </td>
               </tr>
             ) : rows.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-6 text-slate-500">
+                <td colSpan={5} className="px-4 py-6 text-slate-500">
                   Няма клиенти.
                 </td>
               </tr>
@@ -77,8 +83,10 @@ function CustomersPage() {
                     </Link>
                   </td>
                   <td className="px-4 py-3">{c.phone}</td>
+                  <td className="px-4 py-3">{c.email ?? "-"}</td>
                   <td className="px-4 py-3">{c.address ?? "-"}</td>
                   <td className="px-4 py-3">{c.orders?.length ?? 0}</td>
+
                 </tr>
               ))
             )}
