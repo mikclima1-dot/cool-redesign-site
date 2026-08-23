@@ -341,6 +341,20 @@ function ProductDetail() {
                   Изпрати запитване
                 </Link>
               </div>
+
+              <button
+                type="button"
+                onClick={() => setQuickOrderOpen(true)}
+                className="mt-3 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-navy px-7 py-4 text-base font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5"
+              >
+                <ShoppingCart className="h-5 w-5" /> Направи бърза поръчка за този модел
+              </button>
+
+              <QuickOrderDialog
+                product={product}
+                open={quickOrderOpen}
+                onClose={() => setQuickOrderOpen(false)}
+              />
             </div>
           </div>
         </div>
