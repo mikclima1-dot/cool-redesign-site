@@ -56,13 +56,13 @@ function CustomersPage() {
           <tbody className="divide-y divide-slate-100">
             {isLoading ? (
               <tr>
-                <td colSpan={4} className="px-4 py-6 text-slate-500">
+                <td colSpan={5} className="px-4 py-6 text-slate-500">
                   Зареждане...
                 </td>
               </tr>
             ) : rows.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-6 text-slate-500">
+                <td colSpan={5} className="px-4 py-6 text-slate-500">
                   Няма клиенти.
                 </td>
               </tr>
@@ -79,8 +79,10 @@ function CustomersPage() {
                     </Link>
                   </td>
                   <td className="px-4 py-3">{c.phone}</td>
+                  <td className="px-4 py-3">{c.email ?? "-"}</td>
                   <td className="px-4 py-3">{c.address ?? "-"}</td>
                   <td className="px-4 py-3">{c.orders?.length ?? 0}</td>
+
                 </tr>
               ))
             )}
