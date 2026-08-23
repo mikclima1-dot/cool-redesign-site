@@ -14,6 +14,95 @@ export type Database = {
   }
   public: {
     Tables: {
+      customers: {
+        Row: {
+          address: string | null
+          created_at: string
+          id: string
+          name: string
+          neighborhood: string | null
+          phone: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          neighborhood?: string | null
+          phone: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          neighborhood?: string | null
+          phone?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          brand: string | null
+          btu: number | null
+          created_at: string
+          customer_id: string
+          id: string
+          installation_date: string | null
+          installation_time: string | null
+          model: string | null
+          notes: string | null
+          order_no: number
+          paid_amount: number
+          quantity: number
+          service_type: string
+          status: string
+          total_price: number
+        }
+        Insert: {
+          brand?: string | null
+          btu?: number | null
+          created_at?: string
+          customer_id: string
+          id?: string
+          installation_date?: string | null
+          installation_time?: string | null
+          model?: string | null
+          notes?: string | null
+          order_no?: number
+          paid_amount?: number
+          quantity?: number
+          service_type: string
+          status?: string
+          total_price?: number
+        }
+        Update: {
+          brand?: string | null
+          btu?: number | null
+          created_at?: string
+          customer_id?: string
+          id?: string
+          installation_date?: string | null
+          installation_time?: string | null
+          model?: string | null
+          notes?: string | null
+          order_no?: number
+          paid_amount?: number
+          quantity?: number
+          service_type?: string
+          status?: string
+          total_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           brand: string
@@ -59,15 +148,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -194,6 +310,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+    },
   },
 } as const
