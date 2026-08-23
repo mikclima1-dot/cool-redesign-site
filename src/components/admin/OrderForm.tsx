@@ -370,14 +370,16 @@ export function OrderForm({ order }: { order?: Order }) {
             </select>
           </Field>
           <div />
-          <Field label="Дата">
+          <Field label="Дата за монтаж *">
             <input
               type="date"
+              required
               value={form.installation_date}
               onChange={set("installation_date")}
               className={inputClass}
             />
           </Field>
+
           <Field label="Час">
             <input
               type="time"
