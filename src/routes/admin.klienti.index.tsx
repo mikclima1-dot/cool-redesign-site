@@ -42,14 +42,16 @@ function CustomersPage() {
       />
 
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-        <table className="w-full min-w-[600px] text-sm">
+        <table className="w-full min-w-[720px] text-sm">
           <thead className="bg-slate-50 text-left text-xs uppercase text-slate-500">
             <tr>
               <th className="px-4 py-3">Име</th>
               <th className="px-4 py-3">Телефон</th>
+              <th className="px-4 py-3">Имейл</th>
               <th className="px-4 py-3">Адрес</th>
               <th className="px-4 py-3">Брой поръчки</th>
             </tr>
+
           </thead>
           <tbody className="divide-y divide-slate-100">
             {isLoading ? (

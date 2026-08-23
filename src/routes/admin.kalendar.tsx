@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { formatDate, formatTime, STATUS_CLASSES, type Order } from "@/lib/admin";
+import { formatDate, formatTime, orderUnitsLabel, STATUS_CLASSES, type Order } from "@/lib/admin";
 
 export const Route = createFileRoute("/admin/kalendar")({
   component: CalendarPage,
@@ -83,15 +83,10 @@ function CalendarPage() {
             <dl className="mt-4 space-y-2 text-sm">
               <Row label="Клиент" value={selected.customers?.name ?? "-"} />
               <Row label="Телефон" value={selected.customers?.phone ?? "-"} />
+              <Row label="Имейл" value={selected.customers?.email ?? "-"} />
               <Row label="Адрес" value={selected.customers?.address ?? "-"} />
-              <Row
-                label="Климатик"
-                value={
-                  [selected.brand, selected.model, selected.btu ? `${selected.btu} BTU` : null]
-                    .filter(Boolean)
-                    .join(" ") || "-"
-                }
-              />
+              <Row label="Климатици" value={orderUnitsLabel(selected)} />
+
               <Row label="Час" value={formatTime(selected.installation_time) || "-"} />
               <Row label="Бележки" value={selected.notes ?? "-"} />
             </dl>
