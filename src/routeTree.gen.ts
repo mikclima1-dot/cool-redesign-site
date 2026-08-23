@@ -20,6 +20,7 @@ import { Route as KalkulatorRouteImport } from './routes/kalkulator'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProduktiIndexRouteImport } from './routes/produkti.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProduktiSlugRouteImport } from './routes/produkti.$slug'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 
@@ -78,6 +79,11 @@ const ProduktiIndexRoute = ProduktiIndexRouteImport.update({
   path: '/produkti/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ProduktiSlugRoute = ProduktiSlugRouteImport.update({
   id: '/produkti/$slug',
   path: '/produkti/$slug',
@@ -91,7 +97,7 @@ const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/meta-products.csv': typeof MetaProductsDotcsvRoute
@@ -101,12 +107,12 @@ export interface FileRoutesByFullPath {
   '/uslugi': typeof UslugiRoute
   '/za-nas': typeof ZaNasRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/produkti/': typeof ProduktiIndexRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/meta-products.csv': typeof MetaProductsDotcsvRoute
@@ -116,13 +122,14 @@ export interface FileRoutesByTo {
   '/uslugi': typeof UslugiRoute
   '/za-nas': typeof ZaNasRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/produkti': typeof ProduktiIndexRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/kalkulator': typeof KalkulatorRoute
   '/kontakti': typeof KontaktiRoute
   '/meta-products.csv': typeof MetaProductsDotcsvRoute
@@ -132,6 +139,7 @@ export interface FileRoutesById {
   '/uslugi': typeof UslugiRoute
   '/za-nas': typeof ZaNasRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/produkti/': typeof ProduktiIndexRoute
   '/api/public/contact': typeof ApiPublicContactRoute
 }
@@ -149,12 +157,12 @@ export interface FileRouteTypes {
     | '/uslugi'
     | '/za-nas'
     | '/produkti/$slug'
+    | '/admin/'
     | '/produkti/'
     | '/api/public/contact'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/kalkulator'
     | '/kontakti'
     | '/meta-products.csv'
@@ -164,6 +172,7 @@ export interface FileRouteTypes {
     | '/uslugi'
     | '/za-nas'
     | '/produkti/$slug'
+    | '/admin'
     | '/produkti'
     | '/api/public/contact'
   id:
@@ -179,13 +188,14 @@ export interface FileRouteTypes {
     | '/uslugi'
     | '/za-nas'
     | '/produkti/$slug'
+    | '/admin/'
     | '/produkti/'
     | '/api/public/contact'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   KalkulatorRoute: typeof KalkulatorRoute
   KontaktiRoute: typeof KontaktiRoute
   MetaProductsDotcsvRoute: typeof MetaProductsDotcsvRoute
@@ -278,6 +288,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProduktiIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/produkti/$slug': {
       id: '/produkti/$slug'
       path: '/produkti/$slug'
@@ -295,9 +312,19 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   KalkulatorRoute: KalkulatorRoute,
   KontaktiRoute: KontaktiRoute,
   MetaProductsDotcsvRoute: MetaProductsDotcsvRoute,

@@ -3,5 +3,6 @@ Allow: /
 
 # Block internal or non-indexable helpers
 Disallow: /lovable/
+Disallow: /admin
 
 Sitemap: https://www.mikclima.com/sitemap.xml
