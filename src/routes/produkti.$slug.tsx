@@ -329,20 +329,12 @@ function ProductDetail() {
                 )}
               </div>
 
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="tel:+359897203732"
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-semibold text-primary-foreground shadow-soft"
-                >
-                  <Phone className="h-5 w-5" /> Обади се
-                </a>
-                <Link
-                  to="/kontakti"
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-brand-navy/20 bg-white px-7 py-4 text-base font-semibold text-brand-navy transition-colors hover:border-brand-navy/40 hover:bg-brand-sky-soft/40"
-                >
-                  Изпрати запитване
-                </Link>
-              </div>
+              <a
+                href="tel:+359897203732"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-semibold text-primary-foreground shadow-soft"
+              >
+                <Phone className="h-5 w-5" /> Обади се
+              </a>
 
               <button
                 type="button"
