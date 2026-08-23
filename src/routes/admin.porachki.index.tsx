@@ -178,6 +178,9 @@ function OrdersPage() {
                   <td className="px-3 py-3 whitespace-nowrap">
                     {formatDate(o.installation_date)} {formatTime(o.installation_time)}
                   </td>
+                  <td className="px-3 py-3 whitespace-nowrap text-slate-500">
+                    {formatDateTime(o.created_at)}
+                  </td>
                   <td className="px-3 py-3">
                     <select
                       value={o.status}
