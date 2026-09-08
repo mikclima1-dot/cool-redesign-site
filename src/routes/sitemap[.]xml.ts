@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
+import { services } from "@/data/services";
 
 const BASE_URL = "https://www.mikclima.com";
 
@@ -13,6 +14,11 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/produkti", priority: "0.9", changefreq: "weekly" },
           { path: "/kalkulator", priority: "0.8", changefreq: "monthly" },
           { path: "/uslugi", priority: "0.8", changefreq: "monthly" },
+          ...services.map((s) => ({
+            path: `/uslugi/${s.slug}`,
+            priority: "0.7",
+            changefreq: "monthly",
+          })),
           { path: "/za-nas", priority: "0.6", changefreq: "monthly" },
           { path: "/kontakti", priority: "0.6", changefreq: "monthly" },
           { path: "/politika-za-poveritelnost", priority: "0.4", changefreq: "yearly" },

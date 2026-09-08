@@ -19,8 +19,10 @@ import { Route as KontaktiRouteImport } from './routes/kontakti'
 import { Route as KalkulatorRouteImport } from './routes/kalkulator'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UslugiIndexRouteImport } from './routes/uslugi.index'
 import { Route as ProduktiIndexRouteImport } from './routes/produkti.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as UslugiSlugRouteImport } from './routes/uslugi.$slug'
 import { Route as ProduktiSlugRouteImport } from './routes/produkti.$slug'
 import { Route as AdminKalendarRouteImport } from './routes/admin.kalendar'
 import { Route as AdminPorachkiIndexRouteImport } from './routes/admin.porachki.index'
@@ -81,6 +83,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UslugiIndexRoute = UslugiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UslugiRoute,
+} as any)
 const ProduktiIndexRoute = ProduktiIndexRouteImport.update({
   id: '/produkti/',
   path: '/produkti/',
@@ -90,6 +97,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const UslugiSlugRoute = UslugiSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => UslugiRoute,
 } as any)
 const ProduktiSlugRoute = ProduktiSlugRouteImport.update({
   id: '/produkti/$slug',
@@ -146,12 +158,14 @@ export interface FileRoutesByFullPath {
   '/obshti-usloviya': typeof ObshtiUsloviyaRoute
   '/politika-za-poveritelnost': typeof PolitikaZaPoveritelnostRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/uslugi': typeof UslugiRoute
+  '/uslugi': typeof UslugiRouteWithChildren
   '/za-nas': typeof ZaNasRoute
   '/admin/kalendar': typeof AdminKalendarRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
+  '/uslugi/$slug': typeof UslugiSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/produkti/': typeof ProduktiIndexRoute
+  '/uslugi/': typeof UslugiIndexRoute
   '/admin/klienti/$id': typeof AdminKlientiIdRoute
   '/admin/porachki/$id': typeof AdminPorachkiIdRoute
   '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
@@ -168,12 +182,13 @@ export interface FileRoutesByTo {
   '/obshti-usloviya': typeof ObshtiUsloviyaRoute
   '/politika-za-poveritelnost': typeof PolitikaZaPoveritelnostRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/uslugi': typeof UslugiRoute
   '/za-nas': typeof ZaNasRoute
   '/admin/kalendar': typeof AdminKalendarRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
+  '/uslugi/$slug': typeof UslugiSlugRoute
   '/admin': typeof AdminIndexRoute
   '/produkti': typeof ProduktiIndexRoute
+  '/uslugi': typeof UslugiIndexRoute
   '/admin/klienti/$id': typeof AdminKlientiIdRoute
   '/admin/porachki/$id': typeof AdminPorachkiIdRoute
   '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
@@ -192,12 +207,14 @@ export interface FileRoutesById {
   '/obshti-usloviya': typeof ObshtiUsloviyaRoute
   '/politika-za-poveritelnost': typeof PolitikaZaPoveritelnostRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/uslugi': typeof UslugiRoute
+  '/uslugi': typeof UslugiRouteWithChildren
   '/za-nas': typeof ZaNasRoute
   '/admin/kalendar': typeof AdminKalendarRoute
   '/produkti/$slug': typeof ProduktiSlugRoute
+  '/uslugi/$slug': typeof UslugiSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/produkti/': typeof ProduktiIndexRoute
+  '/uslugi/': typeof UslugiIndexRoute
   '/admin/klienti/$id': typeof AdminKlientiIdRoute
   '/admin/porachki/$id': typeof AdminPorachkiIdRoute
   '/admin/porachki/nova': typeof AdminPorachkiNovaRoute
@@ -221,8 +238,10 @@ export interface FileRouteTypes {
     | '/za-nas'
     | '/admin/kalendar'
     | '/produkti/$slug'
+    | '/uslugi/$slug'
     | '/admin/'
     | '/produkti/'
+    | '/uslugi/'
     | '/admin/klienti/$id'
     | '/admin/porachki/$id'
     | '/admin/porachki/nova'
@@ -239,12 +258,13 @@ export interface FileRouteTypes {
     | '/obshti-usloviya'
     | '/politika-za-poveritelnost'
     | '/sitemap.xml'
-    | '/uslugi'
     | '/za-nas'
     | '/admin/kalendar'
     | '/produkti/$slug'
+    | '/uslugi/$slug'
     | '/admin'
     | '/produkti'
+    | '/uslugi'
     | '/admin/klienti/$id'
     | '/admin/porachki/$id'
     | '/admin/porachki/nova'
@@ -266,8 +286,10 @@ export interface FileRouteTypes {
     | '/za-nas'
     | '/admin/kalendar'
     | '/produkti/$slug'
+    | '/uslugi/$slug'
     | '/admin/'
     | '/produkti/'
+    | '/uslugi/'
     | '/admin/klienti/$id'
     | '/admin/porachki/$id'
     | '/admin/porachki/nova'
@@ -286,7 +308,7 @@ export interface RootRouteChildren {
   ObshtiUsloviyaRoute: typeof ObshtiUsloviyaRoute
   PolitikaZaPoveritelnostRoute: typeof PolitikaZaPoveritelnostRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  UslugiRoute: typeof UslugiRoute
+  UslugiRoute: typeof UslugiRouteWithChildren
   ZaNasRoute: typeof ZaNasRoute
   ProduktiSlugRoute: typeof ProduktiSlugRoute
   ProduktiIndexRoute: typeof ProduktiIndexRoute
@@ -366,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/uslugi/': {
+      id: '/uslugi/'
+      path: '/'
+      fullPath: '/uslugi/'
+      preLoaderRoute: typeof UslugiIndexRouteImport
+      parentRoute: typeof UslugiRoute
+    }
     '/produkti/': {
       id: '/produkti/'
       path: '/produkti'
@@ -379,6 +408,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/uslugi/$slug': {
+      id: '/uslugi/$slug'
+      path: '/$slug'
+      fullPath: '/uslugi/$slug'
+      preLoaderRoute: typeof UslugiSlugRouteImport
+      parentRoute: typeof UslugiRoute
     }
     '/produkti/$slug': {
       id: '/produkti/$slug'
@@ -468,6 +504,19 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface UslugiRouteChildren {
+  UslugiSlugRoute: typeof UslugiSlugRoute
+  UslugiIndexRoute: typeof UslugiIndexRoute
+}
+
+const UslugiRouteChildren: UslugiRouteChildren = {
+  UslugiSlugRoute: UslugiSlugRoute,
+  UslugiIndexRoute: UslugiIndexRoute,
+}
+
+const UslugiRouteWithChildren =
+  UslugiRoute._addFileChildren(UslugiRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
@@ -477,7 +526,7 @@ const rootRouteChildren: RootRouteChildren = {
   ObshtiUsloviyaRoute: ObshtiUsloviyaRoute,
   PolitikaZaPoveritelnostRoute: PolitikaZaPoveritelnostRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  UslugiRoute: UslugiRoute,
+  UslugiRoute: UslugiRouteWithChildren,
   ZaNasRoute: ZaNasRoute,
   ProduktiSlugRoute: ProduktiSlugRoute,
   ProduktiIndexRoute: ProduktiIndexRoute,
