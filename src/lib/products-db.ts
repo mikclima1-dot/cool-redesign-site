@@ -14,6 +14,7 @@ export interface DbProductRow {
   description: string;
   specs: Record<string, unknown> | null;
   original_url: string | null;
+  max_indoor_units?: number | null;
 }
 
 const EUR_TO_BGN = 1.95583;

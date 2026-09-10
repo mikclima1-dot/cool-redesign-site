@@ -32,6 +32,7 @@ export interface Product {
   description: string;
   features: string[];
   sourceUrl: string;
+  maxIndoorUnits?: number;
 }
 
 export const products: Product[] = [
