@@ -15,6 +15,7 @@ import { productsQueryOptions } from "@/lib/products-db";
 interface Props {
   outdoorUnitModelName: string;
   maxOutdoorPowerKW: number;
+  maxIndoorUnits: number;
   product: Product;
 }
 
@@ -25,8 +26,6 @@ const SIZE_OPTIONS = [
   { icon: "🏰", label: "30 - 40 кв.м", kw: 5 },
   { icon: "🏬", label: "Над 40 кв.м", kw: 6 },
 ] as const;
-
-const MAX_ROOMS = 5;
 
 interface Room {
   id: number;
@@ -41,8 +40,10 @@ function btuToKw(btu: number) {
 export function MultiSplitCompatibilityChecker({
   outdoorUnitModelName,
   maxOutdoorPowerKW,
+  maxIndoorUnits,
   product,
 }: Props) {
+  const MAX_ROOMS = Math.max(2, maxIndoorUnits);
   const [mode, setMode] = useState<"size" | "model">("size");
   const [rooms, setRooms] = useState<Room[]>([{ id: 1, kw: 2, slug: null }]);
   const nextIdRef = useRef(2);
@@ -122,6 +123,9 @@ export function MultiSplitCompatibilityChecker({
           }`}
         >
           Максимален капацитет: {maxOutdoorPowerKW} kW
+        </span>
+        <span className="rounded-full bg-brand-navy px-4 py-2 text-sm font-bold text-white">
+          До {MAX_ROOMS} вътрешни тела
         </span>
       </div>
 
@@ -214,7 +218,9 @@ export function MultiSplitCompatibilityChecker({
         </span>
         Добави стая
         {rooms.length >= MAX_ROOMS && (
-          <span className="text-xs font-normal">(максимум {MAX_ROOMS})</span>
+          <span className="text-xs font-normal">
+            (това външно тяло поддържа до {MAX_ROOMS} вътрешни тела)
+          </span>
         )}
       </button>
 
