@@ -5,6 +5,7 @@ import { ArrowLeft, Check, Phone, ShoppingCart } from "lucide-react";
 import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
 import { productBySlugQueryOptions, productsQueryOptions } from "@/lib/products-db";
 import { QuickOrderDialog } from "@/components/QuickOrderDialog";
+import { MultiSplitCompatibilityChecker } from "@/components/MultiSplitCompatibilityChecker";
 
 function installPriceForBtu(btu: number): number {
   if (!btu || btu <= 0) return 230;
@@ -353,6 +354,18 @@ function ProductDetail() {
           </div>
         </div>
       </section>
+
+      {product.category === "multi" && (
+        <section className="mx-auto max-w-7xl px-4 pt-16 md:px-8">
+          <MultiSplitCompatibilityChecker
+            product={product}
+            outdoorUnitModelName={`${product.brand} ${product.model}`}
+            maxOutdoorPowerKW={
+              product.btu > 0 ? Math.round((product.btu / 3412) * 10) / 10 : 7.5
+            }
+          />
+        </section>
+      )}
 
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-8">
         <div className="grid gap-10 md:grid-cols-2">
