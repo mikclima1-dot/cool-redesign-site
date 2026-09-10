@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
+  Check,
   CheckCircle2,
+  ChevronDown,
   Loader2,
   Plus,
   Search,
@@ -35,6 +37,64 @@ interface Room {
 
 function btuToKw(btu: number) {
   return Math.round((btu / 3412) * 10) / 10;
+}
+
+function RoomSizeDropdown({ value, onChange }: { value: number; onChange: (kw: number) => void }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const current = SIZE_OPTIONS.find((o) => o.kw === value) ?? SIZE_OPTIONS[0];
+
+  useEffect(() => {
+    if (!open) return;
+    const onClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative min-w-[170px] flex-1">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl border border-border bg-white px-3 py-2 text-sm font-semibold text-brand-navy transition-colors hover:border-brand-teal/60 focus:border-brand-teal focus:outline-none"
+      >
+        <span className="inline-flex items-center gap-2">
+          <span>{current.icon}</span>
+          <span>{current.label}</span>
+        </span>
+        <ChevronDown className={`h-4 w-4 flex-none text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="absolute z-20 mt-1 w-full overflow-hidden rounded-xl border border-border bg-white p-1 shadow-soft">
+          {SIZE_OPTIONS.map((opt) => {
+            const active = value === opt.kw;
+            return (
+              <button
+                key={opt.kw}
+                type="button"
+                onClick={() => {
+                  onChange(opt.kw);
+                  setOpen(false);
+                }}
+                className={`flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors ${
+                  active
+                    ? "bg-brand-teal/10 text-brand-teal"
+                    : "text-brand-navy hover:bg-brand-sky-soft/60"
+                }`}
+              >
+                <span>{opt.icon}</span>
+                <span className="flex-1">{opt.label}</span>
+                <span className="text-xs font-bold text-muted-foreground">{opt.kw} kW</span>
+                {active && <Check className="h-4 w-4 flex-none text-brand-teal" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function MultiSplitCompatibilityChecker({
@@ -143,65 +203,47 @@ export function MultiSplitCompatibilityChecker({
         </button>
       </div>
 
-      <div className="mt-5 space-y-4">
+      <div className="mt-5 space-y-3">
         {rooms.map((room, idx) => (
           <div
             key={room.id}
-            className="group rounded-2xl border border-border/60 bg-white p-4 shadow-card transition-all hover:border-brand-teal/50 hover:shadow-soft"
+            className="group flex flex-wrap items-center gap-3 rounded-2xl border border-border/60 bg-white px-4 py-3 shadow-card transition-all hover:border-brand-teal/50"
           >
-            <div className="flex items-center justify-between">
-              <span className="inline-flex items-center gap-2 text-sm font-bold text-brand-navy">
-                <span className="grid h-7 w-7 place-items-center rounded-full bg-brand-sky text-xs font-extrabold text-brand-navy">
-                  {idx + 1}
-                </span>
-                Стая {idx + 1}
+            <span className="inline-flex items-center gap-2 text-sm font-bold text-brand-navy">
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-brand-sky text-xs font-extrabold text-brand-navy">
+                {idx + 1}
               </span>
-              <span className="flex items-center gap-2">
-                <span className="rounded-full bg-brand-sky-soft px-3 py-1 text-xs font-bold text-brand-teal">
-                  {room.kw} kW
-                </span>
-                {rooms.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeRoom(room.id)}
-                    aria-label={`Премахни стая ${idx + 1}`}
-                    className="grid h-8 w-8 cursor-pointer place-items-center rounded-full text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                )}
-              </span>
-            </div>
+              Стая {idx + 1}
+            </span>
 
             {mode === "size" ? (
-              <div className="mt-3 flex flex-wrap gap-2">
-                {SIZE_OPTIONS.map((opt) => {
-                  const active = room.kw === opt.kw;
-                  return (
-                    <button
-                      key={opt.kw}
-                      type="button"
-                      onClick={() => setRoomSize(room.id, opt.kw)}
-                      aria-pressed={active}
-                      className={`cursor-pointer rounded-full border px-4 py-2.5 text-sm font-semibold transition-all hover:-translate-y-0.5 ${
-                        active
-                          ? "border-brand-teal bg-brand-teal text-white shadow-soft"
-                          : "border-border bg-white text-brand-navy hover:border-brand-teal/60 hover:bg-brand-sky-soft/50"
-                      }`}
-                    >
-                      <span className="mr-1.5">{opt.icon}</span>
-                      {opt.label}
-                    </button>
-                  );
-                })}
-              </div>
-            ) : (
-              <IndoorModelPicker
-                units={indoorUnits}
-                isLoading={isLoading}
-                selectedSlug={room.slug}
-                onSelect={(u) => setRoomModel(room.id, u)}
+              <RoomSizeDropdown
+                value={room.kw}
+                onChange={(kw) => setRoomSize(room.id, kw)}
               />
+            ) : (
+              <div className="min-w-[180px] flex-1">
+                <IndoorModelPicker
+                  units={indoorUnits}
+                  isLoading={isLoading}
+                  selectedSlug={room.slug}
+                  onSelect={(u) => setRoomModel(room.id, u)}
+                />
+              </div>
+            )}
+
+            <span className="rounded-full bg-brand-sky-soft px-3 py-1 text-xs font-bold text-brand-teal">
+              {room.kw} kW
+            </span>
+            {rooms.length > 1 && (
+              <button
+                type="button"
+                onClick={() => removeRoom(room.id)}
+                aria-label={`Премахни стая ${idx + 1}`}
+                className="grid h-8 w-8 cursor-pointer place-items-center rounded-full text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
             )}
           </div>
         ))}
