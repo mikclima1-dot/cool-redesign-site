@@ -1,14 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   CheckCircle2,
-  Home,
   Loader2,
   Plus,
+  Search,
   Trash2,
   TriangleAlert,
   X,
 } from "lucide-react";
 import type { Product } from "@/data/products";
+import { productsQueryOptions } from "@/lib/products-db";
 
 interface Props {
   outdoorUnitModelName: string;
@@ -16,12 +18,12 @@ interface Props {
   product: Product;
 }
 
-const INDOOR_OPTIONS = [
-  { value: "2", label: "07-ца / 20-ка (2 kW)", hint: "За стаи до 15 кв.м" },
-  { value: "3", label: "09-ка / 25-ца (3 kW)", hint: "За стаи до 20 кв.м" },
-  { value: "4", label: "12-ка / 35-ца (4 kW)", hint: "За стаи до 30 кв.м" },
-  { value: "5", label: "18-ка / 50-ца (5 kW)", hint: "За стаи до 40 кв.м" },
-  { value: "6", label: "24-ка / 71-ца (6 kW)", hint: "За стаи до 60 кв.м" },
+const SIZE_OPTIONS = [
+  { icon: "🏠", label: "До 15 кв.м", kw: 2 },
+  { icon: "🛋️", label: "15 - 20 кв.м", kw: 3 },
+  { icon: "🏢", label: "20 - 30 кв.м", kw: 4 },
+  { icon: "🏰", label: "30 - 40 кв.м", kw: 5 },
+  { icon: "🏬", label: "Над 40 кв.м", kw: 6 },
 ] as const;
 
 const MAX_ROOMS = 5;
@@ -29,6 +31,11 @@ const MAX_ROOMS = 5;
 interface Room {
   id: number;
   kw: number;
+  slug: string | null;
+}
+
+function btuToKw(btu: number) {
+  return Math.round((btu / 3412) * 10) / 10;
 }
 
 export function MultiSplitCompatibilityChecker({
@@ -36,34 +43,67 @@ export function MultiSplitCompatibilityChecker({
   maxOutdoorPowerKW,
   product,
 }: Props) {
-  const [rooms, setRooms] = useState<Room[]>([{ id: 1, kw: 2 }]);
+  const [mode, setMode] = useState<"size" | "model">("size");
+  const [rooms, setRooms] = useState<Room[]>([{ id: 1, kw: 2, slug: null }]);
   const nextIdRef = useRef(2);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const totalSelectedKW = rooms.reduce((sum, r) => sum + r.kw, 0);
+  const { data: allProducts, isLoading } = useQuery(productsQueryOptions());
+
+  const indoorUnits = useMemo(
+    () =>
+      (allProducts ?? [])
+        .filter((p) => p.category !== "multi" && p.btu > 0)
+        .sort((a, b) => a.brand.localeCompare(b.brand) || a.btu - b.btu),
+    [allProducts],
+  );
+
+  const totalSelectedKW =
+    Math.round(rooms.reduce((sum, r) => sum + r.kw, 0) * 10) / 10;
   const fits = totalSelectedKW <= maxOutdoorPowerKW;
-  const ratio = Math.min(1, totalSelectedKW / maxOutdoorPowerKW);
+  const percent = Math.round((totalSelectedKW / maxOutdoorPowerKW) * 100);
+  const barWidth = Math.min(100, Math.max(percent, 4));
 
   function addRoom() {
     if (rooms.length >= MAX_ROOMS) return;
-    const id = nextIdRef.current++;
-    setRooms((prev) => [...prev, { id, kw: 2 }]);
+    setRooms((prev) => [...prev, { id: nextIdRef.current++, kw: 2, slug: null }]);
   }
 
   function removeRoom(id: number) {
     setRooms((prev) => prev.filter((r) => r.id !== id));
   }
 
-  function updateRoom(id: number, kw: number) {
-    setRooms((prev) => prev.map((r) => (r.id === id ? { ...r, kw } : r)));
+  function setRoomSize(id: number, kw: number) {
+    setRooms((prev) => prev.map((r) => (r.id === id ? { ...r, kw, slug: null } : r)));
+  }
+
+  function setRoomModel(id: number, unit: Product | null) {
+    setRooms((prev) =>
+      prev.map((r) =>
+        r.id === id
+          ? { ...r, slug: unit?.slug ?? null, kw: unit ? btuToKw(unit.btu) : 2 }
+          : r,
+      ),
+    );
   }
 
   const combinationSummary = rooms
     .map((r, i) => {
-      const opt = INDOOR_OPTIONS.find((o) => Number(o.value) === r.kw);
-      return `Стая ${i + 1}: ${opt?.label ?? `${r.kw} kW`}`;
+      if (mode === "model" && r.slug) {
+        const u = indoorUnits.find((p) => p.slug === r.slug);
+        if (u) return `Стая ${i + 1}: ${u.brand} ${u.model} (${u.btu} BTU, ${r.kw} kW)`;
+      }
+      const size = SIZE_OPTIONS.find((o) => o.kw === r.kw);
+      return `Стая ${i + 1}: ${size ? size.label : `${r.kw} kW`} (${r.kw} kW)`;
     })
     .join("; ");
+
+  const tabClass = (active: boolean) =>
+    `flex-1 cursor-pointer rounded-full px-4 py-2.5 text-sm font-semibold transition-all ${
+      active
+        ? "bg-white text-brand-navy shadow-card"
+        : "text-brand-navy/60 hover:text-brand-navy"
+    }`;
 
   return (
     <div className="rounded-3xl border border-border/60 bg-white p-6 shadow-card md:p-8">
@@ -76,45 +116,88 @@ export function MultiSplitCompatibilityChecker({
             Добавете стаите си и вижте дали {outdoorUnitModelName} може да ги захрани.
           </p>
         </div>
-        <span className="rounded-full bg-brand-sky px-4 py-2 text-sm font-bold text-brand-navy">
+        <span
+          className={`rounded-full px-4 py-2 text-sm font-bold transition-colors ${
+            fits ? "bg-brand-sky text-brand-navy" : "bg-orange-100 text-orange-700"
+          }`}
+        >
           Максимален капацитет: {maxOutdoorPowerKW} kW
         </span>
       </div>
 
-      <div className="mt-6 space-y-3">
+      {/* Tabs */}
+      <div className="mt-6 flex gap-1 rounded-full bg-brand-sky-soft/70 p-1">
+        <button type="button" className={tabClass(mode === "size")} onClick={() => setMode("size")}>
+          По квадратура на стаите
+        </button>
+        <button
+          type="button"
+          className={tabClass(mode === "model")}
+          onClick={() => setMode("model")}
+        >
+          По модел вътрешно тяло
+        </button>
+      </div>
+
+      <div className="mt-5 space-y-4">
         {rooms.map((room, idx) => (
           <div
             key={room.id}
-            className="flex items-center gap-3 rounded-2xl border border-border/60 bg-brand-sky-soft/40 p-3"
+            className="group rounded-2xl border border-border/60 bg-white p-4 shadow-card transition-all hover:border-brand-teal/50 hover:shadow-soft"
           >
-            <span className="grid h-9 w-9 flex-none place-items-center rounded-full bg-white text-brand-teal shadow-card">
-              <Home className="h-4 w-4" />
-            </span>
-            <div className="flex-1">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-brand-navy">
+            <div className="flex items-center justify-between">
+              <span className="inline-flex items-center gap-2 text-sm font-bold text-brand-navy">
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-brand-sky text-xs font-extrabold text-brand-navy">
+                  {idx + 1}
+                </span>
                 Стая {idx + 1}
-              </label>
-              <select
-                value={room.kw}
-                onChange={(e) => updateRoom(room.id, Number(e.target.value))}
-                className="mt-1 w-full cursor-pointer rounded-xl border border-border bg-white px-3 py-2 text-sm text-brand-navy outline-none focus:border-brand-teal"
-              >
-                {INDOOR_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label} - {opt.hint}
-                  </option>
-                ))}
-              </select>
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="rounded-full bg-brand-sky-soft px-3 py-1 text-xs font-bold text-brand-teal">
+                  {room.kw} kW
+                </span>
+                {rooms.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeRoom(room.id)}
+                    aria-label={`Премахни стая ${idx + 1}`}
+                    className="grid h-8 w-8 cursor-pointer place-items-center rounded-full text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                )}
+              </span>
             </div>
-            {rooms.length > 1 && (
-              <button
-                type="button"
-                onClick={() => removeRoom(room.id)}
-                aria-label={`Премахни стая ${idx + 1}`}
-                className="grid h-9 w-9 flex-none cursor-pointer place-items-center rounded-full text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
+
+            {mode === "size" ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {SIZE_OPTIONS.map((opt) => {
+                  const active = room.kw === opt.kw;
+                  return (
+                    <button
+                      key={opt.kw}
+                      type="button"
+                      onClick={() => setRoomSize(room.id, opt.kw)}
+                      aria-pressed={active}
+                      className={`cursor-pointer rounded-full border px-4 py-2.5 text-sm font-semibold transition-all hover:-translate-y-0.5 ${
+                        active
+                          ? "border-brand-teal bg-brand-teal text-white shadow-soft"
+                          : "border-border bg-white text-brand-navy hover:border-brand-teal/60 hover:bg-brand-sky-soft/50"
+                      }`}
+                    >
+                      <span className="mr-1.5">{opt.icon}</span>
+                      {opt.label}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <IndoorModelPicker
+                units={indoorUnits}
+                isLoading={isLoading}
+                selectedSlug={room.slug}
+                onSelect={(u) => setRoomModel(room.id, u)}
+              />
             )}
           </div>
         ))}
@@ -124,27 +207,37 @@ export function MultiSplitCompatibilityChecker({
         type="button"
         onClick={addRoom}
         disabled={rooms.length >= MAX_ROOMS}
-        className="mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-dashed border-brand-teal/50 px-5 py-3 text-sm font-semibold text-brand-teal transition-colors hover:border-brand-teal hover:bg-brand-sky-soft/60 disabled:cursor-not-allowed disabled:opacity-40"
+        className="mt-4 flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-brand-teal/50 bg-brand-sky-soft/30 px-5 py-5 text-sm font-bold text-brand-teal transition-all hover:-translate-y-0.5 hover:border-brand-teal hover:bg-brand-sky-soft/70 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
       >
-        <Plus className="h-4 w-4" /> Добави стая
+        <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-teal text-white">
+          <Plus className="h-5 w-5" />
+        </span>
+        Добави стая
         {rooms.length >= MAX_ROOMS && (
           <span className="text-xs font-normal">(максимум {MAX_ROOMS})</span>
         )}
       </button>
 
-      <div className="mt-6">
+      {/* Capacity bar */}
+      <div className="mt-6 rounded-2xl bg-brand-sky-soft/40 p-4">
         <div className="flex items-baseline justify-between text-sm">
-          <span className="font-semibold text-brand-navy">
+          <span className="font-bold text-brand-navy">
             Избрана мощност: {totalSelectedKW} kW
           </span>
-          <span className="text-muted-foreground">от {maxOutdoorPowerKW} kW</span>
+          <span
+            className={`font-semibold ${fits ? "text-brand-teal" : "text-orange-600"}`}
+          >
+            {percent}% от {maxOutdoorPowerKW} kW
+          </span>
         </div>
-        <div className="mt-2 h-3 overflow-hidden rounded-full bg-brand-sky-soft">
+        <div className="mt-2 h-4 overflow-hidden rounded-full bg-white">
           <div
             className={`h-full rounded-full transition-all duration-500 ${
-              fits ? "bg-brand-teal" : "bg-orange-500"
+              fits
+                ? "bg-gradient-to-r from-brand-teal to-emerald-500"
+                : "bg-gradient-to-r from-orange-500 to-red-500"
             }`}
-            style={{ width: `${Math.max(ratio * 100, 4)}%` }}
+            style={{ width: `${barWidth}%` }}
           />
         </div>
       </div>
@@ -163,7 +256,7 @@ export function MultiSplitCompatibilityChecker({
                 onClick={() => setModalOpen(true)}
                 className="mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5 sm:w-auto"
               >
-                Заяви оферта за тази комбинация
+                Изпрати запитване за тази комбинация
               </button>
             </div>
           </div>
@@ -201,6 +294,112 @@ export function MultiSplitCompatibilityChecker({
         open={modalOpen}
         onClose={() => setModalOpen(false)}
       />
+    </div>
+  );
+}
+
+interface PickerProps {
+  units: Product[];
+  isLoading: boolean;
+  selectedSlug: string | null;
+  onSelect: (unit: Product | null) => void;
+}
+
+function IndoorModelPicker({ units, isLoading, selectedSlug, onSelect }: PickerProps) {
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const selected = units.find((u) => u.slug === selectedSlug) ?? null;
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const list = q
+      ? units.filter((u) => `${u.brand} ${u.model} ${u.btu}`.toLowerCase().includes(q))
+      : units;
+    return list.slice(0, 40);
+  }, [units, query]);
+
+  if (selected) {
+    return (
+      <div className="mt-3 flex items-center gap-4 rounded-2xl border border-brand-teal/40 bg-brand-sky-soft/30 p-3">
+        <img
+          src={selected.image}
+          alt={`${selected.brand} ${selected.model}`}
+          loading="lazy"
+          className="h-16 w-20 flex-none rounded-xl bg-white object-contain"
+        />
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-bold text-brand-navy">
+            {selected.brand} {selected.model}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {selected.btu} BTU • {btuToKw(selected.btu)} kW
+          </p>
+          <p className="mt-0.5 text-sm font-extrabold text-brand-teal">
+            {selected.priceEur} €
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            onSelect(null);
+            setQuery("");
+          }}
+          className="cursor-pointer rounded-full px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-white hover:text-brand-navy"
+        >
+          Смени
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative mt-3">
+      <div className="flex items-center gap-2 rounded-xl border border-border bg-white px-3 py-2.5 focus-within:border-brand-teal">
+        <Search className="h-4 w-4 flex-none text-muted-foreground" />
+        <input
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setOpen(true);
+          }}
+          onFocus={() => setOpen(true)}
+          placeholder={isLoading ? "Зареждане на модели..." : "Търсете модел вътрешно тяло..."}
+          className="w-full bg-transparent text-sm text-brand-navy outline-none"
+        />
+      </div>
+      {open && (
+        <div className="absolute z-20 mt-2 max-h-72 w-full overflow-auto rounded-2xl border border-border bg-white p-1 shadow-soft">
+          {filtered.length === 0 && (
+            <p className="p-3 text-sm text-muted-foreground">Няма намерени модели.</p>
+          )}
+          {filtered.map((u) => (
+            <button
+              key={u.slug}
+              type="button"
+              onClick={() => {
+                onSelect(u);
+                setOpen(false);
+              }}
+              className="flex w-full cursor-pointer items-center gap-3 rounded-xl p-2 text-left transition-colors hover:bg-brand-sky-soft/60"
+            >
+              <img
+                src={u.image}
+                alt=""
+                loading="lazy"
+                className="h-10 w-14 flex-none rounded-lg bg-white object-contain"
+              />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-semibold text-brand-navy">
+                  {u.brand} {u.model}
+                </span>
+                <span className="block text-xs text-muted-foreground">
+                  {u.btu} BTU • {btuToKw(u.btu)} kW • {u.priceEur} €
+                </span>
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -322,7 +521,7 @@ function CombinationOfferDialog({
         aria-modal="true"
         aria-label="Заявка за оферта за мултисистема"
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-md rounded-t-2xl border border-border/60 bg-card p-6 shadow-soft sm:rounded-2xl"
+        className="relative max-h-[90vh] w-full max-w-md overflow-auto rounded-t-2xl border border-border/60 bg-card p-6 shadow-soft sm:rounded-2xl"
       >
         <button
           type="button"
