@@ -38,7 +38,7 @@ export const Route = createFileRoute("/produkti/$slug")({
     const hasBtu = product.btu > 0;
     const btuSuffix = hasBtu ? `${product.btu.toLocaleString("bg-BG")} BTU, ` : "";
     const title = `${CATEGORY_TYPE[product.category]} ${product.brand} ${product.model} - ${btuSuffix}клас ${product.energyClass} | MIK Clima`;
-    const description = `${product.brand} ${product.model} - ${CATEGORY_LABEL[product.category]} климатик${hasBtu ? ` ${product.btu.toLocaleString("bg-BG")} BTU,` : ","} енергиен клас ${product.energyClass}. ${product.shortDescription} Цена ${product.priceEur} € / ${product.priceBgn.toFixed(2)} лв. Доставка и монтаж.`;
+    const description = `${product.brand} ${product.model} - ${CATEGORY_LABEL[product.category]} климатик${hasBtu ? ` ${product.btu.toLocaleString("bg-BG")} BTU,` : ","} енергиен клас ${product.energyClass}. ${product.shortDescription} ${product.maxIndoorUnits ? ` Поддържа до ${product.maxIndoorUnits} вътрешни тела.` : ""} Цена ${product.priceEur} € / ${product.priceBgn.toFixed(2)} лв. Доставка и монтаж.`;
 
     const url = `https://www.mikclima.com/produkti/${params.slug}`;
     const productLd = {
@@ -59,6 +59,9 @@ export const Route = createFileRoute("/produkti/$slug")({
       additionalProperty: [
         ...(hasBtu ? [{ "@type": "PropertyValue", name: "BTU", value: String(product.btu) }] : []),
         { "@type": "PropertyValue", name: "Енергиен клас", value: product.energyClass },
+        ...(product.maxIndoorUnits
+          ? [{ "@type": "PropertyValue", name: "Максимален брой вътрешни тела", value: String(product.maxIndoorUnits) }]
+          : []),
 
         { "@type": "PropertyValue", name: "Категория", value: CATEGORY_LABEL[product.category] },
         { "@type": "PropertyValue", name: "Модел", value: product.model },
@@ -229,6 +232,11 @@ function ProductDetail() {
                   {product.btu.toLocaleString("bg-BG")} BTU
                 </span>
               )}
+              {product.maxIndoorUnits ? (
+                <span className="rounded-full border border-brand-navy/20 px-3 py-1 text-xs font-semibold text-brand-navy">
+                  До {product.maxIndoorUnits} вътрешни тела
+                </span>
+              ) : null}
 
             </div>
             <p className="mt-4 text-sm font-semibold uppercase tracking-widest text-brand-teal">
@@ -363,6 +371,7 @@ function ProductDetail() {
             maxOutdoorPowerKW={
               product.btu > 0 ? Math.round((product.btu / 3412) * 10) / 10 : 7.5
             }
+            maxIndoorUnits={product.maxIndoorUnits ?? 5}
           />
         </section>
       )}
@@ -408,6 +417,14 @@ function ProductDetail() {
                   </>
                 )}
 
+                {product.maxIndoorUnits ? (
+                  <>
+                    <dt className="text-muted-foreground">Вътрешни тела</dt>
+                    <dd className="font-medium text-brand-navy">
+                      до {product.maxIndoorUnits} бр.
+                    </dd>
+                  </>
+                ) : null}
                 <dt className="text-muted-foreground">Енергиен клас</dt>
                 <dd className="font-medium text-brand-navy">{product.energyClass}</dd>
                 <dt className="text-muted-foreground">Категория</dt>
