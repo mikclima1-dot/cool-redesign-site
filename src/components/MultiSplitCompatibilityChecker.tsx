@@ -143,65 +143,47 @@ export function MultiSplitCompatibilityChecker({
         </button>
       </div>
 
-      <div className="mt-5 space-y-4">
+      <div className="mt-5 space-y-3">
         {rooms.map((room, idx) => (
           <div
             key={room.id}
-            className="group rounded-2xl border border-border/60 bg-white p-4 shadow-card transition-all hover:border-brand-teal/50 hover:shadow-soft"
+            className="group flex flex-wrap items-center gap-3 rounded-2xl border border-border/60 bg-white px-4 py-3 shadow-card transition-all hover:border-brand-teal/50"
           >
-            <div className="flex items-center justify-between">
-              <span className="inline-flex items-center gap-2 text-sm font-bold text-brand-navy">
-                <span className="grid h-7 w-7 place-items-center rounded-full bg-brand-sky text-xs font-extrabold text-brand-navy">
-                  {idx + 1}
-                </span>
-                Стая {idx + 1}
+            <span className="inline-flex items-center gap-2 text-sm font-bold text-brand-navy">
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-brand-sky text-xs font-extrabold text-brand-navy">
+                {idx + 1}
               </span>
-              <span className="flex items-center gap-2">
-                <span className="rounded-full bg-brand-sky-soft px-3 py-1 text-xs font-bold text-brand-teal">
-                  {room.kw} kW
-                </span>
-                {rooms.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeRoom(room.id)}
-                    aria-label={`Премахни стая ${idx + 1}`}
-                    className="grid h-8 w-8 cursor-pointer place-items-center rounded-full text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                )}
-              </span>
-            </div>
+              Стая {idx + 1}
+            </span>
 
             {mode === "size" ? (
-              <div className="mt-3 flex flex-wrap gap-2">
-                {SIZE_OPTIONS.map((opt) => {
-                  const active = room.kw === opt.kw;
-                  return (
-                    <button
-                      key={opt.kw}
-                      type="button"
-                      onClick={() => setRoomSize(room.id, opt.kw)}
-                      aria-pressed={active}
-                      className={`cursor-pointer rounded-full border px-4 py-2.5 text-sm font-semibold transition-all hover:-translate-y-0.5 ${
-                        active
-                          ? "border-brand-teal bg-brand-teal text-white shadow-soft"
-                          : "border-border bg-white text-brand-navy hover:border-brand-teal/60 hover:bg-brand-sky-soft/50"
-                      }`}
-                    >
-                      <span className="mr-1.5">{opt.icon}</span>
-                      {opt.label}
-                    </button>
-                  );
-                })}
-              </div>
-            ) : (
-              <IndoorModelPicker
-                units={indoorUnits}
-                isLoading={isLoading}
-                selectedSlug={room.slug}
-                onSelect={(u) => setRoomModel(room.id, u)}
+              <RoomSizeDropdown
+                value={room.kw}
+                onChange={(kw) => setRoomSize(room.id, kw)}
               />
+            ) : (
+              <div className="min-w-[180px] flex-1">
+                <IndoorModelPicker
+                  units={indoorUnits}
+                  isLoading={isLoading}
+                  selectedSlug={room.slug}
+                  onSelect={(u) => setRoomModel(room.id, u)}
+                />
+              </div>
+            )}
+
+            <span className="rounded-full bg-brand-sky-soft px-3 py-1 text-xs font-bold text-brand-teal">
+              {room.kw} kW
+            </span>
+            {rooms.length > 1 && (
+              <button
+                type="button"
+                onClick={() => removeRoom(room.id)}
+                aria-label={`Премахни стая ${idx + 1}`}
+                className="grid h-8 w-8 cursor-pointer place-items-center rounded-full text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
             )}
           </div>
         ))}
