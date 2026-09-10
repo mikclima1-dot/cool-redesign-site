@@ -132,7 +132,7 @@ export function MultiSplitCompatibilityChecker({
     }`;
 
   return (
-    <section aria-label="Калкулатор за мултисистема" className="min-w-0 border-y border-border bg-background px-3 py-5 sm:px-6 sm:py-6">
+    <section aria-label="Калкулатор за мултисистема" className="min-w-0 rounded-2xl border border-border bg-background px-3 py-5 shadow-soft sm:px-6 sm:py-6">
       <h2 className="text-lg font-bold tracking-normal text-brand-navy sm:text-xl">
         Вашата мултисистема
       </h2>
@@ -158,7 +158,7 @@ export function MultiSplitCompatibilityChecker({
 
       <div className="mt-4 space-y-3">
         {rooms.map((room, idx) => (
-          <div key={room.id} className="min-w-0 rounded-lg border border-border bg-card p-3">
+          <div key={room.id} className="min-w-0 rounded-lg border border-border bg-muted p-3">
             <div className="mb-2 flex h-7 items-center justify-between gap-2">
               <span className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-brand-navy">
                 <DoorOpen className="h-4 w-4 text-muted-foreground" />
