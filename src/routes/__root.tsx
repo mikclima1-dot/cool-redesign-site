@@ -91,7 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
@@ -115,7 +115,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "Organization",
           name: "MIK Clima",
           url: "https://www.mikclima.com",
-          logo: "https://www.mikclima.com/favicon.svg",
+          logo: "https://www.mikclima.com/favicon.png",
           sameAs: [
             "https://www.facebook.com/share/18u6XAvFDn",
             "https://www.instagram.com/mik_clima/",
