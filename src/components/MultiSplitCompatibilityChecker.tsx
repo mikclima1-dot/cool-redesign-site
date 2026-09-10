@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Check,
   CheckCircle2,
-  ChevronDown,
+  DoorOpen,
+  Mail,
+  Ruler,
   Loader2,
   Plus,
   Search,
@@ -11,6 +12,8 @@ import {
   TriangleAlert,
   X,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { Product } from "@/data/products";
 import { productsQueryOptions } from "@/lib/products-db";
 
@@ -39,61 +42,23 @@ function btuToKw(btu: number) {
   return Math.round((btu / 3412) * 10) / 10;
 }
 
-function RoomSizeDropdown({ value, onChange }: { value: number; onChange: (kw: number) => void }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const current = SIZE_OPTIONS.find((o) => o.kw === value) ?? SIZE_OPTIONS[0];
-
-  useEffect(() => {
-    if (!open) return;
-    const onClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, [open]);
-
+function RoomSizeDropdown({ value, onChange, roomNumber }: { value: number; onChange: (kw: number) => void; roomNumber: number }) {
   return (
-    <div ref={ref} className="relative min-w-[170px] flex-1">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl border border-border bg-white px-3 py-2 text-sm font-semibold text-brand-navy transition-colors hover:border-brand-teal/60 focus:border-brand-teal focus:outline-none"
-      >
-        <span className="inline-flex items-center gap-2">
-          <span>{current.icon}</span>
-          <span>{current.label}</span>
-        </span>
-        <ChevronDown className={`h-4 w-4 flex-none text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
-      </button>
-      {open && (
-        <div className="absolute z-20 mt-1 w-full overflow-hidden rounded-xl border border-border bg-white p-1 shadow-soft">
-          {SIZE_OPTIONS.map((opt) => {
-            const active = value === opt.kw;
-            return (
-              <button
-                key={opt.kw}
-                type="button"
-                onClick={() => {
-                  onChange(opt.kw);
-                  setOpen(false);
-                }}
-                className={`flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors ${
-                  active
-                    ? "bg-brand-teal/10 text-brand-teal"
-                    : "text-brand-navy hover:bg-brand-sky-soft/60"
-                }`}
-              >
-                <span>{opt.icon}</span>
-                <span className="flex-1">{opt.label}</span>
-                <span className="text-xs font-bold text-muted-foreground">{opt.kw} kW</span>
-                {active && <Check className="h-4 w-4 flex-none text-brand-teal" />}
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
+    <Select value={String(value)} onValueChange={(kw) => onChange(Number(kw))}>
+      <SelectTrigger aria-label={`Квадратура на стая ${roomNumber}`} className="h-11 w-full min-w-0 rounded-lg bg-background px-3 font-medium shadow-none">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent position="popper" sideOffset={4} collisionPadding={12} className="w-[var(--radix-select-trigger-width)] rounded-lg">
+        {SIZE_OPTIONS.map((option) => (
+          <SelectItem key={option.kw} value={String(option.kw)} className="min-h-11 whitespace-nowrap rounded-md pr-9 [&>span:last-child]:w-full">
+            <span className="flex w-full items-center justify-between gap-3 whitespace-nowrap">
+              <span>{option.label}</span>
+              <span className="shrink-0 text-xs tabular-nums text-muted-foreground">{option.kw} kW</span>
+            </span>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -160,179 +125,97 @@ export function MultiSplitCompatibilityChecker({
     .join("; ");
 
   const tabClass = (active: boolean) =>
-    `flex-1 cursor-pointer rounded-full px-4 py-2.5 text-sm font-semibold transition-all ${
+    `h-10 min-w-0 flex-1 gap-1.5 rounded-lg px-2 text-xs font-semibold shadow-none sm:text-sm ${
       active
-        ? "bg-white text-brand-navy shadow-card"
-        : "text-brand-navy/60 hover:text-brand-navy"
+        ? "bg-background text-brand-navy shadow-card hover:bg-background"
+        : "text-muted-foreground hover:bg-background/60 hover:text-brand-navy"
     }`;
 
   return (
-    <div className="rounded-3xl border border-border/60 bg-white p-6 shadow-card md:p-8">
-      <div className="flex flex-wrap items-start justify-between gap-3">
+    <section aria-label="Калкулатор за мултисистема" className="min-w-0 border-y border-border bg-background px-3 py-5 sm:px-6 sm:py-6">
+      <h2 className="text-lg font-bold tracking-normal text-brand-navy sm:text-xl">
+        Вашата мултисистема
+      </h2>
+      <div className="mt-4 grid grid-cols-2 gap-3 border-b border-border pb-4">
         <div>
-          <h2 className="text-xl font-extrabold tracking-tight text-brand-navy md:text-2xl">
-            Проверете дали това външно тяло е подходящо за вашите стаи
-          </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Добавете стаите си и вижте дали {outdoorUnitModelName} може да ги захрани.
-          </p>
+          <p className="whitespace-nowrap text-xs text-muted-foreground">Макс. мощност</p>
+          <p className="mt-1 whitespace-nowrap text-lg font-bold tabular-nums text-brand-navy">{maxOutdoorPowerKW} kW</p>
         </div>
-        <span
-          className={`rounded-full px-4 py-2 text-sm font-bold transition-colors ${
-            fits ? "bg-brand-sky text-brand-navy" : "bg-orange-100 text-orange-700"
-          }`}
-        >
-          Максимален капацитет: {maxOutdoorPowerKW} kW
-        </span>
-        <span className="rounded-full bg-brand-navy px-4 py-2 text-sm font-bold text-white">
-          До {MAX_ROOMS} вътрешни тела
-        </span>
+        <div className="border-l border-border pl-4">
+          <p className="whitespace-nowrap text-xs text-muted-foreground">Вътрешни тела</p>
+          <p className="mt-1 whitespace-nowrap text-lg font-bold text-brand-navy">До {MAX_ROOMS}</p>
+        </div>
       </div>
 
-      {/* Tabs */}
-      <div className="mt-6 flex gap-1 rounded-full bg-brand-sky-soft/70 p-1">
-        <button type="button" className={tabClass(mode === "size")} onClick={() => setMode("size")}>
-          По квадратура на стаите
-        </button>
-        <button
-          type="button"
-          className={tabClass(mode === "model")}
-          onClick={() => setMode("model")}
-        >
-          По модел вътрешно тяло
-        </button>
+      <div className="mt-4 flex gap-1 rounded-xl bg-muted p-1" role="group" aria-label="Начин на избор">
+        <Button variant="ghost" type="button" aria-pressed={mode === "size"} className={tabClass(mode === "size")} onClick={() => setMode("size")}>
+          <Ruler className="hidden min-[360px]:block" /> По квадратура
+        </Button>
+        <Button variant="ghost" type="button" aria-pressed={mode === "model"} className={tabClass(mode === "model")} onClick={() => setMode("model")}>
+          <DoorOpen className="hidden min-[360px]:block" /> По модел
+        </Button>
       </div>
 
-      <div className="mt-5 space-y-3">
+      <div className="mt-4 space-y-3">
         {rooms.map((room, idx) => (
-          <div
-            key={room.id}
-            className="group flex flex-wrap items-center gap-3 rounded-2xl border border-border/60 bg-white px-4 py-3 shadow-card transition-all hover:border-brand-teal/50"
-          >
-            <span className="inline-flex items-center gap-2 text-sm font-bold text-brand-navy">
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-brand-sky text-xs font-extrabold text-brand-navy">
-                {idx + 1}
+          <div key={room.id} className="min-w-0 rounded-lg border border-border bg-card p-3">
+            <div className="mb-2 flex h-7 items-center justify-between gap-2">
+              <span className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-brand-navy">
+                <DoorOpen className="h-4 w-4 text-muted-foreground" />
+                Стая {idx + 1}
               </span>
-              Стая {idx + 1}
-            </span>
-
-            {mode === "size" ? (
-              <RoomSizeDropdown
-                value={room.kw}
-                onChange={(kw) => setRoomSize(room.id, kw)}
-              />
-            ) : (
-              <div className="min-w-[180px] flex-1">
-                <IndoorModelPicker
-                  units={indoorUnits}
-                  isLoading={isLoading}
-                  selectedSlug={room.slug}
-                  onSelect={(u) => setRoomModel(room.id, u)}
-                />
+              <div className="flex items-center gap-2">
+                <span className="whitespace-nowrap text-xs font-semibold tabular-nums text-brand-teal">{room.kw} kW</span>
+                <Button variant="ghost" size="icon" type="button" disabled={rooms.length === 1} onClick={() => removeRoom(room.id)} aria-label={`Премахни стая ${idx + 1}`} className="h-7 w-7 rounded-md text-muted-foreground hover:bg-destructive/10 hover:text-destructive">
+                  <Trash2 />
+                </Button>
               </div>
-            )}
-
-            <span className="rounded-full bg-brand-sky-soft px-3 py-1 text-xs font-bold text-brand-teal">
-              {room.kw} kW
-            </span>
-            {rooms.length > 1 && (
-              <button
-                type="button"
-                onClick={() => removeRoom(room.id)}
-                aria-label={`Премахни стая ${idx + 1}`}
-                className="grid h-8 w-8 cursor-pointer place-items-center rounded-full text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
+            </div>
+            {mode === "size" ? (
+              <RoomSizeDropdown value={room.kw} roomNumber={idx + 1} onChange={(kw) => setRoomSize(room.id, kw)} />
+            ) : (
+              <IndoorModelPicker units={indoorUnits} isLoading={isLoading} selectedSlug={room.slug} onSelect={(u) => setRoomModel(room.id, u)} />
             )}
           </div>
         ))}
       </div>
 
-      <button
-        type="button"
-        onClick={addRoom}
-        disabled={rooms.length >= MAX_ROOMS}
-        className="mt-4 flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-brand-teal/50 bg-brand-sky-soft/30 px-5 py-5 text-sm font-bold text-brand-teal transition-all hover:-translate-y-0.5 hover:border-brand-teal hover:bg-brand-sky-soft/70 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
-      >
-        <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-teal text-white">
-          <Plus className="h-5 w-5" />
-        </span>
-        Добави стая
-        {rooms.length >= MAX_ROOMS && (
-          <span className="text-xs font-normal">
-            (това външно тяло поддържа до {MAX_ROOMS} вътрешни тела)
-          </span>
-        )}
-      </button>
+      <Button variant="outline" type="button" onClick={addRoom} disabled={rooms.length >= MAX_ROOMS} className="mt-3 h-11 w-full gap-2 rounded-lg border-dashed border-brand-teal/50 bg-background px-3 text-brand-teal shadow-none hover:bg-brand-sky-soft/50">
+        <Plus />
+        <span>Добави стая</span>
+        <span className="ml-auto text-xs tabular-nums text-muted-foreground">{rooms.length} / {MAX_ROOMS}</span>
+      </Button>
 
-      {/* Capacity bar */}
-      <div className="mt-6 rounded-2xl bg-brand-sky-soft/40 p-4">
-        <div className="flex items-baseline justify-between text-sm">
-          <span className="font-bold text-brand-navy">
-            Избрана мощност: {totalSelectedKW} kW
-          </span>
-          <span
-            className={`font-semibold ${fits ? "text-brand-teal" : "text-orange-600"}`}
-          >
-            {percent}% от {maxOutdoorPowerKW} kW
-          </span>
+      <div className="mt-5 border-t border-border pt-4">
+        <div className="flex items-center justify-between gap-2 text-xs">
+          <span className="whitespace-nowrap font-medium text-muted-foreground">Обща мощност</span>
+          <span className={`whitespace-nowrap font-bold tabular-nums ${fits ? "text-brand-teal" : "text-destructive"}`}>{totalSelectedKW} / {maxOutdoorPowerKW} kW</span>
         </div>
-        <div className="mt-2 h-4 overflow-hidden rounded-full bg-white">
-          <div
-            className={`h-full rounded-full transition-all duration-500 ${
-              fits
-                ? "bg-gradient-to-r from-brand-teal to-emerald-500"
-                : "bg-gradient-to-r from-orange-500 to-red-500"
-            }`}
-            style={{ width: `${barWidth}%` }}
-          />
+        <div role="progressbar" aria-label="Избрана мощност" aria-valuenow={totalSelectedKW} aria-valuemin={0} aria-valuemax={Math.max(maxOutdoorPowerKW, totalSelectedKW)} aria-valuetext={`${totalSelectedKW} от ${maxOutdoorPowerKW} kW, ${percent}%`} className="mt-2 h-2 overflow-hidden rounded-full bg-muted">
+          <div className={`h-full rounded-full transition-all duration-300 motion-reduce:transition-none ${fits ? "bg-brand-teal" : "bg-destructive"}`} style={{ width: `${barWidth}%` }} />
         </div>
       </div>
 
-      {fits ? (
-        <div className="mt-6 rounded-2xl border border-brand-teal/40 bg-brand-teal/10 p-5">
-          <div className="flex items-start gap-3">
-            <CheckCircle2 className="mt-0.5 h-6 w-6 flex-none text-brand-teal" />
-            <div className="flex-1">
-              <p className="font-semibold text-brand-navy">
-                Отличен избор! Това външно тяло {outdoorUnitModelName} може да захрани избраните от
-                вас стаи.
-              </p>
-              <button
-                type="button"
-                onClick={() => setModalOpen(true)}
-                className="mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5 sm:w-auto"
-              >
-                Изпрати запитване за тази комбинация
-              </button>
-            </div>
-          </div>
+      <div aria-live="polite" className="mt-4">
+        <div className="flex items-start gap-2">
+          {fits ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-teal" /> : <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />}
+          <p className={`text-sm font-semibold ${fits ? "text-brand-teal" : "text-destructive"}`}>
+            {fits ? "Мощността е достатъчна" : "Надвишен капацитет"}
+          </p>
         </div>
-      ) : (
-        <div className="mt-6 rounded-2xl border border-orange-300 bg-orange-50 p-5">
-          <div className="flex items-start gap-3">
-            <TriangleAlert className="mt-0.5 h-6 w-6 flex-none text-orange-500" />
-            <div className="flex-1">
-              <p className="font-semibold text-brand-navy">
-                Избраните вътрешни тела изискват {totalSelectedKW} kW, а това външно тяло осигурява
-                до {maxOutdoorPowerKW} kW.
-              </p>
-              <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-                <a
-                  href="/produkti?cat=multi"
-                  className="inline-flex items-center justify-center rounded-full bg-brand-navy px-6 py-3 text-sm font-semibold text-white shadow-soft transition-transform hover:-translate-y-0.5"
-                >
-                  Вижте по-мощни външни тела
-                </a>
-                <span className="inline-flex items-center justify-center rounded-full border border-orange-300 bg-white px-6 py-3 text-sm font-semibold text-orange-600">
-                  Или намалете мощността на стаите
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+        {fits ? (
+          <Button type="button" onClick={() => setModalOpen(true)} className="mt-3 h-11 w-full rounded-lg px-3 text-sm font-semibold" aria-label="Изпрати запитване за тази комбинация">
+            <Mail /> Изпрати запитване
+          </Button>
+        ) : (
+          <>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Намалете мощността или изберете по-мощно тяло.</p>
+            <Button asChild variant="outline" className="mt-3 h-11 w-full rounded-lg px-3 text-sm font-semibold">
+              <a href="/produkti?cat=multi">По-мощни външни тела</a>
+            </Button>
+          </>
+        )}
+      </div>
 
       <CombinationOfferDialog
         product={product}
@@ -342,7 +225,7 @@ export function MultiSplitCompatibilityChecker({
         open={modalOpen}
         onClose={() => setModalOpen(false)}
       />
-    </div>
+    </section>
   );
 }
 
@@ -368,15 +251,15 @@ function IndoorModelPicker({ units, isLoading, selectedSlug, onSelect }: PickerP
 
   if (selected) {
     return (
-      <div className="mt-3 flex items-center gap-4 rounded-2xl border border-brand-teal/40 bg-brand-sky-soft/30 p-3">
+      <div className="flex min-w-0 items-center gap-2">
         <img
           src={selected.image}
           alt={`${selected.brand} ${selected.model}`}
           loading="lazy"
-          className="h-16 w-20 flex-none rounded-xl bg-white object-contain"
+          className="h-12 w-12 flex-none rounded-md bg-background object-contain"
         />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-bold text-brand-navy">
+          <p title={`${selected.brand} ${selected.model}`} className="truncate text-sm font-bold text-brand-navy">
             {selected.brand} {selected.model}
           </p>
           <p className="text-xs text-muted-foreground">
@@ -401,7 +284,7 @@ function IndoorModelPicker({ units, isLoading, selectedSlug, onSelect }: PickerP
   }
 
   return (
-    <div className="relative mt-3">
+    <div className="relative min-w-0">
       <div className="flex items-center gap-2 rounded-xl border border-border bg-white px-3 py-2.5 focus-within:border-brand-teal">
         <Search className="h-4 w-4 flex-none text-muted-foreground" />
         <input
@@ -411,8 +294,9 @@ function IndoorModelPicker({ units, isLoading, selectedSlug, onSelect }: PickerP
             setOpen(true);
           }}
           onFocus={() => setOpen(true)}
-          placeholder={isLoading ? "Зареждане на модели..." : "Търсете модел вътрешно тяло..."}
-          className="w-full bg-transparent text-sm text-brand-navy outline-none"
+          placeholder={isLoading ? "Зареждане..." : "Търси модел..."}
+          aria-label="Търси вътрешно тяло"
+          className="min-w-0 w-full bg-transparent text-sm text-brand-navy outline-none"
         />
       </div>
       {open && (
@@ -440,8 +324,9 @@ function IndoorModelPicker({ units, isLoading, selectedSlug, onSelect }: PickerP
                 <span className="block truncate text-sm font-semibold text-brand-navy">
                   {u.brand} {u.model}
                 </span>
-                <span className="block text-xs text-muted-foreground">
-                  {u.btu} BTU • {btuToKw(u.btu)} kW • {u.priceEur} €
+                <span className="block whitespace-nowrap text-xs text-muted-foreground">
+                  {u.btu} BTU • {btuToKw(u.btu)} kW
+                  <span className="block font-semibold text-brand-teal">{u.priceEur} €</span>
                 </span>
               </span>
             </button>
