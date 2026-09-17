@@ -265,9 +265,6 @@ function IndoorModelPicker({ units, isLoading, selectedSlug, onSelect }: PickerP
           <p className="text-xs text-muted-foreground">
             {selected.btu} BTU • {btuToKw(selected.btu)} kW
           </p>
-          <p className="mt-0.5 text-sm font-extrabold text-brand-teal">
-            {selected.priceEur} €
-          </p>
         </div>
         <button
           type="button"
@@ -326,7 +323,6 @@ function IndoorModelPicker({ units, isLoading, selectedSlug, onSelect }: PickerP
                 </span>
                 <span className="block whitespace-nowrap text-xs text-muted-foreground">
                   {u.btu} BTU • {btuToKw(u.btu)} kW
-                  <span className="block font-semibold text-brand-teal">{u.priceEur} €</span>
                 </span>
               </span>
             </button>
