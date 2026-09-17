@@ -91,7 +91,7 @@ export function toProduct(row: DbProductRow): Product {
 async function fetchAll(): Promise<Product[]> {
   const { data, error } = await supabase
     .from("products")
-    .select("id, slug, title, brand, price, old_price, btu, image_url, description, specs, original_url, max_indoor_units")
+    .select("id, slug, title, brand, price, old_price, btu, image_url, description, specs, original_url, max_indoor_units, max_power_kw")
     .order("brand", { ascending: true })
     .order("price", { ascending: true })
     .limit(2000);
@@ -102,7 +102,7 @@ async function fetchAll(): Promise<Product[]> {
 async function fetchBySlug(slug: string): Promise<Product | null> {
   const { data, error } = await supabase
     .from("products")
-    .select("id, slug, title, brand, price, old_price, btu, image_url, description, specs, original_url, max_indoor_units")
+    .select("id, slug, title, brand, price, old_price, btu, image_url, description, specs, original_url, max_indoor_units, max_power_kw")
     .eq("slug", slug)
     .maybeSingle();
   if (error) throw error;
