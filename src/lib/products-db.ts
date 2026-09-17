@@ -84,6 +84,7 @@ export function toProduct(row: DbProductRow): Product {
     features: extractFeatures(row.specs),
     sourceUrl: row.original_url ?? "",
     maxIndoorUnits: row.max_indoor_units ?? undefined,
+    maxPowerKw: row.max_power_kw != null ? Number(row.max_power_kw) : undefined,
   };
 }
 
