@@ -204,9 +204,14 @@ export function MultiSplitCompatibilityChecker({
           </p>
         </div>
         {fits ? (
-          <Button type="button" onClick={() => setModalOpen(true)} className="mt-3 h-11 w-full rounded-lg px-3 text-sm font-semibold" aria-label="Изпрати запитване за тази комбинация">
-            <Mail /> Изпрати запитване
-          </Button>
+          <>
+            <Button type="button" onClick={() => setModalOpen(true)} className="mt-3 h-11 w-full rounded-lg px-3 text-sm font-semibold" aria-label="Изпрати запитване за тази комбинация">
+              <Mail /> Изпрати запитване
+            </Button>
+            <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+              Стойностите в конфигуратора са ориентировъчни и служат за предварителна оценка. За най-точен избор на вътрешни тела и капацитет, изпратете запитване или се свържете с нас.
+            </p>
+          </>
         ) : (
           <>
             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Намалете мощността или изберете по-мощно тяло.</p>
