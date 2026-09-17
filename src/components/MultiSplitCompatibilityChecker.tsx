@@ -79,9 +79,9 @@ export function MultiSplitCompatibilityChecker({
   const indoorUnits = useMemo(
     () =>
       (allProducts ?? [])
-        .filter((p) => p.category !== "multi" && p.btu > 0)
+        .filter((p) => p.category !== "multi" && p.btu > 0 && p.brand === product.brand)
         .sort((a, b) => a.brand.localeCompare(b.brand) || a.btu - b.btu),
-    [allProducts],
+    [allProducts, product.brand],
   );
 
   const totalSelectedKW =
