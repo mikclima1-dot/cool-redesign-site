@@ -118,6 +118,7 @@ export type Database = {
           id: string
           image_url: string
           max_indoor_units: number | null
+          max_power_kw: number | null
           old_price: number | null
           original_url: string | null
           price: number
@@ -133,6 +134,7 @@ export type Database = {
           id?: string
           image_url: string
           max_indoor_units?: number | null
+          max_power_kw?: number | null
           old_price?: number | null
           original_url?: string | null
           price: number
@@ -148,6 +150,7 @@ export type Database = {
           id?: string
           image_url?: string
           max_indoor_units?: number | null
+          max_power_kw?: number | null
           old_price?: number | null
           original_url?: string | null
           price?: number
