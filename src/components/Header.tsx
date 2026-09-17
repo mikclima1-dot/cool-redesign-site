@@ -22,7 +22,7 @@ export function Header() {
           <img src="/logo.png" alt="MIK Clima - Климатизация, вентилация, отопление" className="h-16 w-auto md:h-20" />
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-1 lg:flex">
           {nav.map((n) => (
             <Link
               key={n.to}
