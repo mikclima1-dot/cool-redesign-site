@@ -369,7 +369,8 @@ function ProductDetail() {
             product={product}
             outdoorUnitModelName={`${product.brand} ${product.model}`}
             maxOutdoorPowerKW={
-              product.btu > 0 ? Math.round((product.btu / 3412) * 10) / 10 : 7.5
+              product.maxPowerKw ??
+              (product.btu > 0 ? Math.round((product.btu / 3412) * 10) / 10 : 7.5)
             }
             maxIndoorUnits={product.maxIndoorUnits ?? 5}
           />

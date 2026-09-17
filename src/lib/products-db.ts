@@ -15,6 +15,7 @@ export interface DbProductRow {
   specs: Record<string, unknown> | null;
   original_url: string | null;
   max_indoor_units?: number | null;
+  max_power_kw?: number | null;
 }
 
 const EUR_TO_BGN = 1.95583;
@@ -83,13 +84,14 @@ export function toProduct(row: DbProductRow): Product {
     features: extractFeatures(row.specs),
     sourceUrl: row.original_url ?? "",
     maxIndoorUnits: row.max_indoor_units ?? undefined,
+    maxPowerKw: row.max_power_kw != null ? Number(row.max_power_kw) : undefined,
   };
 }
 
 async function fetchAll(): Promise<Product[]> {
   const { data, error } = await supabase
     .from("products")
-    .select("id, slug, title, brand, price, old_price, btu, image_url, description, specs, original_url, max_indoor_units")
+    .select("id, slug, title, brand, price, old_price, btu, image_url, description, specs, original_url, max_indoor_units, max_power_kw")
     .order("brand", { ascending: true })
     .order("price", { ascending: true })
     .limit(2000);
@@ -100,7 +102,7 @@ async function fetchAll(): Promise<Product[]> {
 async function fetchBySlug(slug: string): Promise<Product | null> {
   const { data, error } = await supabase
     .from("products")
-    .select("id, slug, title, brand, price, old_price, btu, image_url, description, specs, original_url, max_indoor_units")
+    .select("id, slug, title, brand, price, old_price, btu, image_url, description, specs, original_url, max_indoor_units, max_power_kw")
     .eq("slug", slug)
     .maybeSingle();
   if (error) throw error;
