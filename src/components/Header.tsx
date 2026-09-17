@@ -22,7 +22,7 @@ export function Header() {
           <img src="/logo.png" alt="MIK Clima - Климатизация, вентилация, отопление" className="h-16 w-auto md:h-20" />
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-1 lg:flex">
           {nav.map((n) => (
             <Link
               key={n.to}
@@ -48,7 +48,7 @@ export function Header() {
             aria-label={open ? "Затвори менюто" : "Отвори менюто"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="grid h-10 w-10 place-items-center rounded-full border border-border bg-background text-brand-navy md:hidden"
+            className="grid h-10 w-10 place-items-center rounded-full border border-border bg-background text-brand-navy lg:hidden"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -56,7 +56,7 @@ export function Header() {
       </div>
 
       {open && (
-        <nav className="border-t border-border/60 bg-background md:hidden">
+        <nav className="border-t border-border/60 bg-background lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col px-4 py-2">
             {nav.map((n) => (
               <Link
