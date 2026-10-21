@@ -9,68 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ZaNasRouteImport } from './routes/za-nas'
-import { Route as UslugiRouteImport } from './routes/uslugi'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as PolitikaZaPoveritelnostRouteImport } from './routes/politika-za-poveritelnost'
-import { Route as ObshtiUsloviyaRouteImport } from './routes/obshti-usloviya'
-import { Route as MetaProductsDotcsvRouteImport } from './routes/meta-products[.]csv'
-import { Route as KontaktiRouteImport } from './routes/kontakti'
-import { Route as KalkulatorRouteImport } from './routes/kalkulator'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as UslugiIndexRouteImport } from './routes/uslugi.index'
-import { Route as ProduktiIndexRouteImport } from './routes/produkti.index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as KalkulatorRouteImport } from './routes/kalkulator'
+import { Route as KontaktiRouteImport } from './routes/kontakti'
+import { Route as MetaProductsDotcsvRouteImport } from './routes/meta-products[.]csv'
+import { Route as ObshtiUsloviyaRouteImport } from './routes/obshti-usloviya'
+import { Route as PolitikaZaPoveritelnostRouteImport } from './routes/politika-za-poveritelnost'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as UslugiRouteImport } from './routes/uslugi'
+import { Route as ZaNasRouteImport } from './routes/za-nas'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as UslugiSlugRouteImport } from './routes/uslugi.$slug'
-import { Route as ProduktiSlugRouteImport } from './routes/produkti.$slug'
 import { Route as AdminKalendarRouteImport } from './routes/admin.kalendar'
-import { Route as AdminPorachkiIndexRouteImport } from './routes/admin.porachki.index'
+import { Route as ProduktiIndexRouteImport } from './routes/produkti.index'
+import { Route as ProduktiSlugRouteImport } from './routes/produkti.$slug'
+import { Route as UslugiIndexRouteImport } from './routes/uslugi.index'
+import { Route as UslugiSlugRouteImport } from './routes/uslugi.$slug'
 import { Route as AdminKlientiIndexRouteImport } from './routes/admin.klienti.index'
-import { Route as ApiPublicQuickOrderRouteImport } from './routes/api/public/quick-order'
-import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
-import { Route as AdminPorachkiNovaRouteImport } from './routes/admin.porachki.nova'
-import { Route as AdminPorachkiIdRouteImport } from './routes/admin.porachki.$id'
 import { Route as AdminKlientiIdRouteImport } from './routes/admin.klienti.$id'
+import { Route as AdminPorachkiIndexRouteImport } from './routes/admin.porachki.index'
+import { Route as AdminPorachkiIdRouteImport } from './routes/admin.porachki.$id'
+import { Route as AdminPorachkiNovaRouteImport } from './routes/admin.porachki.nova'
+import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as ApiPublicQuickOrderRouteImport } from './routes/api/public/quick-order'
 
-const ZaNasRoute = ZaNasRouteImport.update({
-  id: '/za-nas',
-  path: '/za-nas',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UslugiRoute = UslugiRouteImport.update({
-  id: '/uslugi',
-  path: '/uslugi',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PolitikaZaPoveritelnostRoute = PolitikaZaPoveritelnostRouteImport.update({
-  id: '/politika-za-poveritelnost',
-  path: '/politika-za-poveritelnost',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ObshtiUsloviyaRoute = ObshtiUsloviyaRouteImport.update({
-  id: '/obshti-usloviya',
-  path: '/obshti-usloviya',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MetaProductsDotcsvRoute = MetaProductsDotcsvRouteImport.update({
-  id: '/meta-products.csv',
-  path: '/meta-products.csv',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KontaktiRoute = KontaktiRouteImport.update({
-  id: '/kontakti',
-  path: '/kontakti',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KalkulatorRoute = KalkulatorRouteImport.update({
-  id: '/kalkulator',
-  path: '/kalkulator',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -78,19 +43,44 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const KalkulatorRoute = KalkulatorRouteImport.update({
+  id: '/kalkulator',
+  path: '/kalkulator',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UslugiIndexRoute = UslugiIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => UslugiRoute,
+const KontaktiRoute = KontaktiRouteImport.update({
+  id: '/kontakti',
+  path: '/kontakti',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const ProduktiIndexRoute = ProduktiIndexRouteImport.update({
-  id: '/produkti/',
-  path: '/produkti/',
+const MetaProductsDotcsvRoute = MetaProductsDotcsvRouteImport.update({
+  id: '/meta-products.csv',
+  path: '/meta-products.csv',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObshtiUsloviyaRoute = ObshtiUsloviyaRouteImport.update({
+  id: '/obshti-usloviya',
+  path: '/obshti-usloviya',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PolitikaZaPoveritelnostRoute = PolitikaZaPoveritelnostRouteImport.update({
+  id: '/politika-za-poveritelnost',
+  path: '/politika-za-poveritelnost',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UslugiRoute = UslugiRouteImport.update({
+  id: '/uslugi',
+  path: '/uslugi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZaNasRoute = ZaNasRouteImport.update({
+  id: '/za-nas',
+  path: '/za-nas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -98,19 +88,39 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
-const UslugiSlugRoute = UslugiSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => UslugiRoute,
+const AdminKalendarRoute = AdminKalendarRouteImport.update({
+  id: '/kalendar',
+  path: '/kalendar',
+  getParentRoute: () => AdminRoute,
+} as any)
+const ProduktiIndexRoute = ProduktiIndexRouteImport.update({
+  id: '/produkti/',
+  path: '/produkti/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ProduktiSlugRoute = ProduktiSlugRouteImport.update({
   id: '/produkti/$slug',
   path: '/produkti/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminKalendarRoute = AdminKalendarRouteImport.update({
-  id: '/kalendar',
-  path: '/kalendar',
+const UslugiIndexRoute = UslugiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UslugiRoute,
+} as any)
+const UslugiSlugRoute = UslugiSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => UslugiRoute,
+} as any)
+const AdminKlientiIndexRoute = AdminKlientiIndexRouteImport.update({
+  id: '/klienti/',
+  path: '/klienti/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminKlientiIdRoute = AdminKlientiIdRouteImport.update({
+  id: '/klienti/$id',
+  path: '/klienti/$id',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminPorachkiIndexRoute = AdminPorachkiIndexRouteImport.update({
@@ -118,35 +128,25 @@ const AdminPorachkiIndexRoute = AdminPorachkiIndexRouteImport.update({
   path: '/porachki/',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminKlientiIndexRoute = AdminKlientiIndexRouteImport.update({
-  id: '/klienti/',
-  path: '/klienti/',
+const AdminPorachkiIdRoute = AdminPorachkiIdRouteImport.update({
+  id: '/porachki/$id',
+  path: '/porachki/$id',
   getParentRoute: () => AdminRoute,
-} as any)
-const ApiPublicQuickOrderRoute = ApiPublicQuickOrderRouteImport.update({
-  id: '/api/public/quick-order',
-  path: '/api/public/quick-order',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
-  id: '/api/public/contact',
-  path: '/api/public/contact',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminPorachkiNovaRoute = AdminPorachkiNovaRouteImport.update({
   id: '/porachki/nova',
   path: '/porachki/nova',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminPorachkiIdRoute = AdminPorachkiIdRouteImport.update({
-  id: '/porachki/$id',
-  path: '/porachki/$id',
-  getParentRoute: () => AdminRoute,
+const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
+  id: '/api/public/contact',
+  path: '/api/public/contact',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminKlientiIdRoute = AdminKlientiIdRouteImport.update({
-  id: '/klienti/$id',
-  path: '/klienti/$id',
-  getParentRoute: () => AdminRoute,
+const ApiPublicQuickOrderRoute = ApiPublicQuickOrderRouteImport.update({
+  id: '/api/public/quick-order',
+  path: '/api/public/quick-order',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -318,60 +318,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/za-nas': {
-      id: '/za-nas'
-      path: '/za-nas'
-      fullPath: '/za-nas'
-      preLoaderRoute: typeof ZaNasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/uslugi': {
-      id: '/uslugi'
-      path: '/uslugi'
-      fullPath: '/uslugi'
-      preLoaderRoute: typeof UslugiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/politika-za-poveritelnost': {
-      id: '/politika-za-poveritelnost'
-      path: '/politika-za-poveritelnost'
-      fullPath: '/politika-za-poveritelnost'
-      preLoaderRoute: typeof PolitikaZaPoveritelnostRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/obshti-usloviya': {
-      id: '/obshti-usloviya'
-      path: '/obshti-usloviya'
-      fullPath: '/obshti-usloviya'
-      preLoaderRoute: typeof ObshtiUsloviyaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/meta-products.csv': {
-      id: '/meta-products.csv'
-      path: '/meta-products.csv'
-      fullPath: '/meta-products.csv'
-      preLoaderRoute: typeof MetaProductsDotcsvRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kontakti': {
-      id: '/kontakti'
-      path: '/kontakti'
-      fullPath: '/kontakti'
-      preLoaderRoute: typeof KontaktiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kalkulator': {
-      id: '/kalkulator'
-      path: '/kalkulator'
-      fullPath: '/kalkulator'
-      preLoaderRoute: typeof KalkulatorRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -381,25 +332,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/kalkulator': {
+      id: '/kalkulator'
+      path: '/kalkulator'
+      fullPath: '/kalkulator'
+      preLoaderRoute: typeof KalkulatorRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/uslugi/': {
-      id: '/uslugi/'
-      path: '/'
-      fullPath: '/uslugi/'
-      preLoaderRoute: typeof UslugiIndexRouteImport
-      parentRoute: typeof UslugiRoute
+    '/kontakti': {
+      id: '/kontakti'
+      path: '/kontakti'
+      fullPath: '/kontakti'
+      preLoaderRoute: typeof KontaktiRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/produkti/': {
-      id: '/produkti/'
-      path: '/produkti'
-      fullPath: '/produkti/'
-      preLoaderRoute: typeof ProduktiIndexRouteImport
+    '/meta-products.csv': {
+      id: '/meta-products.csv'
+      path: '/meta-products.csv'
+      fullPath: '/meta-products.csv'
+      preLoaderRoute: typeof MetaProductsDotcsvRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obshti-usloviya': {
+      id: '/obshti-usloviya'
+      path: '/obshti-usloviya'
+      fullPath: '/obshti-usloviya'
+      preLoaderRoute: typeof ObshtiUsloviyaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politika-za-poveritelnost': {
+      id: '/politika-za-poveritelnost'
+      path: '/politika-za-poveritelnost'
+      fullPath: '/politika-za-poveritelnost'
+      preLoaderRoute: typeof PolitikaZaPoveritelnostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/uslugi': {
+      id: '/uslugi'
+      path: '/uslugi'
+      fullPath: '/uslugi'
+      preLoaderRoute: typeof UslugiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/za-nas': {
+      id: '/za-nas'
+      path: '/za-nas'
+      fullPath: '/za-nas'
+      preLoaderRoute: typeof ZaNasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -409,12 +395,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/uslugi/$slug': {
-      id: '/uslugi/$slug'
-      path: '/$slug'
-      fullPath: '/uslugi/$slug'
-      preLoaderRoute: typeof UslugiSlugRouteImport
-      parentRoute: typeof UslugiRoute
+    '/admin/kalendar': {
+      id: '/admin/kalendar'
+      path: '/kalendar'
+      fullPath: '/admin/kalendar'
+      preLoaderRoute: typeof AdminKalendarRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/produkti/': {
+      id: '/produkti/'
+      path: '/produkti'
+      fullPath: '/produkti/'
+      preLoaderRoute: typeof ProduktiIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/produkti/$slug': {
       id: '/produkti/$slug'
@@ -423,11 +416,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProduktiSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/kalendar': {
-      id: '/admin/kalendar'
-      path: '/kalendar'
-      fullPath: '/admin/kalendar'
-      preLoaderRoute: typeof AdminKalendarRouteImport
+    '/uslugi/': {
+      id: '/uslugi/'
+      path: '/'
+      fullPath: '/uslugi/'
+      preLoaderRoute: typeof UslugiIndexRouteImport
+      parentRoute: typeof UslugiRoute
+    }
+    '/uslugi/$slug': {
+      id: '/uslugi/$slug'
+      path: '/$slug'
+      fullPath: '/uslugi/$slug'
+      preLoaderRoute: typeof UslugiSlugRouteImport
+      parentRoute: typeof UslugiRoute
+    }
+    '/admin/klienti/': {
+      id: '/admin/klienti/'
+      path: '/klienti'
+      fullPath: '/admin/klienti/'
+      preLoaderRoute: typeof AdminKlientiIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/klienti/$id': {
+      id: '/admin/klienti/$id'
+      path: '/klienti/$id'
+      fullPath: '/admin/klienti/$id'
+      preLoaderRoute: typeof AdminKlientiIdRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/porachki/': {
@@ -437,26 +451,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPorachkiIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/klienti/': {
-      id: '/admin/klienti/'
-      path: '/klienti'
-      fullPath: '/admin/klienti/'
-      preLoaderRoute: typeof AdminKlientiIndexRouteImport
+    '/admin/porachki/$id': {
+      id: '/admin/porachki/$id'
+      path: '/porachki/$id'
+      fullPath: '/admin/porachki/$id'
+      preLoaderRoute: typeof AdminPorachkiIdRouteImport
       parentRoute: typeof AdminRoute
-    }
-    '/api/public/quick-order': {
-      id: '/api/public/quick-order'
-      path: '/api/public/quick-order'
-      fullPath: '/api/public/quick-order'
-      preLoaderRoute: typeof ApiPublicQuickOrderRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/contact': {
-      id: '/api/public/contact'
-      path: '/api/public/contact'
-      fullPath: '/api/public/contact'
-      preLoaderRoute: typeof ApiPublicContactRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/admin/porachki/nova': {
       id: '/admin/porachki/nova'
@@ -465,19 +465,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPorachkiNovaRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/porachki/$id': {
-      id: '/admin/porachki/$id'
-      path: '/porachki/$id'
-      fullPath: '/admin/porachki/$id'
-      preLoaderRoute: typeof AdminPorachkiIdRouteImport
-      parentRoute: typeof AdminRoute
+    '/api/public/contact': {
+      id: '/api/public/contact'
+      path: '/api/public/contact'
+      fullPath: '/api/public/contact'
+      preLoaderRoute: typeof ApiPublicContactRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/admin/klienti/$id': {
-      id: '/admin/klienti/$id'
-      path: '/klienti/$id'
-      fullPath: '/admin/klienti/$id'
-      preLoaderRoute: typeof AdminKlientiIdRouteImport
-      parentRoute: typeof AdminRoute
+    '/api/public/quick-order': {
+      id: '/api/public/quick-order'
+      path: '/api/public/quick-order'
+      fullPath: '/api/public/quick-order'
+      preLoaderRoute: typeof ApiPublicQuickOrderRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
