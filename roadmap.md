@@ -1,3 +1,3 @@
 - [x] Export all current product prices into a dated editable Excel file.
 - [x] Display the uploaded campaign image on the homepage without cropping its wording.
-- [ ] Verify the homepage image and deliver the checked Excel file.
+- [x] Verify the homepage image and deliver the checked Excel file.
