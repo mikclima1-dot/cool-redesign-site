@@ -6,7 +6,7 @@ import { ArrowRight, Wind, Zap, Snowflake, Sparkles, Layers, ShieldCheck, Wrench
 import { ProductCard } from "@/components/ProductCard";
 import { productsQueryOptions } from "@/lib/products-db";
 import type { Category } from "@/data/products";
-import blackFridayImage from "@/assets/mikclima-black-friday.png.asset.json";
+import blackFridayImage from "@/assets/black-friday-banner-2026.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
