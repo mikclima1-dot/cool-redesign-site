@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Reference uploaded homepage campaign media through a Lovable Assets JSON pointer so the original artwork stays intact without committing the binary.

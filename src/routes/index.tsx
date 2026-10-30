@@ -6,6 +6,7 @@ import { ArrowRight, Wind, Zap, Snowflake, Sparkles, Layers, ShieldCheck, Wrench
 import { ProductCard } from "@/components/ProductCard";
 import { productsQueryOptions } from "@/lib/products-db";
 import type { Category } from "@/data/products";
+import blackFridayImage from "@/assets/mikclima-black-friday.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
@@ -29,6 +30,7 @@ export const Route = createFileRoute("/")({
           "Професионална доставка, бърз монтаж, демонтаж и профилактика на климатични системи за дома и офиса. Гарантирано качество и консултация от експерти.",
       },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://www.mikclima.com/" },
     ],
     links: [{ rel: "canonical", href: "https://www.mikclima.com/" }],
@@ -107,21 +109,12 @@ function Home() {
 
           <div className="relative">
             <img
-              src="/images/hero-living-room.jpg"
-              alt="Модерна дневна с монтиран климатик"
-              width={1400}
-              height={1000}
-              className="w-full rounded-3xl object-cover shadow-soft"
+              src={blackFridayImage.url}
+              alt="Черен петък в MIKCLIMA: безплатен монтаж през целия месец ноември и 10% отстъпка на всички инверторни и хиперинверторни климатици"
+              width={1024}
+              height={768}
+              className="h-auto w-full rounded-lg shadow-soft"
             />
-            <div className="absolute -bottom-6 left-6 flex items-center gap-3 rounded-2xl bg-white p-4 shadow-soft">
-              <div className="grid h-10 w-10 place-items-center rounded-full bg-brand-sky text-brand-navy">
-                <ShieldCheck className="h-5 w-5" />
-              </div>
-              <div>
-                <div className="text-sm font-bold text-brand-navy">Гаранция</div>
-                <div className="text-xs text-muted-foreground">на всички модели</div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
