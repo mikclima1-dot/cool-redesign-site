@@ -6,7 +6,7 @@ import { ArrowRight, Wind, Zap, Snowflake, Sparkles, Layers, ShieldCheck, Wrench
 import { ProductCard } from "@/components/ProductCard";
 import { productsQueryOptions } from "@/lib/products-db";
 import type { Category } from "@/data/products";
-import blackFridayImage from "@/assets/mikclima-black-friday.png.asset.json";
+import blackFridayImage from "@/assets/black-friday-banner-2026.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
@@ -110,9 +110,9 @@ function Home() {
           <div className="relative">
             <img
               src={blackFridayImage.url}
-              alt="Черен петък в MIKCLIMA: безплатен монтаж през целия месец ноември и 10% отстъпка на всички инверторни и хиперинверторни климатици"
-              width={1024}
-              height={768}
+              alt="Черен петък в MIKCLIMA: безплатен монтаж през целия месец ноември и 11% отстъпка на всички инверторни и хиперинверторни климатици"
+              width={1440}
+              height={1080}
               className="h-auto w-full rounded-lg shadow-soft"
             />
           </div>
