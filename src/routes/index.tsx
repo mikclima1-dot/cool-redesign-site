@@ -110,9 +110,9 @@ function Home() {
           <div className="relative">
             <img
               src={blackFridayImage.url}
-              alt="Черен петък в MIKCLIMA: безплатен монтаж през целия месец ноември и 10% отстъпка на всички инверторни и хиперинверторни климатици"
-              width={1024}
-              height={768}
+              alt="Черен петък в MIKCLIMA: безплатен монтаж през целия месец ноември и 11% отстъпка на всички инверторни и хиперинверторни климатици"
+              width={1440}
+              height={1080}
               className="h-auto w-full rounded-lg shadow-soft"
             />
           </div>
