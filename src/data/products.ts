@@ -26,6 +26,8 @@ export interface Product {
   btu: number;
   energyClass: string;
   priceEur: number;
+  /** Нормална цена преди промоция (с монтаж) */
+  oldPriceEur?: number;
   priceBgn: number;
   image: string;
   shortDescription: string;

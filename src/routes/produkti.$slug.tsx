@@ -7,13 +7,7 @@ import { productBySlugQueryOptions, productsQueryOptions } from "@/lib/products-
 import { QuickOrderDialog } from "@/components/QuickOrderDialog";
 import { MultiSplitCompatibilityChecker } from "@/components/MultiSplitCompatibilityChecker";
 
-function installPriceForBtu(btu: number): number {
-  if (!btu || btu <= 0) return 230;
-  if (btu >= 7000 && btu <= 12000) return 190;
-  if (btu > 12000 && btu <= 24000) return 210;
-  if (btu > 24000) return 230;
-  return 190;
-}
+import { discountPercent, formatEur } from "@/lib/price";
 
 
 export const Route = createFileRoute("/produkti/$slug")({
@@ -38,7 +32,7 @@ export const Route = createFileRoute("/produkti/$slug")({
     const hasBtu = product.btu > 0;
     const btuSuffix = hasBtu ? `${product.btu.toLocaleString("bg-BG")} BTU, ` : "";
     const title = `${CATEGORY_TYPE[product.category]} ${product.brand} ${product.model} - ${btuSuffix}клас ${product.energyClass} | MIK Clima`;
-    const description = `${product.brand} ${product.model} - ${CATEGORY_LABEL[product.category]} климатик${hasBtu ? ` ${product.btu.toLocaleString("bg-BG")} BTU,` : ","} енергиен клас ${product.energyClass}. ${product.shortDescription} ${product.maxIndoorUnits ? ` Поддържа до ${product.maxIndoorUnits} вътрешни тела.` : ""} Цена ${product.priceEur} € / ${product.priceBgn.toFixed(2)} лв. Доставка и монтаж.`;
+    const description = `${product.brand} ${product.model} - ${CATEGORY_LABEL[product.category]} климатик${hasBtu ? ` ${product.btu.toLocaleString("bg-BG")} BTU,` : ","} енергиен клас ${product.energyClass}. ${product.shortDescription} ${product.maxIndoorUnits ? ` Поддържа до ${product.maxIndoorUnits} вътрешни тела.` : ""} Цена ${formatEur(product.priceEur)} € + включен монтаж${product.oldPriceEur ? ` (-${discountPercent(product)}% през ноември)` : ""}.`;
 
     const url = `https://www.mikclima.com/produkti/${params.slug}`;
     const productLd = {
@@ -142,7 +136,7 @@ function buildFaqs(product: Product) {
     },
     {
       q: `Включва ли цената монтаж?`,
-      a: `Цената от ${product.priceEur} € (${product.priceBgn.toFixed(2)} лв.) е за самия климатик. За стандартен монтаж и допълнителни услуги се свържете с нас на +359 897 203 732 за индивидуална оферта.`,
+      a: `Да. Цената от ${formatEur(product.priceEur)} € (${product.priceBgn.toFixed(2)} лв.) включва климатика и стандартен монтаж. За допълнителни услуги се свържете с нас на +359 897 203 732.`,
     },
     {
       q: `Какъв тип е ${product.model}?`,
@@ -158,12 +152,7 @@ function buildFaqs(product: Product) {
 
 function ProductDetail() {
   const { product } = Route.useLoaderData() as { product: Product };
-  const [withInstall, setWithInstall] = useState(false);
   const [quickOrderOpen, setQuickOrderOpen] = useState(false);
-  const installPrice = installPriceForBtu(product.btu);
-  const totalEur = product.priceEur + (withInstall ? installPrice : 0);
-  const EUR_TO_BGN = 1.95583;
-  const totalBgn = Math.round(totalEur * EUR_TO_BGN * 100) / 100;
   const { data: allProducts } = useSuspenseQuery(productsQueryOptions());
 
   useEffect(() => {
@@ -436,7 +425,10 @@ function RelatedCard({ product: p }: { product: Product }) {
       <div className="mt-3">
         <p className="text-xs uppercase tracking-wider text-muted-foreground">{p.brand}</p>
         <p className="mt-1 font-semibold text-brand-navy">{p.model}</p>
-        <p className="mt-2 text-sm font-bold text-brand-teal">{p.priceEur} €</p>
+        <p className="mt-2 text-sm font-bold text-brand-teal">
+          {formatEur(p.priceEur)} € <span className="font-normal text-muted-foreground">+ монтаж</span>
+          {p.oldPriceEur ? <span className="ml-1 rounded-full bg-destructive px-1.5 text-xs text-destructive-foreground">-{discountPercent(p)}%</span> : null}
+        </p>
       </div>
     </Link>
   );
