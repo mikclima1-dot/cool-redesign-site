@@ -77,6 +77,7 @@ export function toProduct(row: DbProductRow): Product {
     btu,
     energyClass: deriveEnergyClass(row.title, row.description),
     priceEur,
+    oldPriceEur: row.old_price != null && Number(row.old_price) > priceEur ? Number(row.old_price) : undefined,
     priceBgn: Math.round(priceEur * EUR_TO_BGN * 100) / 100,
     image: row.image_url,
     shortDescription: shortDesc(row.description),

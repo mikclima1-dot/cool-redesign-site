@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { CATEGORY_LABEL, CATEGORY_TYPE, type Product } from "@/data/products";
+import { discountPercent, formatEur } from "@/lib/price";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
@@ -13,8 +14,11 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="absolute left-4 top-4 rounded-full bg-brand-sky-soft px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-navy">
           {CATEGORY_LABEL[product.category]}
         </div>
-        <div className="absolute right-4 top-4 rounded-full bg-brand-teal px-3 py-1 text-xs font-bold text-white">
-          {product.energyClass}
+        <div className="absolute right-4 top-4 flex items-center overflow-hidden rounded-full text-xs font-bold">
+          <span className="bg-brand-teal px-3 py-1 text-white">{product.energyClass}</span>
+          {product.oldPriceEur ? (
+            <span className="bg-destructive px-2 py-1 text-destructive-foreground">-{discountPercent(product)}%</span>
+          ) : null}
         </div>
         <img
           src={product.image}
@@ -34,9 +38,12 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="mt-auto flex items-end justify-between border-t border-border/60 pt-3">
           <div>
             <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-              Цена без монтаж
+              Цена + включен монтаж
             </div>
-            <div className="text-xl font-bold text-brand-navy">{product.priceEur} €</div>
+            {product.oldPriceEur ? (
+              <div className="text-sm text-muted-foreground line-through">{formatEur(product.oldPriceEur)} €</div>
+            ) : null}
+            <div className="text-xl font-bold text-brand-navy">{formatEur(product.priceEur)} €</div>
             <div className="text-xs text-muted-foreground">
               {product.priceBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.
             </div>
