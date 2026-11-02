@@ -18,7 +18,6 @@ export interface DbProductRow {
   max_power_kw?: number | null;
 }
 
-const EUR_TO_BGN = 1.95583;
 
 export function deriveCategory(title: string): Category {
   const t = title.toLowerCase();
@@ -78,7 +77,6 @@ export function toProduct(row: DbProductRow): Product {
     energyClass: deriveEnergyClass(row.title, row.description),
     priceEur,
     oldPriceEur: row.old_price != null && Number(row.old_price) > priceEur ? Number(row.old_price) : undefined,
-    priceBgn: Math.round(priceEur * EUR_TO_BGN * 100) / 100,
     image: row.image_url,
     shortDescription: shortDesc(row.description),
     description: row.description,
