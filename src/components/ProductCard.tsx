@@ -44,9 +44,6 @@ export function ProductCard({ product }: { product: Product }) {
               <div className="text-sm text-muted-foreground line-through">{formatEur(product.oldPriceEur)} €</div>
             ) : null}
             <div className="text-xl font-bold text-brand-navy">{formatEur(product.priceEur)} €</div>
-            <div className="text-xs text-muted-foreground">
-              {product.priceBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.
-            </div>
           </div>
           <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand-teal transition-transform group-hover:translate-x-1">
             Виж <ArrowRight className="h-4 w-4" />

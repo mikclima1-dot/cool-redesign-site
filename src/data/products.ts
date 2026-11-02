@@ -28,7 +28,6 @@ export interface Product {
   priceEur: number;
   /** Нормална цена преди промоция (с монтаж) */
   oldPriceEur?: number;
-  priceBgn: number;
   image: string;
   shortDescription: string;
   description: string;
@@ -48,7 +47,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 689,
-    priceBgn: 1347.57,
     image: "/images/products/infinity-1200x800-1-1024x683.jpg",
     shortDescription: "Инверторен климатик Gree INFINITY II с Wi-Fi и клас A++ за помещения 20-25 м².",
     description:
@@ -72,7 +70,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A++",
     priceEur: 665,
-    priceBgn: 1300.63,
     image: "/images/products/infinity-1200x800-1-1024x683.jpg",
     shortDescription: "Компактният вариант на INFINITY II - 9000 BTU за спалня или детска стая до 20 м².",
     description:
@@ -89,7 +86,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A++",
     priceEur: 739,
-    priceBgn: 1445.36,
     image: "/images/products/ch-s-ftxla-1203x802-1-1024x683.jpg",
     shortDescription: "ARCTIC серията на Cooper & Hunter е създадена за студен климат - стабилно отопление до −25 °C.",
     description:
@@ -106,7 +102,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A++",
     priceEur: 739,
-    priceBgn: 1445.36,
     image: "/images/products/nordic-700x700-1.jpg",
     shortDescription: "NORDIC е северният модел на Gree - работи до −30 °C при отопление.",
     description:
@@ -123,7 +118,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 766,
-    priceBgn: 1498.17,
     image: "/images/products/nordic-700x700-1.jpg",
     shortDescription: "12000 BTU вариант на NORDIC - за средно голямо помещение и сурови зими.",
     description: "12000 BTU NORDIC - за помещения до 30 м² с изисквания за пълноценно отопление през зимата.",
@@ -139,7 +133,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A++",
     priceEur: 725,
-    priceBgn: 1417.98,
     image: "/images/products/ftxc-d1-1200x1200-1-1024x1024.jpg",
     shortDescription: "Daikin SENSIRA 2025 - новото поколение на бестселъра, японско качество и надеждност.",
     description:
@@ -156,7 +149,6 @@ export const products: Product[] = [
     btu: 10000,
     energyClass: "A++",
     priceEur: 869,
-    priceBgn: 1699.62,
     image: "/images/products/yukai-1.jpg",
     shortDescription: "Toshiba YUKAI - японска надеждност с елегантен матов дизайн и Magic Coil топлообменник.",
     description:
@@ -173,7 +165,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 759,
-    priceBgn: 1484.47,
     image: "/images/products/ch-s-ftxla-1203x802-2-1024x683.jpg",
     shortDescription: "12000 BTU ARCTIC за помещения до 30 м² в студен климат.",
     description: "12000 BTU версия на ARCTIC - за средно големи помещения като основен източник на отопление зимата.",
@@ -189,7 +180,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A+++",
     priceEur: 819,
-    priceBgn: 1601.82,
     image: "/images/products/g-tech-1200x800-1-1024x683.jpg",
     shortDescription: "G-TECH II достига клас A+++ благодарение на новия ротационен компресор Gree GMCC.",
     description:
@@ -206,7 +196,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A++",
     priceEur: 819,
-    priceBgn: 1601.82,
     image: "/images/products/srk-dxk-w-1200x800-1-1024x683.jpg",
     shortDescription: "Mitsubishi Heavy Industries - тежка индустриална школа, приложена в битов климатик.",
     description:
@@ -223,7 +212,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A++",
     priceEur: 819,
-    priceBgn: 1601.82,
     image:
       "/images/products/Mitsubishi-Electric-MSZ-HR25VFMUZ-HR25VF-9000-BTU-A-HR25VF-404-700x700-1.jpg",
     shortDescription: "Mitsubishi Electric HR серията - балансът между цена и легендарната японска надеждност.",
@@ -241,7 +229,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 869,
-    priceBgn: 1699.62,
     image: "/images/products/ftxc-d1-1200x1200-1-1024x1024.jpg",
     shortDescription: "12000 BTU SENSIRA 2025 - за дневни и офиси до 30 м².",
     description: "12000 BTU японска Daikin SENSIRA - надежден основен климатик за дневна или офис.",
@@ -257,7 +244,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A++",
     priceEur: 819,
-    priceBgn: 1601.82,
     image: "/images/products/download-1.jpg",
     shortDescription: "Fujitsu General LMCA - тиха работа (20 dB) и Human Sensor за автоматично регулиране.",
     description: "LMCA е тихият модел на Fujitsu - 20 dB на минимални обороти. Human Sensor открива дали има човек в стаята.",
@@ -273,7 +259,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 899,
-    priceBgn: 1758.29,
     image:
       "/images/products/Mitsubishi-Electric-MSZ-HR25VFMUZ-HR25VF-9000-BTU-A-HR25VF-404-700x700-1.jpg",
     shortDescription: "12000 BTU вариант на MSZ-HR - за помещения до 32 м².",
@@ -290,7 +275,6 @@ export const products: Product[] = [
     btu: 13000,
     energyClass: "A++",
     priceEur: 749,
-    priceBgn: 1464.92,
     image: "/images/products/Untitled-800x434-1.jpg",
     shortDescription: "Toshiba Essento предлага 13000 BTU в изключително компактно тяло - 780 mm ширина.",
     description:
@@ -307,7 +291,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 919,
-    priceBgn: 1797.41,
     image: "/images/products/fujitsu-ashg09kmta-1-1024x683.jpg",
     shortDescription: "12000 BTU японски инвертор на Fujitsu - с 5 години гаранция на компресора.",
     description:
@@ -324,7 +307,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 899,
-    priceBgn: 1758.29,
     image: "/images/products/srk-dxk-w-1200x800-1-1024x683.jpg",
     shortDescription: "12000 BTU индустриална школа за домашно ползване.",
     description: "12000 BTU DXK за средни помещения - надежден дневен климатик с индустриална школа.",
@@ -340,7 +322,6 @@ export const products: Product[] = [
     btu: 18000,
     energyClass: "A++",
     priceEur: 996,
-    priceBgn: 1948.01,
     image: "/images/products/786.jpg",
     shortDescription: "18000 BTU INFINITY II - за големи дневни и офиси до 45 м².",
     description: "18000 BTU за големи площи - INFINITY II технология в мащабен вариант.",
@@ -356,7 +337,6 @@ export const products: Product[] = [
     btu: 18000,
     energyClass: "A++",
     priceEur: 1299,
-    priceBgn: 2540.62,
     image: "/images/products/srk-dxk-w-1200x800-2-1024x683.jpg",
     shortDescription: "18000 BTU Mitsubishi Heavy за помещения до 50 м².",
     description: "18000 BTU DXK - тежката индустриална школа в размер за големи помещения.",
@@ -372,7 +352,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A+++",
     priceEur: 1009,
-    priceBgn: 1973.43,
     image: "/images/products/download.jpg",
     shortDescription: "PREMIUM серията - топ клас A+++ на Mitsubishi Heavy с 3D Auto режим.",
     description: "PREMIUM е върхът на битовата линия на Mitsubishi Heavy Industries - клас A+++ и всички функции без компромис.",
@@ -388,7 +367,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A+++",
     priceEur: 1149,
-    priceBgn: 2247.25,
     image: "/images/products/ay-vgk-1200x800-1-1024x683.jpg",
     shortDescription: "MSZ-AY е новата премиум серия на Mitsubishi Electric - клас A+++ и AI сензор Absense Detection.",
     description: "AY е новата премиум серия на Mitsubishi Electric за 2024/2025 - Absense Detection AI сензор пести до 20% енергия.",
@@ -404,7 +382,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 1149,
-    priceBgn: 2247.25,
     image: "/images/products/download.jpg",
     shortDescription: "12000 BTU PREMIUM - за средни помещения с изисквания за тиха работа.",
     description: "12000 BTU PREMIUM - тиха работа и клас A++ за средни помещения.",
@@ -420,7 +397,6 @@ export const products: Product[] = [
     btu: 18000,
     energyClass: "A++",
     priceEur: 1049,
-    priceBgn: 2051.67,
     image: "/images/products/nordic-700x700-1.jpg",
     shortDescription: "18000 BTU NORDIC - отопление до −30 °C за големи площи.",
     description: "18000 BTU NORDIC - за големи помещения в планински или северни райони.",
@@ -436,7 +412,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A+++",
     priceEur: 1545,
-    priceBgn: 3021.76,
     image: "/images/products/download-2.jpg",
     shortDescription: "Daikin PERFERA - флагманският домашен модел с Flash Streamer технология за пречистване.",
     description: "PERFERA е върхът на битовата гама Daikin - Flash Streamer технология неутрализира вируси и алергени.",
@@ -452,7 +427,6 @@ export const products: Product[] = [
     btu: 18000,
     energyClass: "A++",
     priceEur: 1649,
-    priceBgn: 3225.16,
     image: "/images/products/ay-vgk-1200x800-1-1024x683.jpg",
     shortDescription: "18000 BTU AY серия за големи помещения с най-висок клас енергоспестяване.",
     description: "18000 BTU AY серия - за големи дневни и офиси с фокус върху ниска консумация.",
@@ -468,7 +442,6 @@ export const products: Product[] = [
     btu: 24000,
     energyClass: "A++",
     priceEur: 1499,
-    priceBgn: 2931.79,
     image: "/images/products/ashg24lfc-1200x800-1-1024x683.jpg",
     shortDescription: "24000 BTU за търговски обекти или отворени пространства до 65 м².",
     description: "24000 BTU Fujitsu KLCA - за търговски площи, лоби, ресторанти и отворени офиси.",
@@ -484,7 +457,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A+++",
     priceEur: 949,
-    priceBgn: 1856.08,
     image: "/images/products/ashg-kgta-frist-1200x800-1-1024x683.jpg",
     shortDescription: "Хиперинверторен Fujitsu KG - клас A+++ и 100% номинална мощност при −15 °C.",
     description:
@@ -501,7 +473,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A+++",
     priceEur: 1099,
-    priceBgn: 2149.01,
     image: "/images/products/ashg-kgta-frist-1200x800-2-1024x683.jpg",
     shortDescription: "12000 BTU хиперинвертор - за основно отопление на среден апартамент.",
     description: "12000 BTU KG - хиперинвертор за основно отопление на среден апартамент или къща.",
@@ -517,7 +488,6 @@ export const products: Product[] = [
     btu: 10000,
     energyClass: "A+++",
     priceEur: 1075,
-    priceBgn: 2102.52,
     image: "/images/products/ras-b-j2kvsg-e-1200x800-1-1024x683.jpg",
     shortDescription: "Toshiba EDGE - с патентования Dual Rotary компресор и −25 °C работен диапазон.",
     description:
@@ -534,7 +504,6 @@ export const products: Product[] = [
     btu: 13000,
     energyClass: "A+++",
     priceEur: 1200,
-    priceBgn: 2347.0,
     image: "/images/products/ras-b-j2kvsg-e-1200x800-1-1024x683.jpg",
     shortDescription: "13000 BTU EDGE - за средни помещения като целогодишен основен климатик.",
     description: "13000 BTU EDGE - за средни помещения като целогодишен основен източник на отопление и охлаждане.",
@@ -550,7 +519,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A+++",
     priceEur: 1599,
-    priceBgn: 3127.37,
     image: "/images/products/zsx-s-1199x799-1-1024x682.jpg",
     shortDescription: "DIAMOND - топ серията на Mitsubishi Heavy с бял огледален панел и Natural Breeze режим.",
     description:
@@ -567,7 +535,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A+++",
     priceEur: 1799,
-    priceBgn: 3518.54,
     image: "/images/products/zsx-s-1199x799-1-1024x682.jpg",
     shortDescription: "12000 BTU DIAMOND за средни помещения - тих режим 19 dB.",
     description: "12000 BTU DIAMOND - за клиенти, които не искат компромис в тишината и дизайна.",
@@ -583,7 +550,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A+++",
     priceEur: 1509,
-    priceBgn: 2951.35,
     image: "/images/products/MSZ-FH-1200x800-1-1024x683.jpg",
     shortDescription: "MSZ-FH - легендарната Zubadan Kirigamine серия с плазмен филтър и хибридна работа.",
     description:
@@ -600,7 +566,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 1149,
-    priceBgn: 2247.25,
     image: "/images/products/masterklima-1606395188.jpg",
     shortDescription: "Подов климатик Gree GEH - топъл поток на нивото на краката, идеален за целогодишно отопление.",
     description:
@@ -617,7 +582,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 1165,
-    priceBgn: 2278.54,
     image: "/images/products/ch-S09fvx-995x995-1.jpg",
     shortDescription: "Cooper & Hunter FVX - стилен подов модел за апартаменти и къщи.",
     description: "FVX е подовият модел на Cooper & Hunter - стилен и достъпен избор за апартаменти и малки къщи.",
@@ -633,7 +597,6 @@ export const products: Product[] = [
     btu: 9000,
     energyClass: "A++",
     priceEur: 1115,
-    priceBgn: 2180.75,
     image: "/images/products/geh-aa-k6dna1f-939x939-1.jpg",
     shortDescription: "9000 BTU подов Gree - за помещения до 22 м².",
     description: "9000 BTU подов Gree - компактен вариант за спалня или малка дневна.",
@@ -649,7 +612,6 @@ export const products: Product[] = [
     btu: 12000,
     energyClass: "A++",
     priceEur: 1585,
-    priceBgn: 3099.99,
     image: "/images/products/srf35zs-w-700x700-1.jpg",
     shortDescription: "Премиум подов Mitsubishi Heavy - за клиенти с най-високи изисквания.",
     description: "SRF PREMIUM е върхът в подовите модели на Mitsubishi Heavy - тиха работа, 3D Auto и надеждност.",
@@ -665,7 +627,6 @@ export const products: Product[] = [
     btu: 24000,
     energyClass: "A++",
     priceEur: 1579,
-    priceBgn: 3088.26,
     image: "/images/products/gree-gvh24-column.jpg",
 
     shortDescription: "Колонен климатик Gree T-FRESH - 24000 BTU за офиси, магазини и ресторанти до 70 м².",
