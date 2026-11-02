@@ -45,8 +45,8 @@ export const Route = createFileRoute("/produkti/$slug")({
       image: product.image,
       offers: {
         "@type": "Offer",
-        priceCurrency: "BGN",
-        price: product.priceBgn.toFixed(2),
+        priceCurrency: "EUR",
+        price: product.priceEur.toFixed(2),
         availability: "https://schema.org/InStock",
         url,
       },
@@ -136,7 +136,7 @@ function buildFaqs(product: Product) {
     },
     {
       q: `Включва ли цената монтаж?`,
-      a: `Да. Цената от ${formatEur(product.priceEur)} € (${product.priceBgn.toFixed(2)} лв.) включва климатика и стандартен монтаж. За допълнителни услуги се свържете с нас на +359 897 203 732.`,
+      a: `Да. Цената от ${formatEur(product.priceEur)} € включва климатика и стандартен монтаж. За допълнителни услуги се свържете с нас на +359 897 203 732.`,
     },
     {
       q: `Какъв тип е ${product.model}?`,
@@ -259,9 +259,6 @@ function ProductDetail() {
                   ) : null}
                   <div className="text-3xl font-extrabold text-brand-navy">
                     {formatEur(product.priceEur)} €
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {product.priceBgn.toLocaleString("bg-BG", { minimumFractionDigits: 2 })} лв.
                   </div>
                 </div>
               </div>
