@@ -4,5 +4,5 @@ export function formatEur(v: number): string {
 
 export function discountPercent(p: { priceEur: number; oldPriceEur?: number }): number {
   if (!p.oldPriceEur || p.oldPriceEur <= p.priceEur) return 0;
-  return Math.round((1 - p.priceEur / p.oldPriceEur) * 100);
+  return 11;
 }

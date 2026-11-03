@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Reference uploaded homepage campaign media through a Lovable Assets JSON pointer so the original artwork stays intact without committing the binary.
+- Keep campaign percentage presentation in the shared price helper, separate from imported price amounts, so corrected installation-inclusive prices do not change campaign labels.
