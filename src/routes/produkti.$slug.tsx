@@ -264,7 +264,7 @@ function ProductDetail() {
               </div>
               <p className="mt-3 text-sm text-brand-navy/80">
                 Цената включва стандартен монтаж.
-                {product.oldPriceEur ? " Промоцията -11% е валидна през целия ноември." : ""}
+                {product.oldPriceEur ? ` Промоцията -${discountPercent(product)}% е валидна през целия ноември.` : ""}
               </p>
 
 
